@@ -1,0 +1,17 @@
+{
+  "name": "stitch_skill_gap_force_onboarding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jobs_data.js",
+  "scripts": {
+    "test": "node test_auth_flow.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
+    "dotenv": "^18.0.6"
+  }
+}

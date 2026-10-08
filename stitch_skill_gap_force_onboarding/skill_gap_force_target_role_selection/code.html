@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="color-scheme: dark;">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta name="theme-color" content="#0B1020" />
+  <script>
+    // Route protection guard: redirect to login if unauthenticated or logged out
+    (function() {
+      function enforceAuth() {
+        if (!localStorage.getItem('supabase_user_id') || !localStorage.getItem('supabase_session')) {
+          window.location.replace('../skill_gap_force_login/code.html');
+        }
+      }
+      enforceAuth();
+      window.addEventListener('pageshow', function(e) {
+        enforceAuth();
+      });
+    })();
+  </script>
+  <title>What's Your Target Role? - Skill Gap Force</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+  <!-- Material Symbols Outlined -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0D9488",
+            "primary-container": "#115E59",
+            "primary-fixed": "#2DD4BF",
+            "on-primary": "#ffffff",
+            "secondary": "#94A3B8",
+            "secondary-container": "#1E293B",
+            "on-secondary": "#ffffff",
+            "tertiary": "#6366F1",
+            "tertiary-container": "#4F46E5",
+            "surface": "#0B1020",
+            "surface-bright": "#1E2945",
+            "surface-container-lowest": "#070B14",
+            "surface-container-low": "#0F1629",
+            "surface-container": "#131A2E",
+            "surface-container-high": "#1E2945",
+            "background": "#0B1020",
+            "on-surface": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "outline": "#475569",
+            "outline-variant": "rgba(255, 255, 255, 0.12)",
+            "error": "#F87171",
+            "error-container": "#450A0A"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Central Dark Theme CSS Tokens -->
+  <link rel="stylesheet" href="../theme.css" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    .role-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .role-card:hover {
+      transform: translateY(-4px);
+    }
+  </style>
+  <!-- Supabase Client Library & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+</head>
+
+<body
+  class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-teal-500/30 selection:text-white relative overflow-x-hidden">
+
+  <!-- Subtle colorful blurred ambient gradient blobs -->
+  <div class="bg-ambient-blobs" aria-hidden="true">
+    <div class="ambient-blob blob-indigo"></div>
+    <div class="ambient-blob blob-teal"></div>
+    <div class="ambient-blob blob-violet"></div>
+  </div>
+
+  <!-- TOP APP BAR -->
+  <header class="dark-glass-header border-b border-white/10 sticky top-0 z-40">
+    <div class="flex justify-between items-center w-full px-4 sm:px-8 lg:px-12 h-16 max-w-7xl mx-auto">
+      
+      <!-- Brand & Context Return -->
+      <div class="flex items-center space-x-4 sm:space-x-6">
+        <a class="flex items-center gap-2.5 group" href="../skill_gap_force_job_recommendations/code.html">
+          <div
+            class="w-9 h-9 rounded-lg btn-vibrant-primary flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+          </div>
+          <span class="font-headline-md text-lg font-bold text-white tracking-tight">Skill Gap Force</span>
+        </a>
+
+        <div class="h-5 w-px bg-white/10 hidden sm:block"></div>
+
+        <a href="../skill_gap_force_job_recommendations/code.html"
+          class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-label-md font-semibold text-secondary hover:text-white transition-colors py-1.5 px-3 rounded-lg hover:bg-surface-container-high cursor-pointer">
+          <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+          <span>Back to Jobs</span>
+        </a>
+      </div>
+
+      <!-- Right Header Profile Area -->
+      <div class="relative">
+        <button id="userProfileBtn" type="button" aria-expanded="false"
+          class="flex items-center gap-2.5 p-1.5 rounded-full hover:bg-surface-container-high transition-colors cursor-pointer border border-transparent hover:border-white/10">
+          <div id="userAvatarContainer"
+            class="w-9 h-9 rounded-full bg-teal-500/10 text-teal-400 flex items-center justify-center font-bold text-sm overflow-hidden border border-white/15">
+            <span class="material-symbols-outlined text-[20px]">account_circle</span>
+          </div>
+          <span id="userProfileName"
+            class="hidden md:inline font-label-md text-sm font-semibold text-white max-w-[130px] truncate">
+            Guest
+          </span>
+          <span class="material-symbols-outlined text-[18px] text-secondary">expand_more</span>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="userProfileDropdown"
+          class="hidden absolute right-0 top-full mt-2 w-56 bg-surface-container-high border border-white/10 rounded-2xl shadow-2xl z-50 p-2 py-3 transform opacity-0 transition-all duration-150 backdrop-blur-md">
+          <div class="px-3 py-2 border-b border-white/10 mb-1">
+            <p class="font-label-sm text-xs text-secondary font-medium">Signed in as</p>
+            <p id="dropdownUserName" class="font-label-md text-sm font-bold text-white truncate">Guest</p>
+          </div>
+          <a href="../skill_gap_force_edit_profile/code.html"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-slate-200 hover:text-white hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined text-[18px] text-teal-400">person</span>
+            <span>Edit Your Profile</span>
+          </a>
+          <a href="../skill_gap_force_resume_skills_setup/code.html"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-slate-200 hover:text-white hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined text-[18px] text-teal-400">edit_note</span>
+            <span>Edit Resume & Skills</span>
+          </a>
+          <a href="../skill_gap_force_book_1_1_session/code.html"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-slate-200 hover:text-white hover:bg-surface-container-low transition-colors">
+            <span class="material-symbols-outlined text-[18px] text-teal-400">calendar_month</span>
+            <span>Book 1:1 Session</span>
+          </a>
+          <div class="my-1 border-t border-white/10"></div>
+          <a href="javascript:void(0);" onclick="handleLogout(event);"
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 transition-colors font-medium cursor-pointer">
+            <span class="material-symbols-outlined text-[18px] text-rose-400">logout</span>
+            <span>Logout</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 relative z-10">
+
+    <!-- PAGE HERO HEADER -->
+    <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-semibold mb-3">
+        <span class="material-symbols-outlined text-[16px]">ads_click</span>
+        <span>Target Your Jobs</span>
+      </div>
+      <h1 class="font-headline-lg text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+        What's Your Target Role?
+      </h1>
+      <p class="font-body-lg text-base sm:text-lg text-secondary mt-3">
+        Select a role to see how your skills measure up
+      </p>
+    </div>
+
+    <!-- 7 TARGET ROLE CARDS GRID -->
+    <div id="rolesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- 1. Software Engineer (SDE) -->
+      <div onclick="selectTargetRole('software_engineer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">code</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Core Engineering
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            Software Engineer (SDE)
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Data structures, algorithms, object-oriented architecture, and scalable backend/API systems.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            9 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 2. AI Engineer -->
+      <div onclick="selectTargetRole('ai_engineer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">smart_toy</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Generative AI
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            AI Engineer
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Large language models (LLMs), prompt engineering, PyTorch, LangChain, and AI agent frameworks.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            10 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 3. Machine Learning Engineer -->
+      <div onclick="selectTargetRole('ml_engineer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">psychology</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              ML &amp; MLOps
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            Machine Learning Engineer
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Supervised &amp; unsupervised learning, Scikit-learn, feature engineering, and model deployment pipelines.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            10 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 4. Data Scientist -->
+      <div onclick="selectTargetRole('data_scientist');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">analytics</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Analytics &amp; Stats
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            Data Scientist
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Statistical modeling, exploratory analysis (EDA), A/B testing, SQL querying, and insight visualization.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            10 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 5. Data Engineer -->
+      <div onclick="selectTargetRole('data_engineer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">database</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Big Data &amp; ETL
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            Data Engineer
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            High-throughput ETL pipelines, distributed processing (Apache Spark), Airflow workflows, and warehousing.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            9 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 6. Full-Stack Developer -->
+      <div onclick="selectTargetRole('fullstack_developer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">layers</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Full Stack Web
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            Full-Stack Developer
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Responsive React frontends, Node/Express services, database integration, TypeScript, and auth pipelines.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            11 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 7. DevOps Engineer -->
+      <div onclick="selectTargetRole('devops_engineer');"
+        class="role-card group bg-surface-container-high p-6 rounded-3xl border border-white/10 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(13,148,136,0.18)] cursor-pointer flex flex-col justify-between md:col-span-2 lg:col-span-1 transition-all">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-teal-950/60 border border-teal-500/30 text-teal-400 flex items-center justify-center group-hover:bg-gradient-to-tr group-hover:from-teal-500 group-hover:to-indigo-600 group-hover:text-white transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">deployed_code</span>
+            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 px-2.5 py-1 rounded-full bg-teal-950/60 border border-teal-500/40">
+              Infra &amp; CI/CD
+            </span>
+          </div>
+          <h2 class="font-headline-md text-xl font-bold text-white group-hover:text-teal-300 transition-colors">
+            DevOps Engineer
+          </h2>
+          <p class="text-xs sm:text-sm text-secondary mt-2 leading-relaxed">
+            Docker containers, Kubernetes orchestration, CI/CD automated deployments, Linux, and Terraform cloud infra.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs font-semibold text-secondary">
+            10 Required Skills
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-400 group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
+            <span>View Skill Gap</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="../target_roles_data.js"></script>
+  <script>
+    // Navigate to Skill Gap Result page
+    function selectTargetRole(roleId) {
+      if (!roleId) return;
+      try {
+        localStorage.setItem('selectedTargetRoleId', roleId);
+      } catch (e) {
+        console.warn('LocalStorage write warning:', e);
+      }
+      window.location.href = `../skill_gap_force_skill_gap_result/code.html?role=${encodeURIComponent(roleId)}`;
+    }
+
+    // Initialize user profile in header
+    document.addEventListener('DOMContentLoaded', () => {
+      const storedName = localStorage.getItem('userFullName') || 'Guest';
+      const storedPhoto = localStorage.getItem('userProfilePhoto');
+
+      const userProfileName = document.getElementById('userProfileName');
+      const dropdownUserName = document.getElementById('dropdownUserName');
+      if (userProfileName) userProfileName.textContent = storedName;
+      if (dropdownUserName) dropdownUserName.textContent = storedName;
+
+      const avatarContainer = document.getElementById('userAvatarContainer');
+      if (avatarContainer) {
+        if (storedPhoto) {
+          avatarContainer.innerHTML = `<img src="${storedPhoto}" alt="User Avatar" class="w-full h-full object-cover rounded-full" />`;
+          avatarContainer.classList.add('overflow-hidden', 'p-0');
+          avatarContainer.classList.remove('bg-teal-500/10', 'text-teal-400');
+        } else {
+          avatarContainer.innerHTML = `<span class="material-symbols-outlined text-[20px]">account_circle</span>`;
+          avatarContainer.classList.add('bg-teal-500/10', 'text-teal-400');
+        }
+      }
+
+      // Profile dropdown toggle
+      const userProfileBtn = document.getElementById('userProfileBtn');
+      const userProfileDropdown = document.getElementById('userProfileDropdown');
+      if (userProfileBtn && userProfileDropdown) {
+        userProfileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isHidden = userProfileDropdown.classList.contains('hidden');
+          if (isHidden) {
+            userProfileDropdown.classList.remove('hidden');
+            setTimeout(() => {
+              userProfileDropdown.classList.remove('opacity-0');
+              userProfileDropdown.classList.add('opacity-100');
+            }, 10);
+            userProfileBtn.setAttribute('aria-expanded', 'true');
+          } else {
+            userProfileDropdown.classList.add('opacity-0');
+            userProfileDropdown.classList.remove('opacity-100');
+            setTimeout(() => {
+              userProfileDropdown.classList.add('hidden');
+            }, 150);
+            userProfileBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!userProfileDropdown.contains(e.target) && !userProfileBtn.contains(e.target)) {
+            userProfileDropdown.classList.add('opacity-0');
+            userProfileDropdown.classList.remove('opacity-100');
+            setTimeout(() => {
+              userProfileDropdown.classList.add('hidden');
+            }, 150);
+            userProfileBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

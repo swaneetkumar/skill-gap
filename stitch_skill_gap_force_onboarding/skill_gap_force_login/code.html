@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html lang="en" class="dark" style="color-scheme: dark;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="theme-color" content="#0B1020"/>
+<meta name="color-scheme" content="dark"/>
+<title>Skill Gap Force - Login</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#0B1020",
+            "surface": "#131A2E",
+            "surface-container-lowest": "#131A2E",
+            "surface-container-low": "#0E1526",
+            "surface-container": "#1A2340",
+            "surface-container-high": "#1A2340",
+            "surface-container-highest": "#242F55",
+            "surface-dim": "#0E1526",
+            "surface-bright": "#242F55",
+            "on-surface": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "inverse-surface": "#F1F5F9",
+            "inverse-on-surface": "#0B1020",
+            "outline": "#64748B",
+            "outline-variant": "rgba(255, 255, 255, 0.08)",
+            "primary": "#14B8A6",
+            "primary-container": "#0D9488",
+            "on-primary": "#FFFFFF",
+            "on-primary-container": "#F4FFFC",
+            "primary-fixed": "#2DD4BF",
+            "primary-fixed-dim": "#14B8A6",
+            "secondary": "#94A3B8",
+            "secondary-container": "#1E293B",
+            "on-secondary": "#FFFFFF",
+            "on-secondary-container": "#CBD5E1",
+            "tertiary": "#38BDF8",
+            "tertiary-container": "#0284C7",
+            "on-tertiary": "#FFFFFF",
+            "error": "#F43F5E",
+            "error-container": "rgba(244, 63, 94, 0.15)",
+            "on-error": "#FFFFFF",
+            "on-error-container": "#FDA4AF"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "margin": "2rem"
+          },
+          "fontFamily": {
+            "body-md": ["Inter"],
+            "title-sm": ["Inter"],
+            "display-hero": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "mono-metric": ["Inter"],
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "title-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-hero": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "label-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "mono-metric": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-hero-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "label-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Supabase Client Library & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+  <!-- Global Theme CSS -->
+  <link rel="stylesheet" href="../theme.css"/>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen relative">
+<!-- Ambient Blurred Gradient Blobs -->
+<div class="bg-ambient-blobs">
+  <div class="blob-indigo"></div>
+  <div class="blob-teal"></div>
+  <div class="blob-violet"></div>
+</div>
+<!-- Linear/Transactional page: Global shell nav suppressed in alignment with Semantic Shell Mandate for focused authentication canvas -->
+<main class="min-h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
+<!-- LEFT PANE: Form Area -->
+<div class="flex flex-col justify-between px-6 sm:px-12 md:px-16 lg:px-20 py-8 lg:py-12 bg-surface-container-lowest min-h-screen">
+<!-- Top Brand Anchor -->
+<div class="flex items-center justify-between">
+<a class="inline-flex items-center gap-3 group focus:outline-none" href="#">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-md shadow-primary/20 group-hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined text-[22px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Skill Gap Force</span>
+</a>
+<a class="hidden sm:inline-flex items-center gap-1.5 font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span>Help</span>
+</a>
+</div>
+<!-- Centered Authentication Form -->
+<div class="max-w-md w-full mx-auto my-auto py-8">
+<!-- Header Text -->
+<div class="mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/40 mb-3.5">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary font-semibold tracking-wide uppercase">AI Career Portal</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Welcome Back</h1>
+<p class="font-body-md text-body-md text-secondary mt-1.5">Login to continue your job search and resume diagnostics</p>
+</div>
+<!-- Form Elements -->
+<form id="login-form" class="space-y-5" onsubmit="event.preventDefault(); handleLoginSubmit(event); return false;">
+<!-- Email Field -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border border-outline-variant/70 rounded-xl font-body-md text-body-md text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-150" id="email" name="email" placeholder="alex.chen@example.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<input class="w-full pl-11 pr-11 py-3 bg-surface-container-lowest border border-outline-variant/70 rounded-xl font-body-md text-body-md text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-150" id="password" name="password" placeholder="Enter your password" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-secondary hover:text-on-surface transition-colors" id="togglePassword" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Forgot Password -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 border-outline-variant transition-colors cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-secondary">Remember me</span>
+</label>
+<a class="font-label-md text-label-md text-primary font-semibold hover:underline" href="#">Forgot Password?</a>
+</div>
+<!-- Inline Login Error Message -->
+<div id="login-error" class="hidden items-center gap-2 p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs sm:text-sm font-medium animate-in fade-in">
+<span class="material-symbols-outlined text-[18px] text-rose-400 flex-shrink-0">error</span>
+<span id="login-error-text">Invalid email or password.</span>
+</div>
+<!-- Primary CTA Button -->
+<button id="login-submit-btn" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary font-label-md text-label-md font-bold flex items-center justify-center gap-2 shadow-lg active:scale-[0.99] transition-all duration-150 cursor-pointer" type="submit">
+<span>Log In</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Divider -->
+<div class="relative my-6 text-center">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/50"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase tracking-wider">
+<span class="bg-surface-container-lowest px-3 font-label-sm text-label-sm text-secondary">OR CONTINUE WITH</span>
+</div>
+</div>
+<!-- Google Login Button -->
+<button class="w-full py-3 px-5 border border-outline-variant/80 rounded-xl font-label-md text-label-md font-medium text-on-surface bg-surface-container-lowest hover:bg-surface-container-low active:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-sm cursor-pointer" onclick="openGoogleModal();" type="button">
+<svg aria-hidden="true" class="w-5 h-5 flex-shrink-0" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span>Log in with Google</span>
+</button>
+</form>
+<!-- Bottom Sign Up Link -->
+<p class="text-center font-body-md text-body-md text-secondary mt-7">
+          Don't have an account? 
+          <a class="font-label-md text-label-md font-bold text-primary hover:underline ml-1" href="../skill_gap_force_create_your_account/code.html">Sign Up</a>
+</p>
+</div>
+<!-- Trust & Security Footer Note -->
+<div class="pt-6 border-t border-outline-variant/30 flex items-center justify-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-sm text-label-sm">256-bit SSL encryption • Secure career credentials</span>
+</div>
+</div>
+<!-- RIGHT PANE: Inspirational Career Canvas (Desktop Focused) -->
+<div class="hidden lg:flex flex-col justify-between p-12 xl:p-16 relative bg-gradient-to-br from-[#0B1020] via-[#131A2E] to-[#1A2340] overflow-hidden border-l border-outline-variant/30">
+<!-- Ambient Decorative Radial Highlights -->
+<div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none"></div>
+<!-- Top Badges Row -->
+<div class="relative z-10 flex items-center justify-between w-full">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/50 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">AI Gap Diagnostics &amp; Silicon Valley Mentors</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/50 shadow-sm text-primary font-semibold">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm">Enterprise Verified</span>
+</div>
+</div>
+<!-- Centered Card Canvas with Visual Overlays -->
+<div class="relative z-10 my-auto py-6 flex items-center justify-center">
+<!-- Main Card Container -->
+<div class="relative w-full max-w-lg mx-auto">
+<!-- Primary Illustration Frame -->
+<div class="relative rounded-3xl bg-surface-container-lowest p-3 shadow-2xl shadow-on-surface/10 border border-outline-variant/40 overflow-hidden group">
+<div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-surface-container flex items-center justify-center">
+<img class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="An empowered modern professional female engineer holding an interactive digital telemetry tablet showing the Skill Gap Force application. Behind her curves a radiant upward career vector arrow bridging skills from Python, AI, AWS cloud to senior tech leadership. Styled in clear high-trust slate blue tones, bright cyan glowing accents, and crisp technical UI elements under pristine studio illumination." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRCxJX9ct2OUfxoNE72dMlnM1AN1UPBDFgEX8RkZqEQZqXbUqxFsJjyTeevrlmQDHSYHyGcm30ot_QbLB1U2bNgqtgV7Ji6UGuW3qppbjHWCAdUtDGkO8jjxyQzj5KyL3B4L4ReXhVXuvahKn58Gv0LgXtoAF2_53J611XpqeZlUbu6vpJt6ASmdHd8-Pym5mJR6rKlYw-vIhigg2YPwC5JTf5daGW4V0w-EOaZi4qFje6Q8daPE88"/>
+<!-- Subtle internal bottom gradient vignette -->
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+<!-- Inset caption badge inside graphic -->
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/95">
+<div>
+<div class="font-headline-md text-headline-md font-bold leading-tight">Skill Gap Force</div>
+<div class="font-label-sm text-label-sm text-cyan-200">Navigate Your Tech Career</div>
+</div>
+<div class="px-3 py-1 rounded-lg bg-white/20 backdrop-blur-md font-mono-metric text-xs uppercase tracking-wider font-semibold border border-white/30">
+                  Level 4 → 6
+                </div>
+</div>
+</div>
+</div>
+<!-- FLOATING BADGE: Top Right (1,200+ Mentors) -->
+<div class="absolute -top-5 -right-5 z-20 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/60 rounded-2xl p-3.5 shadow-xl shadow-on-surface/10 flex items-center gap-3.5 animate-bounce-subtle">
+<div class="flex -space-x-2 overflow-hidden">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-surface-container flex items-center justify-center text-xs font-bold text-primary">FC</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-primary text-on-primary flex items-center justify-center text-xs font-bold">AK</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-tertiary-container text-on-tertiary flex items-center justify-center text-xs font-bold">SL</div>
+</div>
+<div>
+<div class="font-label-md text-label-md font-bold text-on-surface">1,200+ Mentors</div>
+<div class="font-label-sm text-label-sm text-secondary">FAANG &amp; Top Tech</div>
+</div>
+</div>
+<!-- FLOATING CARD: Bottom Left (85%+ Match Top Tier) -->
+<div class="absolute -bottom-6 -left-6 z-20 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/60 rounded-2xl p-4 shadow-xl shadow-on-surface/10 max-w-[260px]">
+<div class="flex items-center gap-2 mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-primary">85%+ Match Top Tier</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary leading-snug">Average precision on candidate role fit after algorithmic resume calibration.</p>
+<div class="mt-2.5 w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Testimonial Banner -->
+<div class="relative z-10 pt-4">
+<blockquote class="text-on-surface font-title-sm text-title-sm font-semibold tracking-tight text-center lg:text-left">
+          “Bridge your career gap with data-driven interview prep and precise skill benchmarks.”
+        </blockquote>
+<div class="flex items-center justify-center lg:justify-start gap-2 mt-2 text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-md text-label-md">Trusted by 50,000+ ambitious developers &amp; engineering leaders</span>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Google Coming Soon Modal Overlay -->
+<div id="google-coming-soon-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md transition-all duration-300" onclick="if(event.target === this) closeGoogleModal();">
+  <div class="relative w-full max-w-md bg-surface-container border border-outline-variant rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5 transform transition-all animate-in fade-in zoom-in-95">
+    <!-- Close Icon Button -->
+    <button aria-label="Close modal" onclick="closeGoogleModal();" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors cursor-pointer">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+    
+    <!-- Top Icon Badge -->
+    <div class="w-16 h-16 mx-auto rounded-2xl bg-teal-950/60 border border-teal-500/30 text-primary flex items-center justify-center shadow-inner">
+      <span class="material-symbols-outlined text-[36px]">schedule</span>
+    </div>
+
+    <!-- Badge Tag -->
+    <div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-xs font-semibold border border-primary/20">
+        <span class="material-symbols-outlined text-[14px]">bolt</span>
+        Feature Preview
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <h3 class="font-headline-md text-xl sm:text-2xl font-bold text-on-surface tracking-tight">
+      We're Working On This!
+    </h3>
+
+    <!-- Subtext -->
+    <p class="font-body-md text-sm text-secondary leading-relaxed px-2">
+      Google Sign-In is not available yet, but it's coming soon. For now, please continue with email and password.
+    </p>
+
+    <!-- Dismiss Button -->
+    <button onclick="closeGoogleModal();" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary font-label-md text-label-md font-semibold shadow-md active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer mt-2">
+      <span>Got it, Continue with Email</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
+</div>
+
+<!-- Interactive script for password visibility toggle and Google modal -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const togglePasswordBtn = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('eyeIcon');
+
+      if (togglePasswordBtn && passwordInput && eyeIcon) {
+        togglePasswordBtn.addEventListener('click', () => {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+          eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+      }
+
+      const loginForm = document.getElementById('login-form') || document.querySelector('form');
+      if (loginForm) {
+        loginForm.addEventListener('submit', handleLoginSubmit);
+      }
+    });
+
+    async function handleLoginSubmit(e) {
+      if (e) e.preventDefault();
+      hideLoginError();
+
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      const pwdVal = passwordInput ? passwordInput.value : '';
+
+      if (!emailVal) {
+        showLoginError('Please enter your email address');
+        if (emailInput) emailInput.focus();
+        return false;
+      }
+
+      if (!pwdVal) {
+        showLoginError('Please enter your password');
+        if (passwordInput) passwordInput.focus();
+        return false;
+      }
+
+      setLoginButtonLoading(true);
+
+      try {
+        let loginResult;
+        if (typeof window.signInUser === 'function') {
+          loginResult = await window.signInUser({
+            email: emailVal,
+            password: pwdVal
+          });
+        } else if (window.supabaseClient && window.supabaseClient.auth) {
+          const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+            email: emailVal,
+            password: pwdVal
+          });
+          if (error) {
+            loginResult = { success: false, error: error.message };
+          } else {
+            loginResult = {
+              success: true,
+              user: data.user,
+              session: data.session,
+              userId: data.user?.id
+            };
+          }
+        } else {
+          throw new Error('Supabase client connection is not available. Please refresh and try again.');
+        }
+
+        setLoginButtonLoading(false);
+
+        if (!loginResult || !loginResult.success) {
+          const rawErr = (loginResult && loginResult.error) ? loginResult.error : 'Invalid email or password.';
+          showLoginError(rawErr);
+          if (passwordInput) passwordInput.focus();
+          return false;
+        }
+
+        // Store auth tokens and basics in app-level state
+        const realUserId = loginResult.userId || (loginResult.user && loginResult.user.id);
+        if (realUserId) {
+          localStorage.setItem('supabase_user_id', realUserId);
+        }
+        if (loginResult.user?.email) {
+          localStorage.setItem('supabase_user_email', loginResult.user.email);
+        }
+        if (loginResult.session) {
+          try {
+            localStorage.setItem('supabase_session', JSON.stringify(loginResult.session));
+            if (loginResult.session.access_token) {
+              localStorage.setItem('supabase_access_token', loginResult.session.access_token);
+            }
+          } catch (e) {}
+        }
+
+        localStorage.setItem('userEmail', emailVal);
+        localStorage.setItem('userSignupEmail', emailVal);
+
+        // Requirement 2: Show loading indicator while waiting for profile data from Supabase "profiles" table
+        setLoginButtonLoading(true, 'Loading your profile data...');
+
+        let userProfile = null;
+        if (typeof window.fetchUserProfile === 'function') {
+          try {
+            console.log('[Login] Fetching user profile from Supabase for userId:', realUserId);
+            const profileRes = await window.fetchUserProfile(realUserId);
+            if (!profileRes || !profileRes.success) {
+              console.warn('[Login] Profile fetch response notice:', profileRes);
+              if (profileRes && profileRes.error) {
+                console.error('[Supabase Fetch Profile Error]:', profileRes.error);
+              }
+            } else if (profileRes.profile) {
+              userProfile = profileRes.profile;
+              console.log('[Login] Profile row fetched successfully from Supabase:', userProfile);
+            }
+          } catch (fetchErr) {
+            console.error('[Supabase Fetch Profile Exception]:', fetchErr);
+          }
+        }
+
+        // Fetch saved jobs from Supabase "saved_jobs" table for logged-in user
+        if (typeof window.fetchSavedJobIds === 'function') {
+          try {
+            await window.fetchSavedJobIds(realUserId);
+          } catch (savedErr) {
+            console.warn('[Login] Notice fetching saved jobs on login:', savedErr);
+          }
+        }
+
+        const metadataName = loginResult.user?.user_metadata?.full_name;
+        if (metadataName && !localStorage.getItem('userFullName')) {
+          localStorage.setItem('userFullName', metadataName);
+          localStorage.setItem('userSignupName', metadataName);
+        } else if (!localStorage.getItem('userFullName')) {
+          const rawPrefix = emailVal.split('@')[0];
+          const formatted = rawPrefix.split('.').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+          localStorage.setItem('userFullName', formatted || 'Guest');
+          localStorage.setItem('userSignupName', formatted || 'Guest');
+        }
+
+        // Restore user profile photo from fetched profile or auth user metadata
+        const photoFromProfile = userProfile?.profile_photo_url;
+        const photoFromMeta = loginResult.user?.user_metadata?.avatar_url || loginResult.user?.user_metadata?.profile_photo_url;
+        const restoredPhoto = photoFromProfile || photoFromMeta;
+        if (restoredPhoto) {
+          localStorage.setItem('userProfilePhoto', restoredPhoto);
+        }
+
+        // Requirement 3: Redirect rule after login:
+        // Parse skills accurately. If saved skills value is non-empty, go straight to Job Recommendations with skills loaded into app state.
+        // Only if skills are truly empty (or "[]", "{}", "", null), go to Upload Resume.
+        let hasSkills = false;
+        let validSkillsList = [];
+
+        let rawSkills = userProfile ? userProfile.skills : null;
+        if (!rawSkills && loginResult.user?.user_metadata?.skills) {
+          rawSkills = loginResult.user.user_metadata.skills;
+        }
+        if (!rawSkills && typeof localStorage !== 'undefined') {
+          rawSkills = localStorage.getItem('userSelectedSkills');
+        }
+
+        if (Array.isArray(rawSkills)) {
+          validSkillsList = rawSkills.filter(s => s && String(s).trim().length > 0);
+          hasSkills = validSkillsList.length > 0;
+        } else if (typeof rawSkills === 'string') {
+          const trimmed = rawSkills.trim();
+          if (trimmed && trimmed !== '[]' && trimmed !== '{}' && trimmed !== '""' && trimmed !== "''" && trimmed !== 'null' && trimmed !== 'undefined') {
+            try {
+              const parsed = JSON.parse(trimmed);
+              if (Array.isArray(parsed)) {
+                validSkillsList = parsed.filter(s => s && String(s).trim().length > 0);
+                hasSkills = validSkillsList.length > 0;
+              } else if (typeof parsed === 'object' && parsed !== null) {
+                validSkillsList = Object.keys(parsed).filter(k => k && k.trim().length > 0);
+                hasSkills = validSkillsList.length > 0;
+              }
+            } catch (e) {
+              const cleaned = trimmed.replace(/[\[\]"]/g, '').trim();
+              if (cleaned.length > 0) {
+                validSkillsList = cleaned.split(',').map(s => s.trim()).filter(Boolean);
+                hasSkills = validSkillsList.length > 0;
+              }
+            }
+          }
+        }
+
+        // Hydrate skills and category classification into app state
+        if (hasSkills && validSkillsList.length > 0) {
+          localStorage.setItem('userSelectedSkills', JSON.stringify(validSkillsList));
+          if (typeof window.classifyUserSkills === 'function') {
+            const classification = window.classifyUserSkills(validSkillsList);
+            if (classification && classification.winning_category) {
+              localStorage.setItem('userWinningCategory', classification.winning_category);
+              localStorage.setItem('userWinningCategoryName', classification.winning_category_name || '');
+              localStorage.setItem('userCategoryClassification', JSON.stringify(classification));
+            }
+          }
+        }
+
+        // Redirect based on whether skills are non-empty
+        const hasUserCompletedOnboarding = hasSkills;
+        if (hasUserCompletedOnboarding) {
+          setLoginButtonLoading(true, 'Loading your job recommendations...');
+          console.log(`[Login] Returning user with ${validSkillsList.length} skills detected. Redirecting directly to Job Recommendations.`);
+          window.location.href = '../skill_gap_force_job_recommendations/code.html';
+        } else {
+          setLoginButtonLoading(false);
+          console.log('[Login] First-time or un-onboarded user detected (skills empty). Redirecting to Upload Resume & Select Skills.');
+          window.location.href = '../skill_gap_force_resume_skills_setup/code.html';
+        }
+        return true;
+      } catch (err) {
+        setLoginButtonLoading(false);
+        showLoginError(err.message || 'Login failed. Please check your credentials and try again.');
+        return false;
+      }
+    }
+    window.handleLoginSubmit = handleLoginSubmit;
+
+    function showLoginError(msg) {
+      const errBox = document.getElementById('login-error');
+      const errText = document.getElementById('login-error-text');
+      const pwdInput = document.getElementById('password');
+
+      if (errBox && errText) {
+        errText.textContent = msg;
+        errBox.classList.remove('hidden');
+        errBox.classList.add('flex');
+      }
+      if (pwdInput) {
+        pwdInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      }
+    }
+    window.showLoginError = showLoginError;
+
+    function hideLoginError() {
+      const errBox = document.getElementById('login-error');
+      if (errBox) {
+        errBox.classList.add('hidden');
+        errBox.classList.remove('flex');
+      }
+      const pwdInput = document.getElementById('password');
+      if (pwdInput) {
+        pwdInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      }
+    }
+    window.hideLoginError = hideLoginError;
+
+    function setLoginButtonLoading(isLoading, customText = 'Logging In...') {
+      const btn = document.getElementById('login-submit-btn');
+      if (!btn) return;
+      if (isLoading) {
+        btn.disabled = true;
+        btn.classList.add('opacity-80', 'cursor-not-allowed');
+        btn.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>${customText}</span>
+        `;
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        btn.innerHTML = `
+          <span>Log In</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        `;
+      }
+    }
+    window.setLoginButtonLoading = setLoginButtonLoading;
+
+    function openGoogleModal() {
+      const modal = document.getElementById('google-coming-soon-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeGoogleModal() {
+      const modal = document.getElementById('google-coming-soon-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+</script>
+</body></html>

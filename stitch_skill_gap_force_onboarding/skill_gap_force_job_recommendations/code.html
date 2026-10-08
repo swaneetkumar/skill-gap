@@ -1,0 +1,1419 @@
+<!DOCTYPE html><html lang="en" class="dark" style="color-scheme: dark;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta name="theme-color" content="#0B1020">
+<script>
+  // Route protection guard: redirect to login if unauthenticated or logged out
+  (function() {
+    function enforceAuth() {
+      if (!localStorage.getItem('supabase_user_id') || !localStorage.getItem('supabase_session')) {
+        window.location.replace('../skill_gap_force_login/code.html');
+      }
+    }
+    enforceAuth();
+    window.addEventListener('pageshow', function(e) {
+      enforceAuth();
+    });
+  })();
+</script>
+<title>Job Recommendations | Skill Gap Force</title>
+<!-- Central Theme Design Tokens -->
+<link rel="stylesheet" href="../theme.css">
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#243054",
+            "on-secondary-fixed": "#F1F5F9",
+            "secondary-container": "#1E293B",
+            "primary": "#0D9488",
+            "surface-container-high": "#1E2945",
+            "on-background": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "on-primary-fixed": "#042F2E",
+            "inverse-surface": "#F1F5F9",
+            "surface-container": "#1A2340",
+            "on-primary-fixed-variant": "#115E59",
+            "error": "#F87171",
+            "surface": "#131A2E",
+            "on-tertiary": "#FFFFFF",
+            "outline": "#475569",
+            "secondary-fixed": "#334155",
+            "surface-tint": "#14B8A6",
+            "on-secondary-container": "#CBD5E1",
+            "surface-variant": "#1E2945",
+            "on-secondary": "#E2E8F0",
+            "secondary-fixed-dim": "#94A3B8",
+            "on-primary": "#FFFFFF",
+            "on-tertiary-fixed": "#0B1020",
+            "tertiary-container": "#3730A3",
+            "background": "#0B1020",
+            "on-tertiary-container": "#E0E7FF",
+            "surface-container-low": "#131A2E",
+            "on-secondary-fixed-variant": "#94A3B8",
+            "primary-fixed-dim": "#5EEAD4",
+            "surface-bright": "#1E2945",
+            "outline-variant": "rgba(255, 255, 255, 0.12)",
+            "tertiary": "#6366F1",
+            "surface-dim": "#0B1020",
+            "primary-container": "#0F766E",
+            "secondary": "#94A3B8",
+            "primary-fixed": "#2DD4BF",
+            "tertiary-fixed": "#818CF8",
+            "on-primary-container": "#CCFBF1",
+            "on-tertiary-fixed-variant": "#C7D2FE",
+            "on-surface": "#F1F5F9",
+            "tertiary-fixed-dim": "#A5B4FC",
+            "inverse-on-surface": "#0B1020",
+            "surface-container-lowest": "#0F1629",
+            "on-error": "#FFFFFF",
+            "inverse-primary": "#2DD4BF",
+            "error-container": "#7F1D1D",
+            "on-error-container": "#FECACA"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "2rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "margin-mobile": "1rem",
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "mono-metric": ["Inter"],
+            "label-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-sm": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "display-hero": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "mono-metric": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "title-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-hero-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "display-hero": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "body-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "label-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Supabase Client Library & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col pb-24 relative overflow-x-hidden">
+<!-- Ambient background blobs for depth -->
+<div class="bg-ambient-blobs">
+  <div class="blob-indigo"></div>
+  <div class="blob-teal"></div>
+  <div class="blob-violet"></div>
+</div>
+
+<!-- ================= TOP APP BAR (Dark Glassmorphism) ================= -->
+<header class="dark-glass-header border-b border-white/10 shadow-lg docked full-width top-0 z-40 sticky">
+<div class="flex justify-between items-center w-full px-6 md:px-12 h-16 max-w-7xl mx-auto">
+<!-- Brand Logo Anchor -->
+<a href="../skill_gap_force_job_recommendations/code.html" class="flex items-center gap-3 group focus:outline-none">
+  <div class="w-9 h-9 rounded-lg btn-vibrant-primary flex items-center justify-center text-white shadow-sm transition-all">
+    <span class="material-symbols-outlined text-[22px]">bolt</span>
+  </div>
+  <span class="font-headline-md text-headline-md font-bold text-white tracking-tight">
+    Skill Gap <span class="bg-gradient-to-r from-teal-400 to-indigo-400 bg-clip-text text-transparent">Force</span>
+  </span>
+</a>
+
+<!-- Trailing Actions: Target Your Job Role & Profile Dropdown -->
+<div class="flex items-center gap-3 sm:gap-4">
+  <a id="targetYourJobsHeaderBtn" href="../skill_gap_force_target_role_selection/code.html"
+    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-950/50 hover:bg-teal-900/60 text-teal-300 border border-teal-500/30 hover:border-teal-400/50 font-label-md text-xs sm:text-sm font-semibold transition-all shadow-xs group cursor-pointer"
+    title="Target Your Job Role & Measure Skill Gap">
+    <span class="material-symbols-outlined text-[18px] text-teal-400 group-hover:scale-110 transition-transform">ads_click</span>
+    <span>Target Your Job Role</span>
+  </a>
+
+  <!-- Saved Jobs Header Button with Bell Icon & Badge -->
+  <a id="savedJobsHeaderBtn" href="../skill_gap_force_saved_jobs/code.html"
+    class="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface border border-white/10 hover:border-teal-500/40 font-label-md text-xs sm:text-sm font-semibold transition-all shadow-2xs group cursor-pointer"
+    title="Saved Jobs">
+    <div class="relative flex items-center justify-center">
+      <span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-teal-400 transition-colors">notifications</span>
+      <span id="savedJobsBellBadge" class="hidden absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full btn-vibrant-primary text-white text-[10px] font-bold font-mono-metric flex items-center justify-center shadow-xs">0</span>
+    </div>
+    <span>Saved Jobs</span>
+  </a>
+
+  <!-- Profile Avatar & Dropdown -->
+  <div class="relative flex items-center">
+    <button id="userProfileBtn" type="button" class="flex items-center gap-2.5 px-3 py-1.5 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer group focus:outline-none focus:ring-2 focus:ring-teal-500/30 border border-white/10 bg-surface-container-lowest" aria-expanded="false" aria-label="User profile menu">
+      <div id="userAvatarContainer" class="w-8 h-8 rounded-full bg-teal-950/60 border border-teal-500/30 text-teal-300 flex items-center justify-center font-semibold text-sm group-hover:bg-teal-600 group-hover:text-white transition-colors overflow-hidden">
+        <span class="material-symbols-outlined text-[20px]">person</span>
+      </div>
+      <span id="userProfileName" class="font-label-md text-label-md font-semibold text-on-surface tracking-tight">Guest</span>
+      <span class="material-symbols-outlined text-[18px] text-secondary group-hover:text-on-surface transition-colors">expand_more</span>
+    </button>
+    
+    <!-- Profile Dropdown Menu -->
+    <div id="userProfileDropdown" class="hidden absolute right-0 top-full mt-2 w-56 bg-surface-container-high border border-white/10 rounded-2xl shadow-2xl z-50 p-2 py-3 transform opacity-0 transition-all duration-150 backdrop-blur-md">
+      <div class="px-3 py-2 border-b border-white/10 mb-1">
+        <p class="font-label-sm text-xs text-secondary font-medium">Signed in as</p>
+        <p id="dropdownUserName" class="font-label-md text-sm font-bold text-on-surface truncate">Guest</p>
+      </div>
+      <a href="../skill_gap_force_edit_profile/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+        <span class="material-symbols-outlined text-[18px] text-teal-400">person</span>
+        <span>Edit Your Profile</span>
+      </a>
+      <a href="../skill_gap_force_resume_skills_setup/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+        <span class="material-symbols-outlined text-[18px] text-teal-400">edit_note</span>
+        <span>Edit Resume &amp; Skills</span>
+      </a>
+      <a href="../skill_gap_force_book_1_1_session/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+        <span class="material-symbols-outlined text-[18px] text-teal-400">calendar_month</span>
+        <span>Book 1:1 Session</span>
+      </a>
+      <div class="my-1 border-t border-white/10"></div>
+      <a href="javascript:void(0);" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 transition-colors font-medium cursor-pointer">
+        <span class="material-symbols-outlined text-[18px] text-rose-400">logout</span>
+        <span>Logout</span>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN CONTENT CANVAS ================= -->
+<main class="max-w-7xl mx-auto px-6 md:px-12 w-full pt-8 flex-1 relative z-10">
+<!-- Hero / Heading Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-950/60 border border-teal-500/30 text-teal-300 mb-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+<span id="matchCountBadge" class="font-mono-metric text-mono-metric font-semibold text-teal-300">24 High-Match Jobs Found</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+          Jobs Matched to Your Skills
+        </h1>
+<p id="matchSubheading" class="font-body-lg text-body-lg text-secondary mt-1 max-w-2xl">
+          Based on your resume and selected skills, here are your top matches
+        </p>
+</div>
+<!-- Quick Analysis Tag Box -->
+<div class="hidden lg:flex items-center gap-3 bg-surface-container-high border border-white/10 rounded-xl px-4 py-2.5 shadow-md">
+<div class="w-8 h-8 rounded-lg bg-teal-950/80 border border-teal-500/30 flex items-center justify-center text-teal-300">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-secondary">Target Role Affinity</p>
+<p id="targetRoleText" class="font-title-sm text-title-sm text-on-surface font-semibold">Full Stack &amp; Frontend</p>
+</div>
+</div>
+</section>
+<!-- Category Match Indicator Banner (Step 5) -->
+<div id="categoryMatchedBanner" class="mb-6"></div>
+
+<!-- ================= SORT BY CONTROL BAR ================= -->
+<section aria-label="Job sorting and results summary" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-2 border-b border-white/10">
+  <div class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-[20px] text-teal-400">sort</span>
+    <span class="font-body-md text-sm text-secondary">
+      Showing <span id="sortJobsCount" class="font-semibold text-on-surface">0</span> of <span id="sortTotalCount" class="font-semibold text-on-surface">0</span> positions
+    </span>
+    <span id="noResumeSortNotice" class="hidden text-xs text-amber-300 bg-amber-950/60 border border-amber-500/40 px-2 py-0.5 rounded-md font-label-sm" title="Upload your resume to sort by match">
+      Upload resume for match %
+    </span>
+  </div>
+
+  <div class="flex items-center gap-2 self-start sm:self-auto">
+    <label for="jobSortSelect" class="font-label-md text-sm font-medium text-secondary whitespace-nowrap">Sort by:</label>
+    <div class="relative inline-block">
+      <select id="jobSortSelect" onchange="handleSortChange(this.value);" aria-label="Sort jobs dropdown" class="appearance-none bg-surface-container-high border border-white/15 hover:border-teal-500/50 focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 text-on-surface font-label-md text-sm font-semibold py-2 pl-3.5 pr-9 rounded-xl shadow-md cursor-pointer transition-all focus:outline-none">
+        <option value="best_match" selected>Best Match</option>
+        <option value="salary_high_low">Salary: High to Low</option>
+        <option value="salary_low_high">Salary: Low to High</option>
+      </select>
+      <span class="material-symbols-outlined pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[18px] text-secondary">
+        expand_more
+      </span>
+    </div>
+  </div>
+</section>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobsGridContainer">
+  <!-- Dynamic Job Cards will be injected here according to the classified category -->
+</div>
+<!-- Below Grid: Load More & Summary -->
+<div id="loadMoreSection" class="mt-12 flex flex-col items-center justify-center gap-3">
+<button id="loadMoreBtn" onclick="handleLoadMoreJobs();" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-surface-container-high border border-white/15 text-on-surface font-title-sm text-title-sm font-semibold hover:border-teal-500/50 hover:text-teal-300 hover:shadow-lg active:scale-[0.99] transition-all cursor-pointer">
+<span id="loadMoreIcon" class="material-symbols-outlined text-[20px]">expand_circle_down</span>
+<span id="loadMoreText" class="">Load More Jobs (18 remaining)</span>
+</button>
+<p id="jobsSummaryText" class="font-label-sm text-label-sm text-secondary">
+        Showing 6 of 24 matched positions
+      </p>
+</div>
+</main>
+<!-- ================= BOTTOM ACTION DOCK (Dark Glassmorphism) ================= -->
+<div class="fixed bottom-0 left-0 w-full z-50 dark-glass-dock border-t border-white/10 shadow-2xl">
+<div class="flex justify-between items-center px-6 md:px-12 py-3.5 max-w-7xl mx-auto w-full">
+<!-- Back Navigation Button -->
+<button onclick="window.location.href='../skill_gap_force_resume_skills_setup/code.html';" class="inline-flex items-center gap-2 text-secondary hover:text-white font-label-md text-label-md px-5 py-2.5 rounded-lg border border-white/10 hover:bg-surface-container active:scale-[0.98] transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span class="">Back</span>
+</button>
+<!-- Center Status Alert Trigger (Secondary Action) -->
+<div class="hidden sm:flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[18px] text-teal-400">notifications_active</span>
+<span class="font-body-md text-body-md">Get instant alerts for new matches matching this criteria:</span>
+<button class="text-teal-400 font-semibold hover:underline font-label-md text-label-md ml-1">
+          Save Job Alert
+        </button>
+</div>
+<!-- Primary Action (Continue) -->
+<div class="flex items-center gap-3">
+
+</div>
+</div>
+</div>
+<script src="../jobs_data.js"></script>
+<script>
+    // Unified dataset of realistic job recommendations across all three categories (Step 4)
+    const fallbackJobsDataset = [
+      // ═══════════════════ WEB DEVELOPMENT JOBS (9) ═══════════════════
+      {
+        id: "stripe-senior-frontend",
+        category: "web_dev",
+        company: "Stripe",
+        bg: "bg-[#635BFF] text-white",
+        icon: null,
+        title: "Senior Frontend Engineer",
+        location: "San Francisco, CA (Hybrid)",
+        salary: "$165k - $195k / yr",
+        type: "Full-time",
+        match: 96,
+        skills: ["React.js", "TypeScript", "Tailwind CSS", "+3 more"]
+      },
+      {
+        id: "linear-product-engineer",
+        category: "web_dev",
+        company: "Linear",
+        bg: "bg-[#5E6AD2] text-white",
+        icon: "conversion_path",
+        title: "Full Stack Product Engineer",
+        location: "Remote (US / EU)",
+        salary: "$150k - $180k / yr",
+        type: "Full-time",
+        match: 92,
+        skills: ["TypeScript", "Node.js", "GraphQL", "+2 more"]
+      },
+      {
+        id: "figma-design-systems",
+        category: "web_dev",
+        company: "Figma",
+        bg: "bg-gradient-to-tr from-[#F24E1E] to-[#A259FF] text-white",
+        icon: "design_services",
+        title: "Design Systems & UI Engineer",
+        location: "New York, NY (Hybrid)",
+        salary: "$170k - $210k / yr",
+        type: "Full-time",
+        match: 88,
+        skills: ["UI/UX Design", "React.js", "Design Systems", "+4 more"]
+      },
+      {
+        id: "vercel-cloud-platform",
+        category: "web_dev",
+        company: "Vercel",
+        bg: "bg-black text-white",
+        icon: "change_history",
+        title: "Web Platform & Next.js Engineer",
+        location: "Remote",
+        salary: "$160k - $190k / yr",
+        type: "Full-time",
+        match: 86,
+        skills: ["Next.js", "React.js", "TypeScript", "+2 more"]
+      },
+      {
+        id: "datadog-frontend-engineer",
+        category: "web_dev",
+        company: "Datadog",
+        bg: "bg-[#632CA6] text-white",
+        icon: "monitoring",
+        title: "Frontend Software Engineer",
+        location: "Boston, MA",
+        salary: "$140k - $165k / yr",
+        type: "Full-time",
+        match: 83,
+        skills: ["React.js", "TypeScript", "REST API", "+2 more"]
+      },
+      {
+        id: "notion-web-platform",
+        category: "web_dev",
+        company: "Notion",
+        bg: "bg-surface-container border border-outline-variant/40 text-on-surface",
+        icon: null,
+        title: "Web Platform Specialist",
+        location: "San Francisco, CA",
+        salary: "$155k - $185k / yr",
+        type: "Full-time",
+        match: 81,
+        skills: ["Node.js", "React.js", "REST APIs", "+3 more"]
+      },
+      {
+        id: "supabase-fullstack",
+        category: "web_dev",
+        company: "Supabase",
+        bg: "bg-[#3ECF8E] text-slate-900",
+        icon: "storage",
+        title: "Full Stack TypeScript Engineer",
+        location: "Remote (Global)",
+        salary: "$150k - $185k / yr",
+        type: "Full-time",
+        match: 79,
+        skills: ["Database", "TypeScript", "Node.js", "+2 more"]
+      },
+      {
+        id: "github-ui-engineer",
+        category: "web_dev",
+        company: "GitHub",
+        bg: "bg-[#24292e] text-white",
+        icon: "code",
+        title: "Developer Tools & UI Engineer",
+        location: "Remote (US)",
+        salary: "$160k - $190k / yr",
+        type: "Full-time",
+        match: 77,
+        skills: ["Git", "GitHub", "TypeScript", "+3 more"]
+      },
+      {
+        id: "airbnb-web-lead",
+        category: "web_dev",
+        company: "Airbnb",
+        bg: "bg-[#FF5A5F] text-white",
+        icon: "home_work",
+        title: "Design Systems & Web Lead",
+        location: "Seattle, WA (Hybrid)",
+        salary: "$170k - $205k / yr",
+        type: "Full-time",
+        match: 75,
+        skills: ["React.js", "Tailwind CSS", "HTML/CSS", "+3 more"]
+      },
+
+      // ═══════════════════ AI & MACHINE LEARNING JOBS (9) ═══════════════════
+      {
+        id: "openai-infra-engineer",
+        category: "ai_ml",
+        company: "OpenAI",
+        bg: "bg-black text-white",
+        icon: "auto_awesome",
+        title: "AI Infrastructure & Platform Engineer",
+        location: "San Francisco, CA (Hybrid)",
+        salary: "$195k - $240k / yr",
+        type: "Full-time",
+        match: 96,
+        skills: ["Python", "PyTorch", "Deep Learning", "+3 more"]
+      },
+      {
+        id: "anthropic-ai-apps",
+        category: "ai_ml",
+        company: "Anthropic",
+        bg: "bg-[#CC785C] text-white",
+        icon: "neurology",
+        title: "Full Stack AI Applications Engineer",
+        location: "Remote (US)",
+        salary: "$185k - $225k / yr",
+        type: "Full-time",
+        match: 94,
+        skills: ["Python", "LLM", "LangChain", "+2 more"]
+      },
+      {
+        id: "databricks-ml-platform",
+        category: "ai_ml",
+        company: "Databricks",
+        bg: "bg-[#FF3621] text-white",
+        icon: "dataset",
+        title: "Machine Learning & Data Platform Engineer",
+        location: "San Francisco, CA",
+        salary: "$175k - $215k / yr",
+        type: "Full-time",
+        match: 91,
+        skills: ["Python", "Machine Learning", "Scikit-learn", "+3 more"]
+      },
+      {
+        id: "huggingface-llm",
+        category: "ai_ml",
+        company: "Hugging Face",
+        bg: "bg-[#FFD21E] text-slate-900",
+        icon: "sentiment_satisfied",
+        title: "Open Source LLM & Transformers Specialist",
+        location: "Remote",
+        salary: "$170k - $210k / yr",
+        type: "Full-time",
+        match: 88,
+        skills: ["Transformers", "Hugging Face", "PyTorch", "+3 more"]
+      },
+      {
+        id: "cohere-rag-engineer",
+        category: "ai_ml",
+        company: "Cohere",
+        bg: "bg-[#39594C] text-white",
+        icon: "psychology",
+        title: "Generative AI & RAG Solutions Engineer",
+        location: "Toronto, ON / Remote",
+        salary: "$180k - $220k / yr",
+        type: "Full-time",
+        match: 85,
+        skills: ["GenAI", "RAG", "Fine-tuning", "+2 more"]
+      },
+      {
+        id: "scale-ai-cv",
+        category: "ai_ml",
+        company: "Scale AI",
+        bg: "bg-[#111827] text-white",
+        icon: "visibility",
+        title: "Computer Vision & Deep Learning Engineer",
+        location: "San Francisco, CA",
+        salary: "$165k - $200k / yr",
+        type: "Full-time",
+        match: 82,
+        skills: ["Deep Learning", "TensorFlow", "CNN", "+3 more"]
+      },
+      {
+        id: "deepmind-applied-ml",
+        category: "ai_ml",
+        company: "Google DeepMind",
+        bg: "bg-[#4285F4] text-white",
+        icon: "hub",
+        title: "Applied Machine Learning Research Engineer",
+        location: "Mountain View, CA",
+        salary: "$200k - $250k / yr",
+        type: "Full-time",
+        match: 80,
+        skills: ["Python", "TensorFlow", "Model Evaluation", "+4 more"]
+      },
+      {
+        id: "snowflake-mlops",
+        category: "ai_ml",
+        company: "Snowflake",
+        bg: "bg-[#29B5E8] text-white",
+        icon: "ac_unit",
+        title: "Cloud Data Science & MLOps Lead",
+        location: "San Mateo, CA",
+        salary: "$175k - $215k / yr",
+        type: "Full-time",
+        match: 78,
+        skills: ["SQL", "Pandas", "MLOps", "+3 more"]
+      },
+      {
+        id: "langchain-agent-dev",
+        category: "ai_ml",
+        company: "LangChain Labs",
+        bg: "bg-[#1C3C3C] text-white",
+        icon: "link",
+        title: "GenAI & Autonomous Agent Developer",
+        location: "Remote (Global)",
+        salary: "$160k - $195k / yr",
+        type: "Full-time",
+        match: 76,
+        skills: ["LangChain", "Python", "GenAI", "+2 more"]
+      },
+
+      // ═══════════════════ WEB3 & BLOCKCHAIN JOBS (9) ═══════════════════
+      {
+        id: "ethereum-evm-engineer",
+        category: "web3",
+        company: "Ethereum Foundation",
+        bg: "bg-[#3C3C3D] text-white",
+        icon: "diamond",
+        title: "Core Protocol & EVM Engineer",
+        location: "Remote (Global)",
+        salary: "$180k - $220k / yr",
+        type: "Full-time",
+        match: 95,
+        skills: ["Solidity", "EVM", "Cryptography", "+3 more"]
+      },
+      {
+        id: "uniswap-defi-engineer",
+        category: "web3",
+        company: "Uniswap Labs",
+        bg: "bg-[#FF007A] text-white",
+        icon: "swap_horiz",
+        title: "Smart Contract & DeFi Protocol Engineer",
+        location: "New York, NY",
+        salary: "$175k - $215k / yr",
+        type: "Full-time",
+        match: 93,
+        skills: ["Solidity", "Smart Contracts", "DeFi", "+2 more"]
+      },
+      {
+        id: "coinbase-crypto-sec",
+        category: "web3",
+        company: "Coinbase",
+        bg: "bg-[#0052FF] text-white",
+        icon: "lock",
+        title: "Blockchain Security & Cryptography Engineer",
+        location: "Remote (US)",
+        salary: "$185k - $230k / yr",
+        type: "Full-time",
+        match: 89,
+        skills: ["Blockchain", "Auditing", "Smart Contract Security", "+3 more"]
+      },
+      {
+        id: "opensea-web3-backend",
+        category: "web3",
+        company: "OpenSea",
+        bg: "bg-[#2081E2] text-white",
+        icon: "sailing",
+        title: "Smart Contract & Web3 Backend Developer",
+        location: "New York, NY",
+        salary: "$160k - $195k / yr",
+        type: "Full-time",
+        match: 86,
+        skills: ["ERC-721", "Solidity", "Web3 Backend", "+2 more"]
+      },
+      {
+        id: "chainlink-oracles",
+        category: "web3",
+        company: "Chainlink Labs",
+        bg: "bg-[#375BD2] text-white",
+        icon: "share",
+        title: "Decentralized Oracles & Cross-Chain Architect",
+        location: "Remote",
+        salary: "$170k - $210k / yr",
+        type: "Full-time",
+        match: 84,
+        skills: ["Oracles", "Cross-chain", "Solidity", "+3 more"]
+      },
+      {
+        id: "polygon-layer2",
+        category: "web3",
+        company: "Polygon Labs",
+        bg: "bg-[#8247E5] text-white",
+        icon: "layers",
+        title: "Layer 2 Scaling & ZK Rollup Engineer",
+        location: "Remote",
+        salary: "$165k - $205k / yr",
+        type: "Full-time",
+        match: 82,
+        skills: ["Layer 2", "EVM", "Hardhat", "+3 more"]
+      },
+      {
+        id: "consensys-metamask",
+        category: "web3",
+        company: "ConsenSys",
+        bg: "bg-[#121212] text-white",
+        icon: "wallet",
+        title: "MetaMask & Web3 Systems Specialist",
+        location: "Remote",
+        salary: "$155k - $190k / yr",
+        type: "Full-time",
+        match: 79,
+        skills: ["Wallets", "Web3.js", "dApps", "+2 more"]
+      },
+      {
+        id: "aave-solidity-arch",
+        category: "web3",
+        company: "Aave",
+        bg: "bg-[#2EBAC6] text-white",
+        icon: "account_balance",
+        title: "DeFi Protocol & Solidity Architect",
+        location: "London, UK / Remote",
+        salary: "$180k - $225k / yr",
+        type: "Full-time",
+        match: 77,
+        skills: ["Solidity", "Tokenomics", "DeFi", "+3 more"]
+      },
+      {
+        id: "alchemy-rpc-dev",
+        category: "web3",
+        company: "Alchemy",
+        bg: "bg-[#0055FF] text-white",
+        icon: "lan",
+        title: "Web3 Developer Infrastructure & RPC Engineer",
+        location: "San Francisco, CA",
+        salary: "$160k - $190k / yr",
+        type: "Full-time",
+        match: 75,
+        skills: ["RPC", "EVM", "The Graph", "+2 more"]
+      }
+    ];
+
+    // Connect to unified dataset from jobs_data.js if loaded, or fallback
+    const allJobsDataset = (typeof window.APP_JOBS_DATASET !== 'undefined') ? window.APP_JOBS_DATASET : fallbackJobsDataset;
+
+    // Helper to get user resume skills from localStorage
+    function getStoredUserSkills() {
+      try {
+        const raw = localStorage.getItem('userSelectedSkills');
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    // State management for pagination, filtering, and sorting
+    let currentFilteredJobs = [];
+    let currentOffset = 0;
+    const batchSize = 6;
+    let activeCategory = 'all';
+    let activeSort = 'best_match';
+
+    // Parse the upper numerical end of a salary range (e.g. "$165k - $195k / yr" -> 195000)
+    function parseUpperSalary(salaryStr) {
+      if (!salaryStr || typeof salaryStr !== 'string') return 0;
+      const matches = [...salaryStr.matchAll(/\$?([\d,]+(?:\.\d+)?)\s*([kK])?/g)];
+      if (matches.length > 0) {
+        const last = matches[matches.length - 1];
+        let rawNum = parseFloat(last[1].replace(/,/g, ''));
+        if (last[2] && last[2].toLowerCase() === 'k') {
+          rawNum *= 1000;
+        } else if (rawNum < 1000 && /k/i.test(salaryStr)) {
+          rawNum *= 1000;
+        }
+        return rawNum;
+      }
+      return 0;
+    }
+
+    // Accurately compute skill match percentage for a job against user's resume
+    function getJobMatchScore(job) {
+      const userSkills = getStoredUserSkills();
+      if (userSkills && userSkills.length > 0 && typeof window.calculateSkillMatch === 'function') {
+        const analysis = window.calculateSkillMatch(job, userSkills);
+        if (analysis && analysis.hasRequirements) {
+          return analysis.matchPercentage;
+        }
+      }
+      return typeof job.match === 'number' ? job.match : 0;
+    }
+
+    // Sort an array of jobs according to the active sort mode
+    function sortJobsArray(jobsList, sortType) {
+      const userSkills = getStoredUserSkills();
+      const hasResume = userSkills.length > 0;
+
+      return [...jobsList].sort((a, b) => {
+        if (sortType === 'salary_high_low') {
+          const salA = parseUpperSalary(a.salary);
+          const salB = parseUpperSalary(b.salary);
+          if (salB !== salA) return salB - salA;
+          return getJobMatchScore(b) - getJobMatchScore(a);
+        } else if (sortType === 'salary_low_high') {
+          const salA = parseUpperSalary(a.salary);
+          const salB = parseUpperSalary(b.salary);
+          if (salA !== salB) return salA - salB;
+          return getJobMatchScore(b) - getJobMatchScore(a);
+        } else {
+          // 'best_match'
+          if (hasResume) {
+            const scoreA = getJobMatchScore(a);
+            const scoreB = getJobMatchScore(b);
+            if (scoreB !== scoreA) return scoreB - scoreA;
+            return parseUpperSalary(b.salary) - parseUpperSalary(a.salary);
+          } else {
+            return 0; // fallback to default order
+          }
+        }
+      });
+    }
+
+    // Insert a job card DOM node into the grid in its correct sorted position
+    function insertJobCardSorted(jobsGrid, cardNode, job, sortType) {
+      const existingCards = Array.from(jobsGrid.querySelectorAll('.job-card-item'));
+      if (existingCards.length === 0) {
+        jobsGrid.appendChild(cardNode);
+        return;
+      }
+
+      const jobSalary = parseUpperSalary(job.salary);
+      const jobScore = getJobMatchScore(job);
+      const userSkills = getStoredUserSkills();
+      const hasResume = userSkills.length > 0;
+
+      let insertBeforeNode = null;
+
+      for (const existingCard of existingCards) {
+        const cardSalary = parseFloat(existingCard.dataset.upperSalary || '0');
+        const cardScore = parseFloat(existingCard.dataset.matchScore || '0');
+
+        if (sortType === 'salary_high_low') {
+          if (jobSalary > cardSalary || (jobSalary === cardSalary && jobScore > cardScore)) {
+            insertBeforeNode = existingCard;
+            break;
+          }
+        } else if (sortType === 'salary_low_high') {
+          if (jobSalary < cardSalary || (jobSalary === cardSalary && jobScore > cardScore)) {
+            insertBeforeNode = existingCard;
+            break;
+          }
+        } else if (sortType === 'best_match') {
+          if (hasResume) {
+            if (jobScore > cardScore || (jobScore === cardScore && jobSalary > cardSalary)) {
+              insertBeforeNode = existingCard;
+              break;
+            }
+          }
+        }
+      }
+
+      if (insertBeforeNode) {
+        jobsGrid.insertBefore(cardNode, insertBeforeNode);
+      } else {
+        jobsGrid.appendChild(cardNode);
+      }
+    }
+
+    // Update sort select tooltip and no-resume notice
+    function updateSortUIState() {
+      const userSkills = getStoredUserSkills();
+      const hasResume = userSkills.length > 0;
+      const sortSelect = document.getElementById('jobSortSelect');
+      const noResumeNotice = document.getElementById('noResumeSortNotice');
+
+      if (sortSelect) {
+        if (sortSelect.value !== activeSort) {
+          sortSelect.value = activeSort;
+        }
+        const bestMatchOpt = sortSelect.querySelector('option[value="best_match"]');
+        if (bestMatchOpt) {
+          if (!hasResume) {
+            bestMatchOpt.title = "Upload your resume to sort by match";
+          } else {
+            bestMatchOpt.title = "Sort by calculated skill match percentage";
+          }
+        }
+      }
+
+      if (noResumeNotice) {
+        if (!hasResume) {
+          noResumeNotice.classList.remove('hidden');
+        } else {
+          noResumeNotice.classList.add('hidden');
+        }
+      }
+    }
+
+    // Instant client-side sort change handler
+    function handleSortChange(sortType) {
+      activeSort = sortType;
+
+      const sortSelect = document.getElementById('jobSortSelect');
+      if (sortSelect && sortSelect.value !== sortType) {
+        sortSelect.value = sortType;
+      }
+
+      // Sort entire filtered jobs list so pagination stays in sync
+      currentFilteredJobs = sortJobsArray(currentFilteredJobs, activeSort);
+
+      const jobsGrid = document.getElementById('jobsGridContainer');
+      if (!jobsGrid) return;
+
+      // Re-order the currently displayed cards in the DOM instantly
+      const displayedJobs = currentFilteredJobs.slice(0, currentOffset);
+      jobsGrid.innerHTML = '';
+
+      displayedJobs.forEach(job => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = buildJobCardHTML(job);
+        const cardNode = tempDiv.firstElementChild;
+        insertJobCardSorted(jobsGrid, cardNode, job, activeSort);
+      });
+
+      updateLoadMoreUI();
+      updateSortUIState();
+    }
+
+    // Metadata dictionary for categories
+    const categoryMeta = {
+      web_dev: {
+        name: "Web Development",
+        icon: "language",
+        affinity: "Full Stack & Frontend",
+        titleText: "Showing jobs matched to your profile: Web Development"
+      },
+      ai_ml: {
+        name: "AI & Machine Learning",
+        icon: "psychology",
+        affinity: "AI & Machine Learning",
+        titleText: "Showing jobs matched to your profile: AI & Machine Learning"
+      },
+      web3: {
+        name: "Web3 & Blockchain",
+        icon: "currency_bitcoin",
+        affinity: "Web3 & Blockchain",
+        titleText: "Showing jobs matched to your profile: Web3 & Blockchain Engineer"
+      },
+      all: {
+        name: "General Mix",
+        icon: "shuffle",
+        affinity: "General Software Engineering",
+        titleText: "We couldn't determine your primary skill category — showing a general mix of jobs"
+      }
+    };
+
+    function buildJobCardHTML(job) {
+      const userSkills = getStoredUserSkills();
+      let matchScore = getJobMatchScore(job);
+      let matchedSkillNames = [];
+
+      if (userSkills.length > 0 && typeof window.calculateSkillMatch === 'function') {
+        const analysis = window.calculateSkillMatch(job, userSkills);
+        if (analysis.hasRequirements) {
+          matchScore = analysis.matchPercentage;
+          matchedSkillNames = analysis.matchedSkills.map(m => m.name.toLowerCase());
+        }
+      }
+
+      const badgeBg = matchScore >= 80 ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300' : (matchScore >= 50 ? 'bg-amber-950/60 border-amber-500/40 text-amber-300' : 'bg-rose-950/60 border-rose-500/40 text-rose-300');
+      const badgeIcon = matchScore >= 80 ? 'arrow_back_ios_new' : (matchScore >= 50 ? 'check_circle' : 'warning');
+      const matchIconStyle = matchScore >= 80 ? `style="font-variation-settings: 'FILL' 1;"` : '';
+
+      // Determine display skills from required_skills or fallback skills
+      const displaySkillsList = job.required_skills ? job.required_skills.slice(0, 4) : (job.skills || []);
+      const remainingCount = job.required_skills ? Math.max(0, job.required_skills.length - 4) : 0;
+
+      const skillsHTML = displaySkillsList.map((s) => {
+        const isMatched = matchedSkillNames.includes(s.toLowerCase());
+        if (isMatched) {
+          return `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-950/50 text-emerald-300 border border-emerald-500/40 font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[12px] text-emerald-400">check</span>${s}</span>`;
+        }
+        return `<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm border border-white/5">${s}</span>`;
+      }).join('') + (remainingCount > 0 ? `<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container text-secondary font-label-sm text-label-sm border border-white/5">+${remainingCount} more</span>` : '');
+
+      const targetDetailUrl = `../skill_gap_force_job_detail_skill_gap/code.html?jobId=${encodeURIComponent(job.id)}`;
+      const upperSal = parseUpperSalary(job.salary);
+
+      const isSaved = (typeof window.isJobSaved === 'function') ? window.isJobSaved(job.id) : false;
+      const saveBtnClass = isSaved 
+        ? 'bookmark-btn p-2.5 rounded-lg border border-teal-500/40 text-teal-300 bg-teal-950/50 hover:bg-teal-900/60 active:scale-[0.98] transition-all cursor-pointer shadow-2xs'
+        : 'bookmark-btn p-2.5 rounded-lg border border-white/10 text-secondary hover:text-teal-300 hover:bg-surface-container active:scale-[0.98] transition-all cursor-pointer';
+      const saveIcon = isSaved
+        ? `<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bookmark</span>`
+        : `<span class="material-symbols-outlined text-[20px]">bookmark_border</span>`;
+      const saveTitle = isSaved ? 'Remove from Saved Jobs' : 'Save Job';
+
+      return `
+        <div class="job-card-item group bg-surface-container-high rounded-xl border border-white/10 p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(13,148,136,0.15)] hover:border-teal-500/40 relative animate-in fade-in duration-300" data-job-id="${job.id}" data-upper-salary="${upperSal}" data-match-score="${matchScore}">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl ${job.bg} flex items-center justify-center font-headline-md font-bold shadow-md">
+                ${job.icon ? `<span class="material-symbols-outlined text-[24px]">${job.icon}</span>` : (job.letter || job.company[0])}
+              </div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${badgeBg} border">
+                <span class="material-symbols-outlined text-[16px]" ${matchIconStyle}>${badgeIcon}</span>
+                <span class="font-mono-metric text-mono-metric font-bold">${matchScore}% Match</span>
+              </div>
+            </div>
+            <h2 onclick="window.location.href='${targetDetailUrl}';" class="font-title-sm text-title-sm font-bold text-on-surface group-hover:text-teal-300 transition-colors cursor-pointer">
+              ${job.title}
+            </h2>
+            <div class="flex flex-wrap items-center gap-y-1 gap-x-2 text-secondary font-body-md text-body-md mt-1.5">
+              <span class="font-semibold text-on-surface">${job.company}</span>
+              <span class="text-white/20">•</span>
+              <span class="inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-[15px]">location_on</span>
+                ${job.location}
+              </span>
+            </div>
+            <div class="flex items-center gap-3 mt-3 pb-4 border-b border-white/10">
+              <span class="font-mono-metric text-mono-metric font-bold text-white">
+                ${job.salary}
+              </span>
+              <span class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm bg-surface-container px-2 py-0.5 rounded border border-white/5">
+                <span class="material-symbols-outlined text-[14px]">schedule</span> ${job.type}
+              </span>
+            </div>
+            <div class="pt-4 mb-6">
+              <p class="font-label-sm text-label-sm text-secondary mb-2">Core Skills &amp; Capabilities</p>
+              <div class="flex flex-wrap gap-1.5">
+                ${skillsHTML}
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="window.location.href='${targetDetailUrl}';" class="flex-1 btn-vibrant-primary text-white font-label-md text-label-md font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-teal-500/20 active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>View Details &amp; Apply</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+            <button type="button" data-job-id="${job.id}" onclick="event.stopPropagation(); handleToggleCardSave(this, '${job.id}');" aria-label="${saveTitle}" class="${saveBtnClass}" title="${saveTitle}">
+              ${saveIcon}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function createSkeletonCardHTML() {
+      return `
+        <div class="skeleton-card bg-surface-container-high rounded-xl border border-white/10 p-6 flex flex-col justify-between min-h-[360px]">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container skeleton-sweep"></div>
+              <div class="w-24 h-6 rounded-full bg-surface-container skeleton-sweep"></div>
+            </div>
+            <div class="w-3/4 h-6 rounded bg-surface-container mb-3 skeleton-sweep"></div>
+            <div class="w-1/2 h-4 rounded bg-surface-container mb-4 skeleton-sweep"></div>
+            <div class="w-2/3 h-4 rounded bg-surface-container mb-6 skeleton-sweep"></div>
+            <div class="flex gap-2 mb-4">
+              <div class="w-20 h-6 rounded-full bg-surface-container skeleton-sweep"></div>
+              <div class="w-20 h-6 rounded-full bg-surface-container skeleton-sweep"></div>
+              <div class="w-20 h-6 rounded-full bg-surface-container skeleton-sweep"></div>
+            </div>
+          </div>
+          <div class="w-full h-10 rounded-lg bg-surface-container mt-4 skeleton-sweep"></div>
+        </div>
+      `;
+    }
+
+    // Render the Step 5 Indicator Banner
+    function renderCategoryBanner(categoryKey, count) {
+      const banner = document.getElementById('categoryMatchedBanner');
+      if (!banner) return;
+
+      const meta = categoryMeta[categoryKey] || categoryMeta.all;
+      const isFallback = (categoryKey === 'all' || !categoryKey);
+
+      let bannerHTML = '';
+      if (!isFallback) {
+        bannerHTML = `
+          <div class="p-4 sm:p-5 rounded-2xl bg-surface-container-high border border-teal-500/30 shadow-[0_4px_24px_rgba(13,148,136,0.12)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 animate-in fade-in duration-300">
+            <div class="flex items-center gap-3.5">
+              <div class="w-11 h-11 rounded-xl bg-teal-950/60 border border-teal-500/30 flex items-center justify-center text-teal-300 flex-shrink-0">
+                <span class="material-symbols-outlined text-[24px]">${meta.icon}</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="inline-flex items-center gap-1 font-label-sm text-[11px] font-bold px-2 py-0.5 rounded-full bg-teal-950/60 text-teal-300 border border-teal-500/30">
+                    <span class="material-symbols-outlined text-[13px]">verified</span> Profile Matched
+                  </span>
+                  <h2 class="font-title-sm text-title-sm font-bold text-on-surface">
+                    Showing jobs matched to your profile: <span class="text-teal-300">${meta.name}</span>
+                  </h2>
+                </div>
+                <p class="font-body-md text-xs text-secondary mt-0.5">
+                  Strictly filtered based on keywords matched from your uploaded resume.
+                </p>
+              </div>
+            </div>
+            <!-- Interactive Category Filter Chips for testing -->
+            <div class="flex items-center gap-1.5 p-1 bg-surface-container-lowest rounded-xl border border-white/10 flex-shrink-0 text-xs self-stretch sm:self-auto overflow-x-auto">
+              <button onclick="setCategoryFilter('all');" id="catBtn-all" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold ${categoryKey === 'all' ? 'btn-vibrant-primary text-white shadow-xs' : 'text-secondary hover:text-white'} transition-all">All (27)</button>
+              <button onclick="setCategoryFilter('web_dev');" id="catBtn-web_dev" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold ${categoryKey === 'web_dev' ? 'btn-vibrant-primary text-white shadow-xs' : 'text-secondary hover:text-white'} transition-all">Web Dev (9)</button>
+              <button onclick="setCategoryFilter('ai_ml');" id="catBtn-ai_ml" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold ${categoryKey === 'ai_ml' ? 'btn-vibrant-primary text-white shadow-xs' : 'text-secondary hover:text-white'} transition-all">AI / ML (9)</button>
+              <button onclick="setCategoryFilter('web3');" id="catBtn-web3" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold ${categoryKey === 'web3' ? 'btn-vibrant-primary text-white shadow-xs' : 'text-secondary hover:text-white'} transition-all">Web3 (9)</button>
+            </div>
+          </div>
+        `;
+      } else {
+        // Edge Case: 0 skills matched any category fallback message
+        bannerHTML = `
+          <div class="p-4 sm:p-5 rounded-2xl bg-surface-container-high border border-white/10 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 animate-in fade-in duration-300">
+            <div class="flex items-center gap-3.5">
+              <div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-secondary flex-shrink-0">
+                <span class="material-symbols-outlined text-[24px]">info</span>
+              </div>
+              <div>
+                <h2 class="font-title-sm text-title-sm font-bold text-on-surface">
+                  We couldn't determine your primary skill category — showing a general mix of jobs
+                </h2>
+                <p class="font-body-md text-xs text-secondary mt-0.5">
+                  Displaying top available positions across Web Development, AI/ML, and Web3 as a fallback.
+                </p>
+              </div>
+            </div>
+            <!-- Category Switcher Buttons -->
+            <div class="flex items-center gap-1.5 p-1 bg-surface-container-lowest rounded-xl border border-white/10 flex-shrink-0 text-xs self-stretch sm:self-auto overflow-x-auto">
+              <button onclick="setCategoryFilter('all');" id="catBtn-all" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold btn-vibrant-primary text-white shadow-xs transition-all">All (27)</button>
+              <button onclick="setCategoryFilter('web_dev');" id="catBtn-web_dev" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold text-secondary hover:text-white transition-all">Web Dev (9)</button>
+              <button onclick="setCategoryFilter('ai_ml');" id="catBtn-ai_ml" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold text-secondary hover:text-white transition-all">AI / ML (9)</button>
+              <button onclick="setCategoryFilter('web3');" id="catBtn-web3" class="category-filter-btn px-2.5 py-1 rounded-lg font-label-md font-semibold text-secondary hover:text-white transition-all">Web3 (9)</button>
+            </div>
+          </div>
+        `;
+      }
+
+      banner.innerHTML = bannerHTML;
+
+      // Update Hero Title & Badges
+      const matchBadge = document.getElementById('matchCountBadge');
+      const targetRoleEl = document.getElementById('targetRoleText');
+      if (matchBadge) matchBadge.textContent = `${count} High-Match Jobs Found`;
+      if (targetRoleEl) targetRoleEl.textContent = meta.affinity;
+    }
+
+    // Step 4: Filter job recommendations strictly
+    function setCategoryFilter(category) {
+      activeCategory = category || 'all';
+
+      if (activeCategory === 'web_dev' || activeCategory === 'ai_ml' || activeCategory === 'web3') {
+        // Strict filtering: jobs belonging to other categories are NOT included
+        currentFilteredJobs = allJobsDataset.filter(job => job.category === activeCategory);
+      } else {
+        // Fallback: general mix across all categories
+        currentFilteredJobs = [...allJobsDataset];
+      }
+
+      // Preserve active sort order across category switches
+      currentFilteredJobs = sortJobsArray(currentFilteredJobs, activeSort);
+
+      currentOffset = 0;
+      const jobsGrid = document.getElementById('jobsGridContainer');
+      if (!jobsGrid) return;
+
+      jobsGrid.innerHTML = '';
+
+      // Render first batch (up to batchSize)
+      const firstBatch = currentFilteredJobs.slice(0, batchSize);
+      currentOffset = firstBatch.length;
+
+      firstBatch.forEach(job => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = buildJobCardHTML(job);
+        const cardNode = tempDiv.firstElementChild;
+        insertJobCardSorted(jobsGrid, cardNode, job, activeSort);
+      });
+
+      // Render Step 5 Indicator Banner
+      renderCategoryBanner(activeCategory, currentFilteredJobs.length);
+
+      // Update Load More Section & Sort Bar
+      updateLoadMoreUI();
+      updateSortUIState();
+    }
+
+    function updateLoadMoreUI() {
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      const loadMoreText = document.getElementById('loadMoreText');
+      const loadMoreIcon = document.getElementById('loadMoreIcon');
+      const summaryText = document.getElementById('jobsSummaryText');
+      const loadMoreSection = document.getElementById('loadMoreSection');
+      const sortJobsCount = document.getElementById('sortJobsCount');
+      const sortTotalCount = document.getElementById('sortTotalCount');
+
+      const total = currentFilteredJobs.length;
+      const displayed = Math.min(currentOffset, total);
+      const remaining = total - displayed;
+
+      if (summaryText) {
+        summaryText.textContent = `Showing ${displayed} of ${total} matched positions`;
+      }
+      if (sortJobsCount) {
+        sortJobsCount.textContent = `${displayed}`;
+      }
+      if (sortTotalCount) {
+        sortTotalCount.textContent = `${total}`;
+      }
+
+      if (!loadMoreBtn || !loadMoreSection) return;
+
+      if (remaining <= 0) {
+        loadMoreBtn.classList.add('hidden');
+      } else {
+        loadMoreBtn.classList.remove('hidden', 'opacity-80', 'cursor-wait');
+        loadMoreBtn.disabled = false;
+        if (loadMoreIcon) {
+          loadMoreIcon.textContent = 'expand_circle_down';
+          loadMoreIcon.classList.remove('animate-spin');
+        }
+        if (loadMoreText) {
+          loadMoreText.textContent = `Load More Jobs (${remaining} remaining)`;
+        }
+      }
+    }
+
+    function handleLoadMoreJobs() {
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      const loadMoreIcon = document.getElementById('loadMoreIcon');
+      const loadMoreText = document.getElementById('loadMoreText');
+      const jobsGrid = document.getElementById('jobsGridContainer');
+
+      if (!loadMoreBtn || !jobsGrid) return;
+
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.classList.add('opacity-80', 'cursor-wait');
+      if (loadMoreIcon) {
+        loadMoreIcon.textContent = 'progress_activity';
+        loadMoreIcon.classList.add('animate-spin');
+      }
+      if (loadMoreText) {
+        loadMoreText.textContent = 'Loading More Jobs...';
+      }
+
+      const tempSkeletons = [];
+      const numToLoad = Math.min(batchSize, currentFilteredJobs.length - currentOffset);
+
+      for (let i = 0; i < Math.min(3, numToLoad); i++) {
+        const skeletonDiv = document.createElement('div');
+        skeletonDiv.innerHTML = createSkeletonCardHTML();
+        const skeletonNode = skeletonDiv.firstElementChild;
+        jobsGrid.appendChild(skeletonNode);
+        tempSkeletons.push(skeletonNode);
+      }
+
+      setTimeout(() => {
+        tempSkeletons.forEach(s => s.remove());
+
+        const nextBatch = currentFilteredJobs.slice(currentOffset, currentOffset + batchSize);
+        currentOffset += nextBatch.length;
+
+        let firstNewNode = null;
+        nextBatch.forEach((job, idx) => {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = buildJobCardHTML(job);
+          const cardNode = tempDiv.firstElementChild;
+          insertJobCardSorted(jobsGrid, cardNode, job, activeSort);
+          if (idx === 0) firstNewNode = cardNode;
+        });
+
+        if (firstNewNode) {
+          firstNewNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        updateLoadMoreUI();
+        updateSortUIState();
+      }, 500);
+    }
+
+    // Initialize Page based on user's classified category from localStorage or URL parameter
+    function initJobRecommendations() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlCategory = urlParams.get('category');
+      const storedWinningCategory = localStorage.getItem('userWinningCategory');
+
+      // Priority: URL parameter (for easy testing/debugging) > localStorage winning category > fallback
+      let initialCategory = 'all';
+      if (urlCategory && ['web_dev', 'ai_ml', 'web3', 'all'].includes(urlCategory)) {
+        initialCategory = urlCategory;
+      } else if (storedWinningCategory && ['web_dev', 'ai_ml', 'web3'].includes(storedWinningCategory)) {
+        initialCategory = storedWinningCategory;
+      } else {
+        // Edge case: No winning category or 0 matches
+        initialCategory = 'all';
+      }
+
+      setCategoryFilter(initialCategory);
+      updateSortUIState();
+    }
+
+    // Initialize user profile display from localStorage
+    function initUserProfile() {
+      const storedName = localStorage.getItem('userFullName') || 'Guest';
+      const storedPhoto = localStorage.getItem('userProfilePhoto');
+      const userProfileName = document.getElementById('userProfileName');
+      const dropdownUserName = document.getElementById('dropdownUserName');
+      if (userProfileName) userProfileName.textContent = storedName;
+      if (dropdownUserName) dropdownUserName.textContent = storedName;
+
+      const avatarContainer = document.getElementById('userAvatarContainer') || (document.getElementById('userProfileBtn') && document.getElementById('userProfileBtn').querySelector('div'));
+      if (avatarContainer) {
+        if (storedPhoto) {
+          avatarContainer.innerHTML = `<img src="${storedPhoto}" alt="User Avatar" class="w-full h-full object-cover rounded-full">`;
+          avatarContainer.classList.add('overflow-hidden', 'p-0');
+          avatarContainer.classList.remove('bg-primary/10', 'text-primary');
+        } else {
+          avatarContainer.innerHTML = `<span class="material-symbols-outlined text-[20px]">person</span>`;
+          avatarContainer.classList.add('bg-primary/10', 'text-primary');
+        }
+      }
+
+      const userProfileBtn = document.getElementById('userProfileBtn');
+      const userProfileDropdown = document.getElementById('userProfileDropdown');
+      if (userProfileBtn && userProfileDropdown) {
+        userProfileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isHidden = userProfileDropdown.classList.contains('hidden');
+          if (isHidden) {
+            userProfileDropdown.classList.remove('hidden');
+            setTimeout(() => {
+              userProfileDropdown.classList.remove('opacity-0');
+              userProfileDropdown.classList.add('opacity-100');
+            }, 10);
+            userProfileBtn.setAttribute('aria-expanded', 'true');
+          } else {
+            userProfileDropdown.classList.add('opacity-0');
+            userProfileDropdown.classList.remove('opacity-100');
+            setTimeout(() => {
+              userProfileDropdown.classList.add('hidden');
+            }, 150);
+            userProfileBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!userProfileDropdown.contains(e.target) && !userProfileBtn.contains(e.target)) {
+            userProfileDropdown.classList.add('opacity-0');
+            userProfileDropdown.classList.remove('opacity-100');
+            setTimeout(() => {
+              userProfileDropdown.classList.add('hidden');
+            }, 150);
+            userProfileBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    }
+
+    // Saved Jobs UI Synchronization
+    function updateBookmarkButtonUI(btn, isSaved) {
+      if (!btn) return;
+      if (isSaved) {
+        btn.className = 'bookmark-btn p-2.5 rounded-lg border border-teal-500/40 text-teal-300 bg-teal-950/50 hover:bg-teal-900/60 active:scale-[0.98] transition-all cursor-pointer shadow-2xs';
+        btn.setAttribute('aria-label', 'Remove from Saved Jobs');
+        btn.setAttribute('title', 'Remove from Saved Jobs');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bookmark</span>`;
+      } else {
+        btn.className = 'bookmark-btn p-2.5 rounded-lg border border-white/10 text-secondary hover:text-teal-300 hover:bg-surface-container active:scale-[0.98] transition-all cursor-pointer';
+        btn.setAttribute('aria-label', 'Save Job');
+        btn.setAttribute('title', 'Save Job');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">bookmark_border</span>`;
+      }
+    }
+
+    function updateSavedJobsHeaderBadge(count) {
+      const badge = document.getElementById('savedJobsBellBadge');
+      if (!badge) return;
+      const total = (typeof count === 'number') 
+        ? count 
+        : ((typeof window.getStoredSavedJobIds === 'function') ? window.getStoredSavedJobIds().length : 0);
+      
+      if (total > 0) {
+        badge.textContent = total;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    async function handleToggleCardSave(buttonEl, jobId) {
+      if (!jobId) return;
+      const isCurrentlySaved = (typeof window.isJobSaved === 'function') ? window.isJobSaved(jobId) : false;
+      const nextSavedState = !isCurrentlySaved;
+
+      // 1. Optimistic UI update on the clicked button and any identical cards
+      updateBookmarkButtonUI(buttonEl, nextSavedState);
+      document.querySelectorAll(`.bookmark-btn[data-job-id="${jobId}"]`).forEach(btn => {
+        if (btn !== buttonEl) updateBookmarkButtonUI(btn, nextSavedState);
+      });
+
+      // 2. Optimistic Header Badge count update
+      const currentStoredIds = (typeof window.getStoredSavedJobIds === 'function') ? window.getStoredSavedJobIds() : [];
+      let optimisticCount = currentStoredIds.length;
+      if (nextSavedState && !currentStoredIds.includes(jobId)) {
+        optimisticCount++;
+      } else if (!nextSavedState && currentStoredIds.includes(jobId)) {
+        optimisticCount = Math.max(0, optimisticCount - 1);
+      }
+      updateSavedJobsHeaderBadge(optimisticCount);
+
+      // 3. Trigger Supabase DB operation with automatic rollback
+      if (typeof window.toggleSaveJob === 'function') {
+        try {
+          const res = await window.toggleSaveJob(jobId);
+          if (!res || !res.success) {
+            // Roll back UI
+            updateBookmarkButtonUI(buttonEl, isCurrentlySaved);
+            document.querySelectorAll(`.bookmark-btn[data-job-id="${jobId}"]`).forEach(btn => {
+              if (btn !== buttonEl) updateBookmarkButtonUI(btn, isCurrentlySaved);
+            });
+            updateSavedJobsHeaderBadge(currentStoredIds.length);
+
+            const msg = nextSavedState ? 'Failed to save job. Please try again.' : 'Failed to unsave job. Please try again.';
+            if (typeof window.showAppToast === 'function') {
+              window.showAppToast(msg, 'error');
+            } else {
+              alert(msg);
+            }
+          }
+        } catch (err) {
+          // Roll back UI
+          updateBookmarkButtonUI(buttonEl, isCurrentlySaved);
+          document.querySelectorAll(`.bookmark-btn[data-job-id="${jobId}"]`).forEach(btn => {
+            if (btn !== buttonEl) updateBookmarkButtonUI(btn, isCurrentlySaved);
+          });
+          updateSavedJobsHeaderBadge(currentStoredIds.length);
+
+          const msg = nextSavedState ? 'Failed to save job. Please try again.' : 'Failed to unsave job. Please try again.';
+          if (typeof window.showAppToast === 'function') {
+            window.showAppToast(msg, 'error');
+          }
+        }
+      }
+    }
+    window.handleToggleCardSave = handleToggleCardSave;
+
+    async function initSavedJobsState() {
+      // Immediate render from localStorage
+      updateSavedJobsHeaderBadge();
+
+      // Background fetch from Supabase to ensure fresh synchronization
+      if (typeof window.fetchSavedJobIds === 'function') {
+        try {
+          const res = await window.fetchSavedJobIds();
+          if (res && res.success) {
+            updateSavedJobsHeaderBadge(res.jobIds.length);
+            document.querySelectorAll('.bookmark-btn[data-job-id]').forEach(btn => {
+              const jId = btn.getAttribute('data-job-id');
+              if (jId) updateBookmarkButtonUI(btn, res.jobIds.includes(jId));
+            });
+          }
+        } catch (e) {
+          console.warn('fetchSavedJobIds background sync error:', e);
+        }
+      }
+    }
+
+    // Listen for saved jobs updates across the app
+    window.addEventListener('savedJobsUpdated', (e) => {
+      const jobIds = (e.detail && Array.isArray(e.detail.jobIds)) 
+        ? e.detail.jobIds 
+        : ((typeof window.getStoredSavedJobIds === 'function') ? window.getStoredSavedJobIds() : []);
+      updateSavedJobsHeaderBadge(jobIds.length);
+      document.querySelectorAll('.bookmark-btn[data-job-id]').forEach(btn => {
+        const jId = btn.getAttribute('data-job-id');
+        if (jId) updateBookmarkButtonUI(btn, jobIds.includes(jId));
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initJobRecommendations();
+      initUserProfile();
+      initSavedJobsState();
+    });
+</script>
+</body></html>

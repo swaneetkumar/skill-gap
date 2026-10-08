@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="color-scheme: dark;">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="theme-color" content="#0B1020"/>
+  <meta name="color-scheme" content="dark"/>
+  <script>
+    // Route protection guard: redirect to login if unauthenticated or logged out
+    (function() {
+      function enforceAuth() {
+        if (!localStorage.getItem('supabase_user_id') || !localStorage.getItem('supabase_session')) {
+          window.location.replace('../skill_gap_force_login/code.html');
+        }
+      }
+      enforceAuth();
+      window.addEventListener('pageshow', function(e) {
+        enforceAuth();
+      });
+    })();
+  </script>
+  <title>Skill Gap Force - Upload Resume &amp; Select Skills</title>
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS v3 with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <!-- Tailwind Configuration via Injected Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#0B1020",
+            "surface": "#131A2E",
+            "surface-container-lowest": "#131A2E",
+            "surface-container-low": "#0E1526",
+            "surface-container": "#1A2340",
+            "surface-container-high": "#1A2340",
+            "surface-container-highest": "#242F55",
+            "surface-dim": "#0E1526",
+            "surface-bright": "#242F55",
+            "on-surface": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "inverse-surface": "#F1F5F9",
+            "inverse-on-surface": "#0B1020",
+            "outline": "#64748B",
+            "outline-variant": "rgba(255, 255, 255, 0.08)",
+            "primary": "#14B8A6",
+            "primary-container": "#0D9488",
+            "on-primary": "#FFFFFF",
+            "on-primary-container": "#F4FFFC",
+            "primary-fixed": "#2DD4BF",
+            "primary-fixed-dim": "#14B8A6",
+            "secondary": "#94A3B8",
+            "secondary-container": "#1E293B",
+            "on-secondary": "#FFFFFF",
+            "on-secondary-container": "#CBD5E1",
+            "tertiary": "#38BDF8",
+            "tertiary-container": "#0284C7",
+            "on-tertiary": "#FFFFFF",
+            "error": "#F43F5E",
+            "error-container": "rgba(244, 63, 94, 0.15)",
+            "on-error": "#FFFFFF",
+            "on-error-container": "#FDA4AF"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "margin": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "display-hero": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "mono-metric": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "display-hero-mobile": ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-0.025em", fontWeight: "800" }],
+            "body-md": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0", fontWeight: "400" }],
+            "label-md": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0.01em", fontWeight: "500" }],
+            "display-hero": ["3.5rem", { lineHeight: "4rem", letterSpacing: "-0.03em", fontWeight: "800" }],
+            "body-lg": ["1rem", { lineHeight: "1.5rem", letterSpacing: "0", fontWeight: "400" }],
+            "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "label-sm": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.02em", fontWeight: "600" }],
+            "mono-metric": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-lg": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "title-sm": ["1.125rem", { lineHeight: "1.5rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-md": ["1.25rem", { lineHeight: "1.75rem", letterSpacing: "-0.01em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+  <!-- Supabase Client Library & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+  <!-- Global Theme CSS -->
+  <link rel="stylesheet" href="../theme.css"/>
+</head>
+
+<body
+  class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md relative selection:bg-primary selection:text-white">
+  <!-- Ambient Blurred Gradient Blobs -->
+  <div class="bg-ambient-blobs">
+    <div class="blob-indigo"></div>
+    <div class="blob-teal"></div>
+    <div class="blob-violet"></div>
+  </div>
+
+  <!-- Shared Component: TopNavBar -->
+  <header class="dark-glass-header sticky top-0 z-40">
+    <div class="flex justify-between items-center w-full px-6 md:px-12 h-16 max-w-7xl mx-auto">
+      <!-- Brand Logo Anchor -->
+      <a href="../skill_gap_force_job_recommendations/code.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
+          <span class="material-symbols-outlined text-[20px]"
+            style="font-variation-settings: &quot;FILL&quot; 1;">bolt</span>
+        </div>
+        <span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Skill Gap <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400">Force</span></span>
+      </a>
+    </div>
+  </header>
+  <!-- Page Content Container -->
+  <main class="flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-10 flex flex-col items-center relative z-10">
+    <!-- Page Title Header -->
+    <div class="text-center max-w-2xl mb-8">
+      <div
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-primary border border-outline-variant font-label-sm text-label-sm mb-3">
+        <span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+        AI-Powered Skill Analysis
+      </div>
+      <h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mb-2">
+        Upload Your Resume &amp; Select Your Skills
+      </h1>
+      <p class="font-body-lg text-body-lg text-secondary">
+        This helps us recommend the best job matches for you
+      </p>
+    </div>
+    <!-- Main Card Container: 1150px Wide, Modern Elevation -->
+    <div
+      class="w-full max-w-[1150px] bg-surface rounded-3xl border border-outline-variant shadow-2xl p-6 md:p-10 mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        <!-- Left Column: Resume Upload (5 Cols) -->
+        <section class="lg:col-span-5 flex flex-col">
+          <div class="mb-4">
+            <h2 class="font-title-sm text-title-sm text-on-surface font-bold flex items-center gap-2">
+              <span
+                class="w-6 h-6 rounded-md bg-surface-container-high text-primary font-mono-metric text-[12px] flex items-center justify-center font-bold">1</span>
+              Resume or CV
+            </h2>
+            <p class="font-body-md text-body-md text-secondary mt-0.5">
+              Upload to automatically extract skills &amp; experience
+            </p>
+          </div>
+          <!-- Drag and Drop Dropzone -->
+          <div
+            class="relative group border-2 border-dashed border-teal-500/50 rounded-2xl p-6 sm:p-8 bg-surface-dim text-center hover:border-primary hover:bg-surface-elevated transition-all duration-200 flex flex-col items-center justify-center min-h-[220px] cursor-pointer shadow-[inset_0_0_24px_rgba(20,184,166,0.06)]"
+            id="dropzone">
+            <input accept=".pdf,.doc,.docx" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20"
+              id="resumeFileInput" type="file">
+
+            <!-- Empty State View -->
+            <div id="dropzoneEmptyState" class="flex flex-col items-center justify-center pointer-events-none">
+              <div
+                class="w-14 h-14 rounded-full bg-surface-container border border-primary/20 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary/20 transition-transform duration-200 mb-3 shadow-sm">
+                <span class="material-symbols-outlined text-[30px] text-primary">cloud_upload</span>
+              </div>
+              <p class="font-label-md text-label-md text-on-surface font-semibold mb-1">
+                Drag &amp; drop your resume here, or <span id="browseClickSpan"
+                  class="text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-light pointer-events-auto cursor-pointer">click to browse</span>
+              </p>
+              <p class="font-label-sm text-label-sm text-secondary">
+                Supports PDF, DOC, DOCX (Max 5MB)
+              </p>
+              <div
+                class="mt-4 flex items-center gap-1.5 text-[11px] text-secondary font-label-sm bg-surface-container px-3 py-1.5 rounded-full border border-outline-variant shadow-xs">
+                <span class="material-symbols-outlined text-[15px] text-primary">verified_user</span>
+                <span>Encrypted &amp; Private ATS Parser</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- File Selected State Card (Shown when file is selected) -->
+          <div id="dropzoneFileSelectedState"
+            class="hidden mt-4 w-full p-4 bg-surface-container border border-outline-variant rounded-xl items-center justify-between shadow-sm animate-in fade-in duration-200">
+            <div class="flex items-center gap-3 min-w-0">
+              <div
+                class="w-10 h-10 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-500/30 flex items-center justify-center flex-shrink-0">
+                <span id="selectedFileIcon"
+                  class="material-symbols-outlined text-[22px] text-rose-400">picture_as_pdf</span>
+              </div>
+              <div class="min-w-0 text-left">
+                <div class="flex items-center gap-1.5">
+                  <p id="selectedFileName"
+                    class="font-label-md text-label-md font-semibold text-on-surface truncate max-w-[180px] sm:max-w-[240px]">
+                    resume.pdf
+                  </p>
+                  <span class="material-symbols-outlined text-emerald-400 text-[18px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+                </div>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span id="selectedFileSize" class="font-label-sm text-label-sm text-secondary">2.4 MB</span>
+                  <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                  <span id="selectedFileStatus" class="font-label-sm text-label-sm text-emerald-400 font-medium">Uploaded successfully</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="removeUploadedFile(event);"
+              class="text-secondary hover:text-rose-400 hover:bg-rose-950/40 p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
+              title="Remove file" type="button">
+              <span class="material-symbols-outlined text-[20px]">delete</span>
+            </button>
+          </div>
+          <!-- Inline Upload Error Message Container -->
+          <div id="uploadErrorContainer"></div>
+        </section>
+        <!-- Right Column: Skills Selection (7 Cols) -->
+        <section class="lg:col-span-7 flex flex-col">
+          <div class="mb-4">
+            <h2 class="font-title-sm text-title-sm text-on-surface font-bold flex items-center gap-2">
+              <span
+                class="w-6 h-6 rounded-md bg-surface-container-high text-primary font-mono-metric text-[12px] flex items-center justify-center font-bold">2</span>
+              Core Competencies
+            </h2>
+            <p class="font-body-md text-body-md text-secondary mt-0.5">
+              Add key skills to tailor match algorithms
+            </p>
+          </div>
+          <!-- Search Input Box -->
+          <div class="relative mb-5">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+              <span class="material-symbols-outlined text-[20px]">search</span>
+            </div>
+            <input
+              class="w-full pl-10 pr-24 py-2.5 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-on-surface placeholder:text-secondary/70 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-body-md transition-all duration-150"
+              id="skillSearchInput" placeholder="Search and add your skills (e.g. Docker, GraphQL)..." type="text">
+            <button id="addSkillManualBtn"
+              class="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-md transition-colors">
+              Add
+            </button>
+          </div>
+          <!-- Resume Skill Extraction Notice Container -->
+          <div id="skillExtractionNotice" class="mb-4 hidden"></div>
+          <!-- Selected Skills Section with Counter -->
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="font-label-md text-label-md font-semibold text-on-surface">Selected Skills</span>
+                <span
+                  class="font-mono-metric text-[12px] bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-full font-bold"
+                  id="skillBadgeCount">5</span>
+              </div>
+              <button class="text-secondary hover:text-on-surface font-label-sm text-label-sm transition-colors"
+                id="clearAllSkills">
+                Clear all
+              </button>
+            </div>
+            <!-- Removable Chips Container -->
+            <div
+              class="flex flex-wrap gap-2 min-h-[44px] p-2.5 bg-surface-bright border border-outline-variant/30 rounded-xl"
+              id="selectedSkillsContainer">
+              <!-- Tag: React.js -->
+              <span
+                class="skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs">
+                React.js
+                <button
+                  class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+              <!-- Tag: TypeScript -->
+              <span
+                class="skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs">
+                TypeScript
+                <button
+                  class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+              <!-- Tag: Tailwind CSS -->
+              <span
+                class="skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs">
+                Tailwind CSS
+                <button
+                  class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+              <!-- Tag: UI/UX Design -->
+              <span
+                class="skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs">
+                UI/UX Design
+                <button
+                  class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+              <!-- Tag: Node.js -->
+              <span
+                class="skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs">
+                Node.js
+                <button
+                  class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  type="button">
+                  <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+            </div>
+          </div>
+          <!-- Suggested Popular Skills Row -->
+          <div class="mb-5">
+            <span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider block mb-2">
+              Suggested popular skills
+            </span>
+            <div class="flex flex-wrap gap-2" id="suggestedSkillsContainer">
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                JavaScript
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Python
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Excel
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Communication
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Project Management
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Data Analysis
+              </button>
+              <button
+                class="suggest-chip inline-flex items-center gap-1 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm border border-outline-variant/40 hover:border-primary hover:text-primary hover:bg-surface-container transition-all"
+                type="button">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                Figma
+              </button>
+            </div>
+          </div>
+          <!-- Informative Tip Badge -->
+          <div class="mt-auto bg-surface-container-low border border-primary/20 rounded-xl p-3 flex items-start gap-3">
+            <span class="text-primary text-[20px] select-none mt-0.5">💡</span>
+            <div>
+              <p class="font-label-md text-label-md text-on-surface font-semibold">Match Booster Tip</p>
+              <p class="font-body-md text-body-md text-secondary">
+                Candidates with 5+ skills receive <strong class="text-primary font-semibold">3x more tailored job
+                  recommendations</strong> and higher algorithmic visibility.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Card Inner Footer: Privacy & Encrypted Badge -->
+      <div
+        class="mt-8 pt-6 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-secondary font-label-sm text-label-sm">
+        <div class="flex items-center gap-2 text-center sm:text-left">
+          <span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+          <span class="">Your data is securely encrypted and only shared with prospective employers with your
+            consent.</span>
+        </div>
+        <div class="flex items-center gap-3">
+
+          <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Shared Component: BottomNavBar (Action Dock) -->
+  <footer
+    class="fixed bottom-0 left-0 w-full z-50 dark-glass-dock shadow-xl">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-3.5 flex justify-between items-center">
+      <!-- Back action -->
+      <button
+        class="text-secondary font-label-md text-label-md px-5 py-2.5 rounded-lg border border-outline-variant hover:bg-surface-container active:scale-[0.98] transition-all flex items-center gap-2 cursor-pointer"
+        onclick="window.location.href='../skill_gap_force_create_your_account/code.html';" type="button">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        Back
+      </button>
+      <!-- Step Status / Helper on desktop view -->
+      <div class="hidden sm:flex items-center gap-2 text-secondary font-label-sm text-label-sm">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        Ready to calibrate role weights and salary expectations
+      </div>
+      <!-- Continue Action -->
+      <button id="continueBtn" disabled
+        class="bg-primary text-on-primary font-label-md text-label-md rounded-lg px-6 py-2.5 shadow transition-all flex items-center gap-2 font-semibold opacity-50 cursor-not-allowed"
+        onclick="handleContinueClick();" type="button">
+        Continue to Match Preferences
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </button>
+    </div>
+  </footer>
+  <!-- Interactive JavaScript for Skills & Dropzone Micro-Interactions -->
+  <script>
+    // Local component state to store selected File object
+    let selectedResumeFile = null;
+    let hasUserManuallyEditedSkills = false;
+
+    // Helper: update Continue button state based on validation rules
+    function updateContinueButtonState() {
+      const continueBtn = document.getElementById('continueBtn');
+      const selectedContainer = document.getElementById('selectedSkillsContainer');
+      const skillsCount = selectedContainer ? selectedContainer.querySelectorAll('.skill-chip-item').length : 0;
+
+      const isResumeValid = selectedResumeFile !== null;
+      const hasSkills = skillsCount > 0;
+
+      if (continueBtn) {
+        if (isResumeValid && hasSkills) {
+          continueBtn.disabled = false;
+          continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          continueBtn.classList.add('hover:bg-primary-container', 'active:scale-[0.98]', 'cursor-pointer', 'btn-vibrant-primary');
+        } else {
+          continueBtn.disabled = true;
+          continueBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          continueBtn.classList.remove('hover:bg-primary-container', 'active:scale-[0.98]', 'cursor-pointer', 'btn-vibrant-primary');
+        }
+      }
+    }
+
+    // Display inline upload errors
+    function showUploadError(msg) {
+      const errorContainer = document.getElementById('uploadErrorContainer');
+      if (errorContainer) {
+        errorContainer.innerHTML = `
+          <div class="mt-3 p-3 bg-rose-950/40 border border-rose-500/30 rounded-xl flex items-center gap-2.5 text-rose-300 text-xs font-label-md animate-in fade-in duration-200">
+            <span class="material-symbols-outlined text-[18px] text-rose-400 flex-shrink-0">error</span>
+            <span>${msg}</span>
+          </div>
+        `;
+      }
+    }
+
+    // Clear inline upload errors
+    function clearUploadError() {
+      const errorContainer = document.getElementById('uploadErrorContainer');
+      if (errorContainer) errorContainer.innerHTML = '';
+    }
+
+    // Helper for Extraction Status Notice Banner
+    function showExtractionNotice(type, customText) {
+      const notice = document.getElementById('skillExtractionNotice');
+      if (!notice) return;
+      notice.classList.remove('hidden');
+
+      if (type === 'loading') {
+        notice.innerHTML = `
+          <div class="p-3 bg-surface-container border border-primary/20 rounded-xl flex items-center gap-3 animate-pulse">
+            <svg class="animate-spin h-4 w-4 text-primary shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <div class="min-w-0">
+              <p class="font-label-md text-xs font-semibold text-primary">Analyzing your resume...</p>
+              <p class="font-body-md text-[11px] text-secondary">Matching keywords against ATS core competencies</p>
+            </div>
+          </div>
+        `;
+      } else if (type === 'success') {
+        notice.innerHTML = `
+          <div class="p-3 bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 rounded-xl flex items-center justify-between gap-3 animate-in fade-in">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-[18px] text-emerald-400 shrink-0">check_circle</span>
+              <span class="font-label-md text-xs">${customText || 'Skills auto-detected successfully!'}</span>
+            </div>
+            <button type="button" onclick="document.getElementById('skillExtractionNotice').classList.add('hidden');" class="text-emerald-400 hover:text-emerald-200 p-1 rounded transition-colors" title="Dismiss">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        `;
+      } else if (type === 'empty') {
+        notice.innerHTML = `
+          <div class="p-3 bg-amber-950/40 border border-amber-500/30 text-amber-300 rounded-xl flex items-center justify-between gap-3 animate-in fade-in">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-[18px] text-amber-400 shrink-0">info</span>
+              <span class="font-label-md text-xs font-medium">Couldn't auto-detect skills from your resume — please add them manually</span>
+            </div>
+            <button type="button" onclick="document.getElementById('skillExtractionNotice').classList.add('hidden');" class="text-amber-400 hover:text-amber-200 p-1 rounded transition-colors" title="Dismiss">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        `;
+      } else if (type === 'error' || type === 'offline') {
+        notice.innerHTML = `
+          <div class="p-3 bg-rose-950/40 border border-rose-500/30 text-rose-300 rounded-xl flex items-center justify-between gap-3 animate-in fade-in">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-[18px] text-rose-400 shrink-0">error</span>
+              <span class="font-label-md text-xs font-medium">${customText || "Couldn't connect to skill extraction backend (http://localhost:5000) — please run backend server or add skills manually"}</span>
+            </div>
+            <button type="button" onclick="document.getElementById('skillExtractionNotice').classList.add('hidden');" class="text-rose-400 hover:text-rose-200 p-1 rounded transition-colors" title="Dismiss">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function hideExtractionNotice() {
+      const notice = document.getElementById('skillExtractionNotice');
+      if (notice) notice.classList.add('hidden');
+    }
+
+    // Render file selected state card below dropzone
+    function renderFileSelectedState(file) {
+      const selectedState = document.getElementById('dropzoneFileSelectedState');
+      const fileNameEl = document.getElementById('selectedFileName');
+      const fileSizeEl = document.getElementById('selectedFileSize');
+      const fileIconEl = document.getElementById('selectedFileIcon');
+      const fileStatusEl = document.getElementById('selectedFileStatus');
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      let iconName = 'description';
+      let iconColor = 'text-primary';
+      let iconBg = 'bg-teal-50 border-teal-200/60';
+
+      if (ext === 'pdf') {
+        iconName = 'picture_as_pdf';
+        iconColor = 'text-rose-400';
+        iconBg = 'bg-rose-950/60 border-rose-500/30';
+      } else if (ext === 'doc' || ext === 'docx') {
+        iconName = 'article';
+        iconColor = 'text-blue-400';
+        iconBg = 'bg-blue-950/60 border-blue-500/30';
+      }
+
+      let formattedSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+      if (file.size < 1024 * 1024) {
+        formattedSize = (file.size / 1024).toFixed(0) + ' KB';
+      }
+
+      if (fileIconEl) {
+        fileIconEl.textContent = iconName;
+        fileIconEl.className = `material-symbols-outlined text-[22px] ${iconColor}`;
+        if (fileIconEl.parentElement) {
+          fileIconEl.parentElement.className = `w-10 h-10 rounded-lg flex items-center justify-center border flex-shrink-0 ${iconBg}`;
+        }
+      }
+      if (fileNameEl) fileNameEl.textContent = file.name;
+      if (fileSizeEl) fileSizeEl.textContent = formattedSize;
+      if (fileStatusEl) {
+        fileStatusEl.innerHTML = `
+          <span class="inline-flex items-center gap-1 text-primary font-medium">
+            <svg class="animate-spin h-3.5 w-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Analyzing your resume...
+          </span>
+        `;
+        fileStatusEl.className = 'font-label-sm text-label-sm text-primary';
+      }
+
+      if (selectedState) {
+        selectedState.classList.remove('hidden');
+        selectedState.classList.add('flex');
+      }
+    }
+
+    // Revert dropzone to empty state
+    function revertToEmptyState() {
+      selectedResumeFile = null;
+      const input = document.getElementById('resumeFileInput');
+      if (input) input.value = '';
+
+      const selectedState = document.getElementById('dropzoneFileSelectedState');
+      if (selectedState) {
+        selectedState.classList.add('hidden');
+        selectedState.classList.remove('flex');
+      }
+
+      hideExtractionNotice();
+      updateContinueButtonState();
+    }
+
+    // Remove file action
+    function removeUploadedFile(event) {
+      if (event) event.stopPropagation();
+      clearUploadError();
+      revertToEmptyState();
+    }
+
+    // Category keyword lists for skill-based classification (Step 1)
+    const WEB_DEV_SKILLS = [
+      "HTML", "CSS", "JavaScript", "Git", "GitHub", "React", "Node.js", "Express",
+      "Database", "REST API", "Authentication", "TypeScript", "Next.js", "Docker",
+      "Cloud", "System Design"
+    ];
+
+    const AI_ML_SKILLS = [
+      "Python", "NumPy", "Pandas", "Matplotlib", "Seaborn", "Statistics", "Probability",
+      "Linear Algebra", "SQL", "Data Preprocessing", "EDA", "Machine Learning",
+      "Scikit-learn", "Supervised Learning", "Unsupervised Learning", "Feature Engineering",
+      "Model Evaluation", "Deep Learning", "PyTorch", "TensorFlow", "CNN", "RNN", "LSTM",
+      "Transformers", "NLP", "GenAI", "LLM", "Hugging Face", "LangChain", "RAG",
+      "Fine-tuning", "MLOps", "Docker", "AWS", "GCP", "Azure"
+    ];
+
+    const WEB3_SKILLS = [
+      "Blockchain", "Cryptography", "Bitcoin", "Ethereum", "Wallets", "EVM", "Solidity",
+      "Smart Contracts", "Remix", "Hardhat", "Foundry", "Web3.js", "Ethers.js", "dApps",
+      "ERC-20", "ERC-721", "ERC-1155", "DeFi", "DEX", "DAOs", "Oracles", "Layer 2",
+      "Gas Optimization", "Smart Contract Security", "Testing", "Auditing", "IPFS",
+      "The Graph", "RPC", "MEV", "Tokenomics", "Cross-chain", "Web3 Backend", "Docker",
+      "Cloud"
+    ];
+
+    function normalizeToken(s) {
+      return (s || '').toLowerCase().replace(/\./g, '').replace(/[-_]/g, ' ').trim();
+    }
+
+    function skillMatchesKeyword(skill, keyword) {
+      const s = normalizeToken(skill);
+      const k = normalizeToken(keyword);
+      if (s === k) return true;
+      if (s + 's' === k || k + 's' === s) return true;
+      return false;
+    }
+
+    // Step 2 & Step 3: Classify skills into winning category with tie-breaking
+    function classifySkills(skillsList) {
+      const web_dev_matches = skillsList.filter(s => WEB_DEV_SKILLS.some(kw => skillMatchesKeyword(s, kw)));
+      const ai_ml_matches = skillsList.filter(s => AI_ML_SKILLS.some(kw => skillMatchesKeyword(s, kw)));
+      const web3_matches = skillsList.filter(s => WEB3_SKILLS.some(kw => skillMatchesKeyword(s, kw)));
+
+      const counts = {
+        web_dev: web_dev_matches.length,
+        ai_ml: ai_ml_matches.length,
+        web3: web3_matches.length
+      };
+
+      const lengths = {
+        web_dev: WEB_DEV_SKILLS.length,
+        ai_ml: AI_ML_SKILLS.length,
+        web3: WEB3_SKILLS.length
+      };
+
+      const maxCount = Math.max(counts.web_dev, counts.ai_ml, counts.web3);
+      let winningCategory = null;
+      let winningName = null;
+
+      if (maxCount > 0) {
+        const candidates = Object.keys(counts).filter(k => counts[k] === maxCount);
+        if (candidates.length === 1) {
+          winningCategory = candidates[0];
+        } else {
+          // Tie breaker: pick category with highest percentage of category's list size
+          winningCategory = candidates.reduce((prev, curr) => {
+            const prevPct = counts[prev] / lengths[prev];
+            const currPct = counts[curr] / lengths[curr];
+            return currPct > prevPct ? curr : prev;
+          });
+        }
+
+        const nameMap = {
+          web_dev: "Web Development",
+          ai_ml: "AI & Machine Learning",
+          web3: "Web3 & Blockchain"
+        };
+        winningName = nameMap[winningCategory] || winningCategory;
+      }
+
+      return {
+        winning_category: winningCategory,
+        winning_category_name: winningName,
+        web_dev_match_count: counts.web_dev,
+        ai_ml_match_count: counts.ai_ml,
+        web3_match_count: counts.web3,
+        web_dev_matches,
+        ai_ml_matches,
+        web3_matches
+      };
+    }
+
+    // Helper: collect current skill chip texts
+    function getCurrentlySelectedSkillNames() {
+      const selectedContainer = document.getElementById('selectedSkillsContainer');
+      if (!selectedContainer) return [];
+      const chips = Array.from(selectedContainer.querySelectorAll('.skill-chip-item'));
+      return chips.map(chip => {
+        const clone = chip.cloneNode(true);
+        const btn = clone.querySelector('button');
+        if (btn) btn.remove();
+        return clone.textContent.trim();
+      }).filter(Boolean);
+    }
+
+    // Call backend API to extract skills
+    async function extractSkillsFromResume(file) {
+      const statusEl = document.getElementById('selectedFileStatus');
+      if (statusEl) {
+        statusEl.innerHTML = `
+          <span class="inline-flex items-center gap-1 text-primary font-medium">
+            <svg class="animate-spin h-3.5 w-3.5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Analyzing your resume...
+          </span>
+        `;
+        statusEl.className = 'font-label-sm text-label-sm text-primary';
+      }
+      showExtractionNotice('loading');
+      clearUploadError();
+
+      const formData = new FormData();
+      // Primary field name 'file' (required by prompt) and fallback 'resume'
+      formData.append('file', file);
+      formData.append('resume', file);
+
+      function getBackendExtractionUrl() {
+        let base = '';
+        if (typeof window !== 'undefined') {
+          if (window.__ENV__) {
+            base = window.__ENV__.VITE_BACKEND_URL || window.__ENV__.NEXT_PUBLIC_BACKEND_URL || window.__ENV__.BACKEND_URL || '';
+          }
+          if (!base && window.VITE_BACKEND_URL) base = window.VITE_BACKEND_URL;
+          if (!base && window.NEXT_PUBLIC_BACKEND_URL) base = window.NEXT_PUBLIC_BACKEND_URL;
+        }
+        if (!base) base = 'http://localhost:8000';
+        return base.replace(/\/+$/, '');
+      }
+
+      const backendBase = getBackendExtractionUrl();
+      const endpoints = [
+        `${backendBase}/extract`,
+        `${backendBase}/extract-skills`
+      ];
+      // Include standard localhost fallbacks
+      if (backendBase.includes(':8000')) {
+        endpoints.push('http://localhost:5000/extract', 'http://localhost:5000/extract-skills');
+      } else if (backendBase.includes(':5000')) {
+        endpoints.push('http://localhost:8000/extract', 'http://localhost:8000/extract-skills');
+      }
+
+      let data = null;
+      let lastError = null;
+
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            const errMsg = errData.error || errData.message || `Server responded with HTTP ${response.status} (${response.statusText})`;
+            throw new Error(errMsg);
+          }
+
+          data = await response.json();
+          break; // successfully retrieved data
+        } catch (err) {
+          lastError = err;
+          console.warn(`[Resume Extraction] Request to ${endpoint} failed:`, err);
+          const rawErrStr = String(err).toLowerCase();
+          const isNetworkError = err && (err.name === 'TypeError' || rawErrStr.includes('failed to fetch') || rawErrStr.includes('networkerror') || rawErrStr.includes('connection refused'));
+          if (!isNetworkError) {
+            // Definite application error from server, do not spam other endpoints
+            break;
+          }
+        }
+      }
+
+      if (!data) {
+        console.error('[Resume Extraction Error]:', lastError);
+        const rawErrMsg = lastError ? (lastError.message || String(lastError)) : 'Network connection failure';
+        const rawErrStr = rawErrMsg.toLowerCase();
+        
+        let userFriendlyError = rawErrMsg;
+        if (!lastError || lastError.name === 'TypeError' || rawErrStr.includes('failed to fetch') || rawErrStr.includes('networkerror') || rawErrStr.includes('connection refused')) {
+          userFriendlyError = 'Resume analysis server is not reachable. Please make sure the backend is running.';
+        }
+
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-rose-400 font-medium">Analysis failed</span>`;
+        }
+        showUploadError(userFriendlyError);
+        showExtractionNotice('error', userFriendlyError);
+        updateContinueButtonState();
+        return;
+      }
+
+      // Success processing
+      const skills = Array.isArray(data.skills) ? data.skills : [];
+
+      // Store auto-extracted resume details for Edit Profile pre-fill
+      const extractedDetails = {
+        phone: data.phone || '',
+        email: data.email || '',
+        location: data.location || '',
+        education: data.education || '',
+        experience: data.experience || ''
+      };
+      localStorage.setItem('userResumeDetails', JSON.stringify(extractedDetails));
+      if (data.phone) {
+        localStorage.setItem('userResumePhone', data.phone);
+        localStorage.setItem('userPhone', data.phone);
+      }
+      if (data.email) {
+        localStorage.setItem('userResumeEmail', data.email);
+        if (!localStorage.getItem('userEmail') && !localStorage.getItem('userSignupEmail')) {
+          localStorage.setItem('userEmail', data.email);
+        }
+      }
+      if (data.location) localStorage.setItem('userLocation', data.location);
+      if (data.education) localStorage.setItem('userEducation', data.education);
+      if (data.experience) localStorage.setItem('userExperience', data.experience);
+
+      if (skills.length > 0) {
+        // Merge returned skills with any already selected, without duplicates
+        const currentSkills = getCurrentlySelectedSkillNames();
+        const currentLowerSet = new Set(currentSkills.map(s => s.toLowerCase()));
+        const newSkills = [];
+        skills.forEach(skill => {
+          if (!currentLowerSet.has(skill.toLowerCase())) {
+            currentLowerSet.add(skill.toLowerCase());
+            newSkills.push(skill);
+          }
+        });
+
+        newSkills.forEach(skill => {
+          if (window.addSkill) window.addSkill(skill);
+        });
+
+        const allSkillsNow = getCurrentlySelectedSkillNames();
+        localStorage.setItem('userSelectedSkills', JSON.stringify(allSkillsNow));
+
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-emerald-400 font-medium">✓ Auto-extracted (${skills.length} skills found)</span>`;
+        }
+
+        // Compute classification
+        const classification = data.category_classification || classifySkills(allSkillsNow);
+        if (classification && classification.winning_category) {
+          localStorage.setItem('userWinningCategory', classification.winning_category);
+          localStorage.setItem('userWinningCategoryName', classification.winning_category_name || '');
+          localStorage.setItem('userCategoryClassification', JSON.stringify(classification));
+        } else {
+          localStorage.removeItem('userWinningCategory');
+          localStorage.removeItem('userWinningCategoryName');
+        }
+
+        const catBadge = (classification && classification.winning_category_name)
+          ? `<span class="font-bold underline decoration-primary/40">${classification.winning_category_name}</span>`
+          : '';
+        const noticeMsg = catBadge
+          ? `Auto-detected <strong>${skills.length} skills</strong>! Primary category matched: ${catBadge}.`
+          : `Auto-detected <strong>${skills.length} skills</strong> from your resume! You can add or remove skills below.`;
+
+        showExtractionNotice('success', noticeMsg);
+      } else {
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-secondary font-medium">0 skills detected</span>`;
+        }
+        showExtractionNotice('empty');
+      }
+
+      updateContinueButtonState();
+    }
+
+    // Validate and process selected file
+    function processSelectedFile(file) {
+      clearUploadError();
+      if (!file) return;
+
+      const validExtensions = ['pdf', 'doc', 'docx'];
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      const maxSizeBytes = 5 * 1024 * 1024; // 5MB limit
+
+      // Check file type
+      if (!validExtensions.includes(fileExt)) {
+        showUploadError('Please upload a PDF, DOC, or DOCX file');
+        revertToEmptyState();
+        return;
+      }
+
+      // Check file size
+      if (file.size > maxSizeBytes) {
+        showUploadError('File size must be under 5MB');
+        revertToEmptyState();
+        return;
+      }
+
+      // Store in local component state & render selected view
+      selectedResumeFile = file;
+      renderFileSelectedState(file);
+      updateContinueButtonState();
+
+      // Trigger non-blocking Supabase Storage upload to bucket "resumes" under "<user_id>/<filename>"
+      try {
+        const currentUserId = localStorage.getItem('supabase_user_id');
+        if (currentUserId && typeof window.uploadResumeFile === 'function') {
+          window.uploadResumeFile(currentUserId, file).then(res => {
+            if (res && !res.success) {
+              console.error('[Supabase Storage Error]: Failed to upload resume file to "resumes" bucket:', res.error);
+              if (typeof window.showAppToast === 'function') {
+                window.showAppToast(`Resume backup notice: ${res.error}`, 'warning');
+              }
+            } else if (res && res.success) {
+              console.log('[Supabase Storage Success]: Resume saved to bucket under', res.path);
+            }
+          }).catch(err => {
+            console.error('[Supabase Storage Exception]:', err);
+            if (typeof window.showAppToast === 'function') {
+              window.showAppToast(`Resume backup notice: ${err.message || String(err)}`, 'warning');
+            }
+          });
+        }
+      } catch (storageEx) {
+        console.error('[Supabase Storage Exception]:', storageEx);
+      }
+
+      // Trigger automatic keyword-matching skill extraction
+      extractSkillsFromResume(file);
+    }
+
+    // Action when user clicks Continue
+    async function handleContinueClick() {
+      clearUploadError();
+      if (!selectedResumeFile) {
+        showUploadError('Please upload a valid resume file before continuing.');
+        return;
+      }
+      const selectedContainer = document.getElementById('selectedSkillsContainer');
+      const skillsCount = selectedContainer ? selectedContainer.querySelectorAll('.skill-chip-item').length : 0;
+      if (skillsCount === 0) {
+        showUploadError('Please select at least one skill to continue.');
+        return;
+      }
+
+      // Compute and persist winning category to localStorage before navigation (Step 3)
+      const currentSkills = getCurrentlySelectedSkillNames();
+      const classification = classifySkills(currentSkills);
+
+      if (classification.winning_category) {
+        localStorage.setItem('userWinningCategory', classification.winning_category);
+        localStorage.setItem('userWinningCategoryName', classification.winning_category_name);
+      } else {
+        localStorage.removeItem('userWinningCategory');
+        localStorage.removeItem('userWinningCategoryName');
+      }
+      localStorage.setItem('userSelectedSkills', JSON.stringify(currentSkills));
+      localStorage.setItem('userCategoryClassification', JSON.stringify(classification));
+
+      // Show saving state on Continue button
+      const continueBtn = document.getElementById('continueBtn');
+      if (continueBtn) {
+        continueBtn.disabled = true;
+        continueBtn.classList.add('opacity-80', 'cursor-not-allowed');
+        continueBtn.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>Saving skills to profile...</span>
+        `;
+      }
+
+      // Collect extracted resume details along with skills to save into profiles table
+      const resumeDetailsStr = localStorage.getItem('userResumeDetails');
+      let resumeDetails = {};
+      try {
+        if (resumeDetailsStr) resumeDetails = JSON.parse(resumeDetailsStr);
+      } catch (e) {}
+
+      const profilePayload = {
+        skills: JSON.stringify(currentSkills),
+        phone: resumeDetails.phone || localStorage.getItem('userResumePhone') || localStorage.getItem('userPhone') || undefined,
+        location: resumeDetails.location || localStorage.getItem('userLocation') || undefined,
+        education: resumeDetails.education || localStorage.getItem('userEducation') || undefined,
+        experience: resumeDetails.experience || localStorage.getItem('userExperience') || undefined,
+        name: localStorage.getItem('userFullName') || undefined,
+        email: localStorage.getItem('userEmail') || localStorage.getItem('supabase_user_email') || undefined
+      };
+
+      // Save selected skills and extracted resume data into Supabase "profiles" table
+      const currentUserId = localStorage.getItem('supabase_user_id');
+      if (currentUserId && typeof window.updateUserProfile === 'function') {
+        try {
+          const saveRes = await window.updateUserProfile(currentUserId, profilePayload);
+          if (!saveRes || !saveRes.success) {
+            const rawError = (saveRes && saveRes.error) ? saveRes.error : 'Failed to save skills to Supabase profiles table.';
+            console.error('[Supabase Save Profile Error]:', rawError);
+
+            const friendlyMsg = `Could not save your skills to Supabase: ${rawError}.`;
+            showUploadError(friendlyMsg);
+            if (typeof window.showAppToast === 'function') {
+              window.showAppToast(`Profile cloud sync notice: ${rawError}`, 'warning');
+            }
+            console.warn('[Supabase Sync Notice]: Proceeding with locally saved skills.');
+          } else {
+            console.log('[Supabase Save Profile Success]: Profile row updated with skills & extracted resume data.');
+          }
+        } catch (saveEx) {
+          console.error('[Supabase Save Profile Exception]:', saveEx);
+          const friendlyMsg = `Could not save your skills to Supabase: ${saveEx.message || String(saveEx)}.`;
+          showUploadError(friendlyMsg);
+          if (typeof window.showAppToast === 'function') {
+            window.showAppToast(`Profile cloud sync notice: ${saveEx.message || String(saveEx)}`, 'warning');
+          }
+        }
+      }
+
+      // Proceed to Job Recommendations
+      window.location.href = '../skill_gap_force_job_recommendations/code.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const selectedContainer = document.getElementById('selectedSkillsContainer');
+      const counterBadge = document.getElementById('skillBadgeCount');
+      const searchInput = document.getElementById('skillSearchInput');
+      const addSkillBtn = document.getElementById('addSkillManualBtn');
+      const clearAllBtn = document.getElementById('clearAllSkills');
+      const suggestedContainer = document.getElementById('suggestedSkillsContainer');
+      // Dropzone and file input handlers
+      const dropzone = document.getElementById('dropzone');
+      const resumeInput = document.getElementById('resumeFileInput');
+      const browseClickSpan = document.getElementById('browseClickSpan');
+
+      // Initialize continue button state
+      updateContinueButtonState();
+
+      // Reliable click-to-browse trigger
+      if (dropzone && resumeInput) {
+        dropzone.addEventListener('click', (e) => {
+          if (e.target !== resumeInput) {
+            resumeInput.click();
+          }
+        });
+      }
+
+      if (browseClickSpan && resumeInput) {
+        browseClickSpan.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resumeInput.click();
+        });
+      }
+
+      if (resumeInput) {
+        // Reset value on click so selecting the same file re-triggers change event
+        resumeInput.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resumeInput.value = '';
+        });
+
+        resumeInput.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            processSelectedFile(e.target.files[0]);
+          }
+        });
+      }
+
+      // Drag and Drop support
+      if (dropzone) {
+        const preventDefaults = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            preventDefaults(e);
+            dropzone.classList.add('border-primary', 'bg-surface-container');
+          });
+          if (resumeInput) {
+            resumeInput.addEventListener(eventName, (e) => {
+              preventDefaults(e);
+              dropzone.classList.add('border-primary', 'bg-surface-container');
+            });
+          }
+        });
+
+        ['dragleave'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            preventDefaults(e);
+            dropzone.classList.remove('border-primary', 'bg-surface-container');
+          });
+          if (resumeInput) {
+            resumeInput.addEventListener(eventName, (e) => {
+              preventDefaults(e);
+              dropzone.classList.remove('border-primary', 'bg-surface-container');
+            });
+          }
+        });
+
+        const handleFileDrop = (e) => {
+          preventDefaults(e);
+          dropzone.classList.remove('border-primary', 'bg-surface-container');
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files[0]) {
+            processSelectedFile(dt.files[0]);
+          }
+        };
+
+        dropzone.addEventListener('drop', handleFileDrop);
+        if (resumeInput) {
+          resumeInput.addEventListener('drop', handleFileDrop);
+        }
+      }
+
+      // Prevent whole-window default drop navigation
+      window.addEventListener('dragover', (e) => e.preventDefault(), false);
+      window.addEventListener('drop', (e) => e.preventDefault(), false);
+
+      // Update skill badge count helper & button state
+      function updateCount() {
+        const count = selectedContainer ? selectedContainer.querySelectorAll('.skill-chip-item').length : 0;
+        if (counterBadge) counterBadge.textContent = count;
+        updateContinueButtonState();
+      }
+
+      // Remove skill event delegation
+      if (selectedContainer) {
+        selectedContainer.addEventListener('click', (e) => {
+          const removeBtn = e.target.closest('.remove-skill-btn');
+          if (removeBtn) {
+            const chip = removeBtn.closest('.skill-chip-item');
+            if (chip) {
+              chip.remove();
+              hasUserManuallyEditedSkills = true;
+              updateCount();
+            }
+          }
+        });
+      }
+
+      // Clear all skills
+      if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', () => {
+          if (selectedContainer) selectedContainer.innerHTML = '';
+          hasUserManuallyEditedSkills = true;
+          updateCount();
+        });
+      }
+
+      // Add skill helper
+      function addSkill(skillName) {
+        if (!skillName || !skillName.trim() || !selectedContainer) return;
+
+        // Prevent duplicate
+        const existing = Array.from(selectedContainer.querySelectorAll('.skill-chip-item')).some(el =>
+          el.childNodes[0].textContent.trim().toLowerCase() === skillName.trim().toLowerCase()
+        );
+        if (existing) return;
+
+        const chip = document.createElement('span');
+        chip.className = "skill-chip-item inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary font-label-md text-label-md border border-primary/20 hover:border-primary/40 transition-colors shadow-2xs";
+        chip.innerHTML = `
+          ${skillName.trim()}
+          <button type="button" class="remove-skill-btn hover:text-error hover:bg-surface-container-lowest/60 rounded-full w-4 h-4 flex items-center justify-center transition-colors" title="Remove ${skillName.trim()}">
+            <span class="material-symbols-outlined text-[14px]">close</span>
+          </button>
+        `;
+        selectedContainer.appendChild(chip);
+        updateCount();
+      }
+
+      // Expose globally so extractSkillsFromResume can invoke it
+      window.addSkill = addSkill;
+
+      // Add skill via enter key
+      if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (searchInput.value.trim()) {
+              addSkill(searchInput.value.trim());
+              searchInput.value = '';
+              hasUserManuallyEditedSkills = true;
+            }
+          }
+        });
+      }
+
+      // Add skill via Add button click
+      if (addSkillBtn) {
+        addSkillBtn.addEventListener('click', () => {
+          if (searchInput && searchInput.value.trim()) {
+            addSkill(searchInput.value.trim());
+            searchInput.value = '';
+            hasUserManuallyEditedSkills = true;
+          }
+        });
+      }
+
+      // Add skill via clicking suggested tag
+      if (suggestedContainer) {
+        suggestedContainer.addEventListener('click', (e) => {
+          const chip = e.target.closest('.suggest-chip');
+          if (chip) {
+            const skillText = chip.innerText.replace('add', '').trim();
+            addSkill(skillText);
+            hasUserManuallyEditedSkills = true;
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

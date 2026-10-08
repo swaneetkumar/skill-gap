@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="color-scheme: dark;">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta name="theme-color" content="#0B1020"/>
+  <meta name="color-scheme" content="dark"/>
+  <title>Skill Gap Force - Precision Career Engine</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#0B1020",
+            "surface": "#131A2E",
+            "surface-container-lowest": "#131A2E",
+            "surface-container-low": "#0E1526",
+            "surface-container": "#1A2340",
+            "surface-container-high": "#1A2340",
+            "surface-container-highest": "#242F55",
+            "surface-dim": "#0E1526",
+            "surface-bright": "#242F55",
+            "on-surface": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "secondary": "#94A3B8",
+            "outline": "#64748B",
+            "outline-variant": "rgba(255, 255, 255, 0.08)",
+            "primary": "#14B8A6",
+            "primary-container": "#0D9488",
+            "on-primary": "#FFFFFF",
+            "primary-fixed": "#2DD4BF",
+            "primary-fixed-dim": "#14B8A6",
+            "error": "#F43F5E",
+            "error-container": "rgba(244, 63, 94, 0.15)",
+            "tertiary": "#38BDF8",
+            "tertiary-container": "#0284C7"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "title-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "mono-metric": ["Inter", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Global Theme CSS -->
+  <link rel="stylesheet" href="../theme.css"/>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen relative selection:bg-primary selection:text-white">
+
+  <!-- Ambient Blurred Gradient Blobs -->
+  <div class="bg-ambient-blobs">
+    <div class="blob-indigo"></div>
+    <div class="blob-teal"></div>
+    <div class="blob-violet"></div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="dark-glass-header sticky top-0 z-40 w-full transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="../index.html" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-primary/25 group-hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+        </div>
+        <span class="font-headline-md text-xl md:text-2xl font-extrabold text-on-surface tracking-tight">
+          Skill Gap <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400">Force</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 font-label-md text-sm text-secondary font-medium">
+        <a href="#features" class="hover:text-on-surface hover:text-primary transition-colors">Features</a>
+        <a href="../skill_gap_force_target_role_selection/code.html" class="hover:text-on-surface hover:text-primary transition-colors">Target Roles</a>
+        <a href="../skill_gap_force_job_recommendations/code.html" class="hover:text-on-surface hover:text-primary transition-colors">Jobs</a>
+        <a href="../skill_gap_force_book_1_1_session/code.html" class="hover:text-on-surface hover:text-primary transition-colors">Mentorship</a>
+      </nav>
+
+      <!-- Auth Actions -->
+      <div class="flex items-center gap-3">
+        <a href="../skill_gap_force_login/code.html" class="px-4 py-2 rounded-xl text-secondary hover:text-on-surface font-label-md text-sm font-semibold transition-colors">
+          Log In
+        </a>
+        <a href="../skill_gap_force_create_your_account/code.html" class="btn-vibrant-primary px-5 py-2.5 rounded-xl font-label-md text-sm font-bold flex items-center gap-2">
+          <span>Get Started</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <main class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-24 md:pt-24 md:pb-32 flex flex-col items-center text-center">
+    <!-- Top Pill Announcement -->
+    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface-container border border-outline-variant shadow-lg text-primary text-xs md:text-sm font-semibold mb-6 animate-pulse">
+      <span class="w-2 h-2 rounded-full bg-primary"></span>
+      <span>Precision Career Engine 2.0 • AI-Calibrated Matching</span>
+      <span class="material-symbols-outlined text-[16px]">sparkles</span>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="font-headline-lg text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-on-surface tracking-tight max-w-4xl leading-tight sm:leading-tight">
+      Bridge Your Tech Career <br class="hidden sm:inline"/>
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-sky-400 to-indigo-400">Skill Gap with AI Precision</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="font-body-lg text-secondary text-base sm:text-lg md:text-xl max-w-2xl mt-6 leading-relaxed">
+      Upload your resume to instantly identify critical competency gaps for target engineering roles. Match with high-confidence openings and schedule 1:1 sessions with Silicon Valley mentors.
+    </p>
+
+    <!-- CTAs -->
+    <div class="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+      <a href="../skill_gap_force_resume_skills_setup/code.html" class="btn-vibrant-primary w-full sm:w-auto px-8 py-4 rounded-2xl font-label-md text-base font-bold flex items-center justify-center gap-2.5 shadow-xl">
+        <span class="material-symbols-outlined text-[20px]">upload_file</span>
+        <span>Upload Resume & Analyze</span>
+      </a>
+      <a href="../skill_gap_force_job_recommendations/code.html" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-surface-container hover:bg-surface-bright text-on-surface border border-outline-variant font-label-md text-base font-semibold transition-all flex items-center justify-center gap-2 hover:border-primary/40">
+        <span class="material-symbols-outlined text-[20px]">explore</span>
+        <span>Explore Matched Jobs</span>
+      </a>
+    </div>
+
+    <!-- Social Proof Metric Badges -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 w-full max-w-4xl">
+      <div class="p-4 rounded-2xl bg-surface border border-outline-variant text-center shadow-md">
+        <p class="font-headline-lg text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-400">50,000+</p>
+        <p class="text-xs text-secondary mt-1 font-medium">Engineers Benchmarked</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-surface border border-outline-variant text-center shadow-md">
+        <p class="font-headline-lg text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400">85%+ Match</p>
+        <p class="text-xs text-secondary mt-1 font-medium">Algorithmic Precision</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-surface border border-outline-variant text-center shadow-md">
+        <p class="font-headline-lg text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-violet-400">1,200+</p>
+        <p class="text-xs text-secondary mt-1 font-medium">FAANG & Tech Mentors</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-surface border border-outline-variant text-center shadow-md">
+        <p class="font-headline-lg text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">14 Days</p>
+        <p class="text-xs text-secondary mt-1 font-medium">Avg. Gap Closure Time</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/**
+ * Skill Gap Force - Global Theme Design Tokens & Dark Mode System
+ * Single central place for all design variables across the platform.
+ */
+
+:root,
+[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+
+  /* Base Canvas & Backgrounds */
+  --bg: #0B1020;
+  --bg-canvas: #0B1020;
+  --bg-gradient-start: #0B1020;
+  --bg-gradient-mid: #131A2E;
+  --bg-gradient-end: #1A2340;
+
+  /* Surfaces & Containers */
+  --surface: #131A2E;
+  --surface-elevated: #1A2340;
+  --surface-dim: #0E1526;
+  --surface-bright: #242F55;
+  --surface-card: #131A2E;
+  --surface-hover: #1A2444;
+  --surface-glass: rgba(19, 26, 46, 0.82);
+  --surface-glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Borders & Dividers */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-prominent: rgba(255, 255, 255, 0.16);
+  --border-focus: #14B8A6;
+
+  /* Typography */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0B1020;
+  --text-on-primary: #FFFFFF;
+
+  /* Primary Brand & Accents */
+  --primary: #14B8A6;
+  --primary-hover: #0D9488;
+  --primary-light: #2DD4BF;
+  --primary-container: #0D9488;
+  --accent: #38BDF8;
+  --accent-indigo: #6366F1;
+  --accent-violet: #8B5CF6;
+
+  /* Primary Vibrant Gradient (Indigo -> Electric Blue -> Teal) */
+  --primary-gradient: linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #14B8A6 100%);
+  --primary-gradient-hover: linear-gradient(135deg, #4F46E5 0%, #2563EB 50%, #0D9488 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(59, 130, 246, 0.12) 50%, rgba(20, 184, 166, 0.15) 100%);
+
+  /* Semantic Feedback Colors */
+  --success: #10B981;
+  --success-bg: rgba(16, 185, 129, 0.12);
+  --success-border: rgba(16, 185, 129, 0.28);
+  --success-text: #34D399;
+
+  --danger: #F43F5E;
+  --danger-bg: rgba(244, 63, 94, 0.12);
+  --danger-border: rgba(244, 63, 94, 0.28);
+  --danger-text: #FB7185;
+
+  --warning: #F59E0B;
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --warning-border: rgba(245, 158, 11, 0.28);
+  --warning-text: #FBBF24;
+
+  --info: #38BDF8;
+  --info-bg: rgba(56, 189, 248, 0.12);
+  --info-border: rgba(56, 189, 248, 0.28);
+  --info-text: #7DD3FC;
+
+  /* Shadows & Glowing Effects */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-xl: 0 20px 48px -8px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --glow-primary: 0 4px 20px -2px rgba(20, 184, 166, 0.35);
+  --glow-card-hover: 0 12px 32px -4px rgba(56, 189, 248, 0.18), 0 0 0 1px rgba(56, 189, 248, 0.3);
+}
+
+/* Document Base Styles */
+html {
+  color-scheme: dark !important;
+  background-color: var(--bg) !important;
+  color: var(--text-primary) !important;
+}
+
+body {
+  background-color: var(--bg) !important;
+  color: var(--text-primary) !important;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #0B1020;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 9999px;
+  border: 2px solid #0B1020;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Background Ambient Gradient Blobs */
+.bg-ambient-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.blob-indigo {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.blob-teal {
+  position: absolute;
+  bottom: 8%;
+  left: -120px;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.12) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.blob-violet {
+  position: absolute;
+  top: 40%;
+  right: 12%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.10) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+/* Dark Glassmorphism Header */
+.dark-glass-header {
+  background: rgba(11, 16, 32, 0.82) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dark Glassmorphism Sticky Bottom Dock */
+.dark-glass-dock {
+  background: rgba(11, 16, 32, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Primary Vibrant Button */
+.btn-vibrant-primary {
+  background: var(--primary-gradient) !important;
+  color: #ffffff !important;
+  box-shadow: var(--glow-primary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-vibrant-primary:hover {
+  background: var(--primary-gradient-hover) !important;
+  box-shadow: 0 6px 24px -2px rgba(20, 184, 166, 0.45);
+  transform: translateY(-1px);
+}
+.btn-vibrant-primary:active {
+  transform: scale(0.99);
+}
+
+/* Form Controls Dark Base */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  color-scheme: dark;
+}
+
+/* Dark Skeleton Loader with Subtle Shimmer */
+.skeleton-sweep {
+  background: linear-gradient(90deg, #131A2E 25%, #1E2845 50%, #131A2E 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmerAnim 1.8s infinite !important;
+}
+@keyframes shimmerAnim {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Company Logo Dark Tile Container (ensures white logo backgrounds look natural) */
+.company-logo-tile {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dropzone Dark Accent Border */
+.dropzone-dark {
+  background-color: var(--surface) !important;
+  border: 2px dashed rgba(20, 184, 166, 0.45) !important;
+  box-shadow: inset 0 0 20px rgba(20, 184, 166, 0.04);
+  transition: all 0.2s ease;
+}
+.dropzone-dark:hover {
+  border-color: var(--primary) !important;
+  background-color: var(--surface-elevated) !important;
+  box-shadow: inset 0 0 28px rgba(20, 184, 166, 0.08), 0 0 16px rgba(20, 184, 166, 0.2);
+}

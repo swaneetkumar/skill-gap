@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+<html lang="en" class="dark" style="color-scheme: dark;"><head>
+<script>
+  (function enforceAuth() {
+    var uid = localStorage.getItem('supabase_user_id') || localStorage.getItem('supabase_session');
+    if (!uid) {
+      window.location.replace('../skill_gap_force_login/code.html');
+    }
+  })();
+  window.addEventListener('pageshow', function(e) {
+    var uid = localStorage.getItem('supabase_user_id') || localStorage.getItem('supabase_session');
+    if (!uid) {
+      window.location.replace('../skill_gap_force_login/code.html');
+    }
+  });
+</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="theme-color" content="#0B1020"/>
+<title>Skill Gap Force - Book 1:1 Session &amp; Bridge Your Skill Gap</title>
+<!-- Central Theme Design Tokens -->
+<link rel="stylesheet" href="../theme.css"/>
+<!-- Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#243054",
+            "on-secondary-fixed": "#F1F5F9",
+            "secondary-container": "#1E293B",
+            "primary": "#0D9488",
+            "surface-container-high": "#1E2945",
+            "on-background": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "on-primary-fixed": "#042F2E",
+            "inverse-surface": "#F1F5F9",
+            "surface-container": "#1A2340",
+            "on-primary-fixed-variant": "#115E59",
+            "error": "#F87171",
+            "surface": "#131A2E",
+            "on-tertiary": "#FFFFFF",
+            "outline": "#475569",
+            "secondary-fixed": "#334155",
+            "surface-tint": "#14B8A6",
+            "on-secondary-container": "#CBD5E1",
+            "surface-variant": "#1E2945",
+            "on-secondary": "#E2E8F0",
+            "secondary-fixed-dim": "#94A3B8",
+            "on-primary": "#FFFFFF",
+            "on-tertiary-fixed": "#0B1020",
+            "tertiary-container": "#3730A3",
+            "background": "#0B1020",
+            "on-tertiary-container": "#E0E7FF",
+            "surface-container-low": "#131A2E",
+            "on-secondary-fixed-variant": "#94A3B8",
+            "primary-fixed-dim": "#5EEAD4",
+            "surface-bright": "#1E2945",
+            "outline-variant": "rgba(255, 255, 255, 0.12)",
+            "tertiary": "#6366F1",
+            "surface-dim": "#0B1020",
+            "primary-container": "#0F766E",
+            "secondary": "#94A3B8",
+            "primary-fixed": "#2DD4BF",
+            "tertiary-fixed": "#818CF8",
+            "on-primary-container": "#CCFBF1",
+            "on-tertiary-fixed-variant": "#C7D2FE",
+            "on-surface": "#F1F5F9",
+            "tertiary-fixed-dim": "#A5B4FC",
+            "inverse-on-surface": "#0B1020",
+            "surface-container-lowest": "#0F1629",
+            "on-error": "#FFFFFF",
+            "inverse-primary": "#2DD4BF",
+            "error-container": "#7F1D1D",
+            "on-error-container": "#FECACA"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "margin-mobile": "1rem",
+            "margin": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "space-xl": "2.5rem"
+          },
+          "fontFamily": {
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "display-hero": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "mono-metric": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "title-sm": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "display-hero-mobile": ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-0.025em", fontWeight: "800" }],
+            "display-hero": ["3.5rem", { lineHeight: "4rem", letterSpacing: "-0.03em", fontWeight: "800" }],
+            "body-md": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0", fontWeight: "400" }],
+            "mono-metric": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "label-md": ["0.875rem", { lineHeight: "1.25rem", letterSpacing: "0.01em", fontWeight: "500" }],
+            "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "headline-lg": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "title-sm": ["1.125rem", { lineHeight: "1.5rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-md": ["1.25rem", { lineHeight: "1.75rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "label-sm": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.02em", fontWeight: "600" }],
+            "body-lg": ["1rem", { lineHeight: "1.5rem", letterSpacing: "0", fontWeight: "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    }
+    .custom-card-shadow:hover {
+      box-shadow: 0 12px 30px -4px rgba(13, 148, 136, 0.2);
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-fixed selection:text-on-primary-fixed relative overflow-x-hidden">
+<!-- Ambient background blobs -->
+<div class="bg-ambient-blobs">
+  <div class="blob-indigo"></div>
+  <div class="blob-teal"></div>
+  <div class="blob-violet"></div>
+</div>
+
+<!-- TOP APP BAR (Dark Glass) -->
+<header class="dark-glass-header border-b border-white/10 shadow-lg docked full-width top-0 z-40 sticky">
+<div class="flex justify-between items-center w-full px-6 md:px-12 h-16 max-w-7xl mx-auto">
+<!-- Brand & Context Return -->
+<div class="flex items-center space-x-6">
+<a class="flex items-center gap-2.5 group" href="../skill_gap_force_job_recommendations/code.html">
+<div class="w-9 h-9 rounded-lg btn-vibrant-primary flex items-center justify-center text-white shadow-md transition-all">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-white tracking-tight">
+  Skill Gap <span class="bg-gradient-to-r from-teal-400 to-indigo-400 bg-clip-text text-transparent">Force</span>
+</span>
+</a>
+<div class="h-5 w-px bg-white/10 hidden sm:block"></div>
+<a id="headerBackToJobBtn" class="hidden sm:inline-flex items-center gap-1.5 text-secondary hover:text-white font-label-md text-label-md transition-colors duration-150 py-1 px-2.5 rounded-lg hover:bg-surface-container border border-transparent hover:border-white/10" href="../skill_gap_force_job_detail_skill_gap/code.html">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Job Details</span>
+</a>
+</div>
+
+<!-- Right Header Profile Dropdown -->
+<div class="relative flex items-center">
+  <button id="userProfileBtn" type="button" class="flex items-center gap-2.5 px-3 py-1.5 rounded-full hover:bg-surface-container-low transition-colors cursor-pointer group focus:outline-none focus:ring-2 focus:ring-teal-500/30 border border-white/10 bg-surface-container-lowest" aria-expanded="false" aria-label="User profile menu">
+    <div id="userAvatarContainer" class="w-8 h-8 rounded-full bg-teal-950/60 border border-teal-500/30 text-teal-300 flex items-center justify-center font-semibold text-sm group-hover:bg-teal-600 group-hover:text-white transition-colors overflow-hidden">
+      <span class="material-symbols-outlined text-[20px]">person</span>
+    </div>
+    <span id="userProfileName" class="font-label-md text-label-md font-semibold text-on-surface tracking-tight">Guest</span>
+    <span class="material-symbols-outlined text-[18px] text-secondary group-hover:text-on-surface transition-colors">expand_more</span>
+  </button>
+  
+  <!-- Profile Dropdown Menu -->
+  <div id="userProfileDropdown" class="hidden absolute right-0 top-full mt-2 w-56 bg-surface-container-high border border-white/10 rounded-2xl shadow-2xl z-50 p-2 py-3 transform opacity-0 transition-all duration-150 backdrop-blur-md">
+    <div class="px-3 py-2 border-b border-white/10 mb-1">
+      <p class="font-label-sm text-xs text-secondary font-medium">Signed in as</p>
+      <p id="dropdownUserName" class="font-label-md text-sm font-bold text-on-surface truncate">Guest</p>
+    </div>
+    <a href="../skill_gap_force_edit_profile/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+      <span class="material-symbols-outlined text-[18px] text-teal-400">person</span>
+      <span>Edit Your Profile</span>
+    </a>
+    <a href="../skill_gap_force_resume_skills_setup/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+      <span class="material-symbols-outlined text-[18px] text-teal-400">edit_note</span>
+      <span>Edit Resume &amp; Skills</span>
+    </a>
+    <a href="../skill_gap_force_book_1_1_session/code.html" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-on-surface hover:bg-surface-container-low transition-colors">
+      <span class="material-symbols-outlined text-[18px] text-teal-400">calendar_month</span>
+      <span>Book 1:1 Session</span>
+    </a>
+    <div class="my-1 border-t border-white/10"></div>
+    <a href="javascript:void(0);" onclick="handleLogout(event);" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-body-md text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 transition-colors font-medium cursor-pointer">
+      <span class="material-symbols-outlined text-[18px] text-rose-400">logout</span>
+      <span>Logout</span>
+    </a>
+  </div>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 md:px-12 py-8 md:py-12">
+<!-- Mobile Context Back Link (Visible only on small viewports) -->
+<div class="sm:hidden mb-4">
+<a id="mobileBackToJobBtn" class="inline-flex items-center gap-1.5 text-secondary hover:text-white font-label-md text-label-md py-1 px-2.5 rounded-lg bg-surface-container-high border border-white/10" href="../skill_gap_force_job_detail_skill_gap/code.html">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Job Details</span>
+</a>
+</div>
+<!-- CONTEXT BREADCRUMB / TARGET JOB CHIP -->
+<div class="flex justify-center mb-6">
+  <div id="bookingContextChip" class="inline-flex flex-wrap items-center justify-center gap-2.5 px-5 py-2.5 rounded-full bg-surface-container-high/80 border border-white/10 text-on-surface shadow-lg backdrop-blur-md max-w-3xl text-center transition-all">
+    <div class="flex items-center gap-1.5 text-teal-400 font-label-sm text-label-sm">
+      <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">work</span>
+      <span class="font-semibold text-slate-200">Target Role:</span>
+    </div>
+    <span id="bookingTargetRole" class="font-label-md text-label-md text-white font-semibold">Senior Frontend Engineer at Stripe</span>
+    <span id="bookingContextDivider" class="text-white/30">•</span>
+    <div id="bookingSkillsContainer" class="flex items-center gap-2 flex-wrap justify-center">
+      <span id="bookingSkillsDot" class="w-2 h-2 rounded-full bg-rose-500"></span>
+      <span id="bookingSkillsLabel" class="font-label-sm text-label-sm text-secondary font-medium">Identified skill gap:</span>
+      <div id="bookingSkillsBadges" class="inline-flex items-center gap-1.5 flex-wrap">
+        <span id="bookingSkillTag" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-950/60 text-rose-300 border border-rose-500/40">GraphQL & Client Caching</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- PAGE HERO HEADLINE SECTION -->
+<div class="text-center max-w-2xl mx-auto mb-12">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 text-teal-300 border border-teal-500/20 font-label-sm text-label-sm mb-4">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span>Targeted Gap Bridging</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-white font-bold tracking-tight mb-3">
+        Bridge Your Skill Gap
+      </h1>
+<p class="font-body-lg text-body-lg text-secondary">
+        Choose how you'd like to prepare — practice on your own or get personalized guidance
+      </p>
+</div>
+<!-- MAIN TWO COMPARISON DECISION CARDS (Side-by-side balanced grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto mb-16">
+<!-- CARD 1: Practice Mock Interview (Self-Paced AI Preparation) -->
+<div id="mockInterviewCard" class="bg-surface-container-high rounded-2xl border border-white/10 hover:border-teal-500/40 hover:shadow-[0_8px_30px_rgba(13,148,136,0.15)] hover:-translate-y-1 transition-all duration-200 flex flex-col p-8 relative overflow-hidden group cursor-pointer" tabindex="0">
+<!-- Top Visual Indicator & Tag -->
+<div class="flex items-start justify-between mb-6">
+<div class="w-14 h-14 rounded-2xl bg-teal-950/60 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">graphic_eq</span>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-950/60 text-teal-300 border border-teal-500/40">
+<span class="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></span>
+            Instant Access • AI Simulated
+          </span>
+</div>
+<!-- Title & Subtitle -->
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md font-bold text-white tracking-tight mb-2">
+            Practice Mock Interview
+          </h2>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">
+            Practice with AI-generated interview questions tailored to this job and your skill gaps
+          </p>
+</div>
+<!-- Diagnostic Match Accent Bar -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-white/10 mb-6">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="font-semibold text-slate-200">Target Skill Coverage</span>
+<span class="font-mono-metric text-mono-metric text-teal-400">2 Targeted Modules</span>
+</div>
+<div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden flex">
+<div class="bg-teal-500 h-full w-1/2" title="WebGL Shader Optimization"></div>
+<div class="bg-indigo-500 h-full w-1/2" title="GraphQL Federation Schema"></div>
+</div>
+</div>
+<!-- Value Points List -->
+<ul class="space-y-3.5 mb-8 flex-1">
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-teal-950/80 text-teal-400 border border-teal-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              Real-time speech &amp; technical feedback on WebGL &amp; GraphQL questions
+            </span>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-teal-950/80 text-teal-400 border border-teal-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              Unlimited mock attempts with instant diagnostic scoring
+            </span>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-teal-950/80 text-teal-400 border border-teal-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              Modeled on Stripe's actual engineering rubric
+            </span>
+</li>
+</ul>
+<!-- Bottom Commitment & Action Dock -->
+<div class="pt-6 border-t border-white/10 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-container-low text-slate-300 border border-white/10">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+              Free with candidate account • ~20 mins
+            </span>
+<span class="text-xs font-semibold text-teal-400">0 Credits Required</span>
+</div>
+<button id="mockInterviewBtn" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary text-white font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.99] flex items-center justify-center gap-2 shadow-lg" type="button">
+<span>Start Practice</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: 1:1 Mentorship (Human Expert Guidance) -->
+<div id="mentorshipCard" class="bg-surface-container-high rounded-2xl border-2 border-teal-500/30 hover:border-teal-400 hover:shadow-[0_8px_30px_rgba(13,148,136,0.2)] hover:-translate-y-1 transition-all duration-200 flex flex-col p-8 relative overflow-hidden group cursor-pointer" tabindex="0">
+<!-- Recommended Ribbon Badge -->
+<div class="absolute -top-px -right-px">
+<div class="bg-gradient-to-r from-teal-500 to-indigo-600 text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-bl-lg uppercase shadow-sm">
+            Fast Track
+          </div>
+</div>
+<!-- Top Visual Indicator & Tag -->
+<div class="flex items-start justify-between mb-6">
+<div class="w-14 h-14 rounded-2xl bg-indigo-950/60 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition-transform duration-200">
+<span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">handshake</span>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/60 text-indigo-300 border border-indigo-500/40 mr-12">
+<span class="material-symbols-outlined text-[14px] text-indigo-400" style="font-variation-settings: 'FILL' 1;">verified</span>
+            Verified Stripe Mentors • High Impact
+          </span>
+</div>
+<!-- Title & Subtitle -->
+<div class="mb-6">
+<h2 class="font-headline-md text-headline-md font-bold text-white tracking-tight mb-2">
+            1:1 Mentorship
+          </h2>
+<p class="font-body-md text-body-md text-secondary leading-relaxed">
+            Book a personalized session with an industry mentor to close your skill gaps
+          </p>
+</div>
+<!-- Mentor Spot Preview Pill -->
+<div class="p-3.5 rounded-xl bg-surface-container-low border border-white/10 mb-6 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover border border-white/20" data-alt="Professional studio portrait of Sarah Jenkins, an experienced senior female software engineering mentor with an empathetic expression, subtle warm lighting, and minimalist office architecture in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0KFk_QEJO1luAkOpqJP9-umm8pgQ4q3DnxRfszf0cVA5o7elMvyoHPv42iOfrsZqoIcCF9AXPN0J2gQkvV7lKKEg8wbV34sw-f-re6UBd67io3CQm7JcUpJgimeHaaEoeJl2ch4gvhnScAL0zV6iidZqKnCKtqw_aKsp_UpYz7bxzZ4IFs_YoLYghYWBNAOZop1Sw_T2Y7trjRO-vfIiPoMN3WnKjJDarGR74e_Iy8-CQsCTJmdkZ"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-white">Sarah Jenkins</span>
+<span class="text-[11px] text-secondary">Staff Engineer @ Stripe (5 yrs)</span>
+</div>
+</div>
+<span class="text-xs font-semibold text-indigo-300 bg-indigo-950/60 border border-indigo-500/30 px-2 py-0.5 rounded-md">Next: Tomorrow</span>
+</div>
+<!-- Value Points List -->
+<ul class="space-y-3.5 mb-8 flex-1">
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-indigo-950/80 text-indigo-400 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              45-min live code architecture review &amp; portfolio walkthrough
+            </span>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-indigo-950/80 text-indigo-400 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              Direct insider coaching from staff Stripe engineers like Sarah Jenkins
+            </span>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-5 h-5 rounded-full bg-indigo-950/80 text-indigo-400 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-slate-200">
+              Guaranteed 1:1 callback strategy &amp; personalized roadmap
+            </span>
+</li>
+</ul>
+<!-- Bottom Commitment & Action Dock -->
+<div class="pt-6 border-t border-white/10 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-surface-container-low text-slate-300 border border-white/10">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+              From $85 / session • Instant booking
+            </span>
+<div class="flex items-center gap-1 text-xs text-amber-400 font-semibold">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.9 (84 reviews)</span>
+</div>
+</div>
+<button id="mentorshipBtn" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary text-white font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.99] flex items-center justify-center gap-2 shadow-lg" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>Book Now</span>
+</button>
+</div>
+</div>
+</div>
+<!-- TRUST & SOCIAL PROOF STRIP -->
+<div class="max-w-4xl mx-auto py-6 px-8 rounded-xl bg-surface-container-high/60 border border-white/10 flex flex-wrap items-center justify-around gap-6 text-center backdrop-blur-md">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-teal-400 text-[22px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-md text-label-md text-slate-200 font-semibold">94% of candidates report feeling more confident</span>
+</div>
+<div class="h-4 w-px bg-white/10 hidden md:block"></div>
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-indigo-400 text-[22px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-md text-label-md text-slate-200 font-semibold">Verified Silicon Valley Mentors</span>
+</div>
+<div class="h-4 w-px bg-white/10 hidden md:block"></div>
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-teal-300 text-[22px]" style="font-variation-settings: 'FILL' 1;">lock_reset</span>
+<span class="font-label-md text-label-md text-slate-200 font-semibold">100% Money-Back Guarantee</span>
+</div>
+</div>
+</main>
+<!-- FLOATING CHATBOT LAUNCHER (Fixed bottom-right corner) -->
+<div id="chatbotLauncher" class="fixed bottom-8 right-8 z-40 flex items-center gap-3 cursor-pointer">
+<!-- Contextual Tooltip Pill -->
+<div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high border border-white/15 shadow-xl text-slate-200 text-xs font-semibold animate-bounce backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-teal-400"></span>
+<span>Need help choosing? Ask AI</span>
+</div>
+<!-- Circular Interactive Floating Action Button -->
+<button id="chatbotBtn" aria-label="Open AI Career Advisor Chat" class="w-14 h-14 rounded-full btn-vibrant-primary text-white flex items-center justify-center shadow-xl hover:shadow-teal-500/20 transition-all duration-200 active:scale-95 relative group" type="button">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<!-- Live Ping Status Indicator -->
+<span class="absolute top-1 right-1 flex h-3.5 w-3.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-teal-500 border-2 border-slate-900"></span>
+</span>
+<!-- Mobile tooltip popover on hover -->
+<span class="absolute right-16 bg-surface-container-high border border-white/15 text-slate-200 text-xs px-2.5 py-1 rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 sm:hidden">
+        AI Advisor Online
+      </span>
+</button>
+</div>
+
+<!-- COMING SOON MODAL OVERLAY -->
+<div id="comingSoonModal" aria-hidden="true" aria-labelledby="comingSoonTitle" class="fixed inset-0 z-50 hidden opacity-0 pointer-events-none transition-opacity duration-200 bg-slate-950/80 backdrop-blur-md items-center justify-center p-4" role="dialog">
+<div class="bg-surface-container-high rounded-2xl shadow-2xl border border-white/15 max-w-md w-full p-6 sm:p-8 relative transform transition-transform duration-200 text-center">
+<!-- Close X Button -->
+<button id="comingSoonXBtn" aria-label="Close modal" class="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Icon Illustration Badge -->
+<div class="w-16 h-16 rounded-2xl bg-teal-950/60 border border-teal-500/30 flex items-center justify-center text-teal-400 mx-auto mb-4 shadow-sm">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+</div>
+<!-- Tag -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-300 border border-teal-500/20 mb-3">
+<span class="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></span>
+<span>Under Development</span>
+</div>
+<!-- Heading -->
+<h3 id="comingSoonTitle" class="font-headline-md text-2xl font-bold text-white tracking-tight mb-2">
+      We're Working On This!
+    </h3>
+<!-- Dynamic Subtext -->
+<p id="comingSoonSubtext" class="font-body-md text-body-md text-secondary leading-relaxed mb-6">
+      This feature isn't available yet, but you'll experience it soon!
+    </p>
+<!-- Close / Got it Button -->
+<button id="comingSoonCloseBtn" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary text-white font-label-md text-label-md font-semibold transition-all duration-150 active:scale-[0.99] shadow-lg" type="button">
+      Got it
+    </button>
+</div>
+</div>
+
+<!-- FLOATING CHAT WINDOW (Slide-up panel anchored bottom-right) -->
+<div id="chatbotPanel" role="dialog" aria-labelledby="chatbotTitle" aria-modal="true" class="fixed z-50 bottom-0 right-0 sm:bottom-6 sm:right-6 w-full sm:w-[410px] h-[85vh] sm:h-[590px] max-h-[85vh] bg-[#131A2E]/95 backdrop-blur-xl border border-white/15 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ease-out transform translate-y-12 opacity-0 pointer-events-none">
+  <!-- CHAT HEADER -->
+  <div class="px-4 py-3.5 bg-surface-container-high/90 border-b border-white/10 flex items-center justify-between flex-shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-indigo-600 flex items-center justify-center text-white shadow-md relative">
+        <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h3 id="chatbotTitle" class="font-headline-sm text-sm font-bold text-white tracking-tight">Skill Gap Assistant</h3>
+          <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">Advisor</span>
+        </div>
+        <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Rule-Based Instant Help
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center gap-1">
+      <button id="chatClearHistoryBtn" title="Reset chat" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+        <span class="material-symbols-outlined text-[18px]">refresh</span>
+      </button>
+      <button id="chatCloseBtn" aria-label="Close assistant" type="button" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MESSAGES CONTAINER -->
+  <div id="chatMessagesContainer" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-sm custom-scrollbar overscroll-contain">
+    <!-- Populated dynamically via JS -->
+  </div>
+
+  <!-- TYPING ANIMATION INDICATOR (Hidden by default) -->
+  <div id="chatTypingIndicator" class="px-4 pb-2 hidden">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-surface-container-high border border-white/10 text-slate-400 text-xs">
+      <span class="material-symbols-outlined text-[14px] text-teal-400 animate-spin">sync</span>
+      <span>Skill Gap Assistant is typing</span>
+      <span class="flex gap-1 ml-1">
+        <span class="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+        <span class="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+        <span class="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- CHAT INPUT FOOTER -->
+  <div class="p-3 bg-surface-container-high/80 border-t border-white/10 flex-shrink-0">
+    <form id="chatInputForm" class="flex items-center gap-2" onsubmit="return false;">
+      <div class="relative flex-1">
+        <input 
+          id="chatInput" 
+          type="text" 
+          placeholder="Ask about skills, resume, match %, jobs..."
+          autocomplete="off"
+          class="w-full pl-3.5 pr-3 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-slate-100 placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all"
+        />
+      </div>
+      <button 
+        id="chatSendBtn" 
+        type="submit" 
+        aria-label="Send message"
+        class="w-10 h-10 rounded-xl btn-vibrant-primary text-white flex items-center justify-center shadow-lg hover:shadow-teal-500/25 active:scale-95 transition-all flex-shrink-0"
+      >
+        <span class="material-symbols-outlined text-[18px]">send</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="../jobs_data.js"></script>
+<script src="../target_roles_data.js"></script>
+<script src="../chatbot_knowledge_base.js"></script>
+<script src="../chatbot.js"></script>
+<!-- Micro-interaction Vanilla JS -->
+<script>
+    function getStoredUserSkills() {
+      try {
+        const raw = localStorage.getItem('userSelectedSkills');
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function initBookingDynamicContext() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlJobId = urlParams.get('jobId');
+      const urlSkill = urlParams.get('skill');
+
+      let targetJobData = null;
+
+      // 1. Try reading from sessionStorage
+      try {
+        const raw = sessionStorage.getItem('currentBookingJob');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          // Requirement 8: Only accept stored data if urlJobId is absent or matches stored jobId (prevents stale data from a previous job)
+          if (!urlJobId || parsed.jobId === urlJobId) {
+            targetJobData = parsed;
+          }
+        }
+      } catch (e) {
+        console.warn('Error reading currentBookingJob from sessionStorage', e);
+      }
+
+      // 2. If urlJobId is provided but sessionStorage was empty or had a different job, look up from dataset
+      if (urlJobId && (!targetJobData || targetJobData.jobId !== urlJobId)) {
+        let job = null;
+        if (typeof window.findJobById === 'function') {
+          job = window.findJobById(urlJobId);
+        } else if (window.APP_JOBS_DATASET) {
+          job = window.APP_JOBS_DATASET.find(j => j.id === urlJobId);
+        }
+
+        if (job) {
+          let missingSkills = [];
+          const userSkills = getStoredUserSkills();
+          if (typeof window.calculateSkillMatch === 'function') {
+            const analysis = window.calculateSkillMatch(job, userSkills);
+            missingSkills = analysis.missingSkills || [];
+          } else {
+            const userSkillNorms = new Set(userSkills.map(s => s.toLowerCase().trim()));
+            const reqs = job.required_skills || [];
+            missingSkills = reqs
+              .filter(r => !userSkillNorms.has(r.toLowerCase().trim()))
+              .map(r => ({ name: r, priority: 'High Priority Gap', description: '' }));
+          }
+
+          targetJobData = {
+            jobId: job.id,
+            jobTitle: job.title,
+            company: job.company,
+            missingSkills: missingSkills
+          };
+
+          try {
+            sessionStorage.setItem('currentBookingJob', JSON.stringify(targetJobData));
+          } catch (e) {}
+        }
+      }
+
+      const targetRoleEl = document.getElementById('bookingTargetRole');
+      const contextDivider = document.getElementById('bookingContextDivider');
+      const skillsContainer = document.getElementById('bookingSkillsContainer');
+      const skillsLabel = document.getElementById('bookingSkillsLabel');
+      const skillsBadges = document.getElementById('bookingSkillsBadges');
+      const skillsDot = document.getElementById('bookingSkillsDot');
+      const headerBackBtn = document.getElementById('headerBackToJobBtn');
+      const mobileBackBtn = document.getElementById('mobileBackToJobBtn');
+
+      // Case A: A specific job was passed / found
+      if (targetJobData && targetJobData.jobTitle && targetJobData.company) {
+        // Populate Target Role: "jobTitle at company"
+        if (targetRoleEl) {
+          targetRoleEl.textContent = `${targetJobData.jobTitle} at ${targetJobData.company}`;
+          targetRoleEl.className = "font-label-md text-label-md text-white font-semibold";
+        }
+
+        // Update Back navigation links to point back to that specific job detail page
+        if (targetJobData.jobId) {
+          const backUrl = `../skill_gap_force_job_detail_skill_gap/code.html?jobId=${encodeURIComponent(targetJobData.jobId)}`;
+          if (headerBackBtn) headerBackBtn.href = backUrl;
+          if (mobileBackBtn) mobileBackBtn.href = backUrl;
+        }
+
+        // Populate Identify Skill Gap
+        const missingSkills = Array.isArray(targetJobData.missingSkills) ? targetJobData.missingSkills : [];
+
+        if (contextDivider) contextDivider.classList.remove('hidden');
+        if (skillsContainer) skillsContainer.classList.remove('hidden');
+
+        if (missingSkills.length === 0) {
+          // 100% Match
+          if (skillsDot) skillsDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+          if (skillsLabel) skillsLabel.textContent = "Skill Match:";
+          if (skillsBadges) {
+            skillsBadges.innerHTML = `
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-500/40">
+                <span class="material-symbols-outlined text-[13px] text-emerald-400">stars</span>
+                100% Match • Ready for Mock Prep
+              </span>
+            `;
+          }
+        } else {
+          if (skillsDot) skillsDot.className = "w-2 h-2 rounded-full bg-rose-500";
+          if (skillsLabel) {
+            skillsLabel.textContent = missingSkills.length === 1 ? "Identified skill gap:" : "Identified skill gaps:";
+          }
+
+          // Render the exact missing skills list
+          if (skillsBadges) {
+            skillsBadges.innerHTML = missingSkills.map(s => {
+              const sName = typeof s === 'string' ? s : s.name;
+              const isTargeted = urlSkill && sName.toLowerCase() === urlSkill.toLowerCase();
+              const badgeClass = isTargeted
+                ? 'bg-teal-500 text-white border-teal-400 shadow-sm font-bold ring-2 ring-teal-500/30'
+                : 'bg-rose-950/60 text-rose-300 border-rose-500/40';
+              return `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${badgeClass} border">${sName}</span>`;
+            }).join('');
+          }
+        }
+      } else {
+        // Case B: Direct navigation fallback (Requirement 9)
+        if (targetRoleEl) {
+          targetRoleEl.textContent = "No specific role selected — explore general interview practice and mentorship";
+          targetRoleEl.className = "font-label-md text-label-md text-secondary font-medium";
+        }
+        if (contextDivider) contextDivider.classList.add('hidden');
+        if (skillsContainer) skillsContainer.classList.add('hidden');
+
+        // Default back links to job recommendations
+        const defaultBack = "../skill_gap_force_job_recommendations/code.html";
+        if (headerBackBtn) {
+          headerBackBtn.href = defaultBack;
+          const backText = headerBackBtn.querySelector('span:not(.material-symbols-outlined)');
+          if (backText) backText.textContent = "Back to Recommendations";
+        }
+        if (mobileBackBtn) {
+          mobileBackBtn.href = defaultBack;
+          const backText = mobileBackBtn.querySelector('span:not(.material-symbols-outlined)');
+          if (backText) backText.textContent = "Back to Recommendations";
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initBookingDynamicContext();
+
+      // Coming Soon Modal Functionality
+      const comingSoonModal = document.getElementById('comingSoonModal');
+      const comingSoonSubtext = document.getElementById('comingSoonSubtext');
+      const comingSoonCloseBtn = document.getElementById('comingSoonCloseBtn');
+      const comingSoonXBtn = document.getElementById('comingSoonXBtn');
+
+      const messages = {
+        mock: "AI-powered mock interviews aren't available yet, but you'll experience this feature soon!",
+        mentorship: "Mentorship booking isn't available yet, but you'll experience this feature soon!",
+        chatbot: "Our AI assistant isn't available yet, but you'll experience this feature soon!"
+      };
+
+      function openComingSoonModal(text) {
+        if (!comingSoonModal || !comingSoonSubtext) return;
+        comingSoonSubtext.textContent = text;
+        comingSoonModal.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        comingSoonModal.classList.add('flex', 'opacity-100');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeComingSoonModal() {
+        if (!comingSoonModal) return;
+        comingSoonModal.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          comingSoonModal.classList.remove('flex');
+          comingSoonModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }, 200);
+      }
+
+      // Attach event listeners to Mock Interview card & button
+      const mockCard = document.getElementById('mockInterviewCard');
+      if (mockCard) {
+        mockCard.addEventListener('click', (e) => {
+          openComingSoonModal(messages.mock);
+        });
+      }
+
+      // Attach event listeners to Mentorship card & button
+      const mentorshipCard = document.getElementById('mentorshipCard');
+      if (mentorshipCard) {
+        mentorshipCard.addEventListener('click', (e) => {
+          openComingSoonModal(messages.mentorship);
+        });
+      }
+
+      // Initialize Floating Chatbot Assistant (Replaces ONLY chatbot icon's Coming Soon popup)
+      if (window.SkillGapChatbot && typeof window.SkillGapChatbot.initChatbotUI === 'function') {
+        window.SkillGapChatbot.initChatbotUI();
+      }
+
+      // Close handlers
+      if (comingSoonCloseBtn) comingSoonCloseBtn.addEventListener('click', closeComingSoonModal);
+      if (comingSoonXBtn) comingSoonXBtn.addEventListener('click', closeComingSoonModal);
+
+      if (comingSoonModal) {
+        comingSoonModal.addEventListener('click', (e) => {
+          if (e.target === comingSoonModal) {
+            closeComingSoonModal();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && comingSoonModal && !comingSoonModal.classList.contains('hidden')) {
+          closeComingSoonModal();
+        }
+      });
+
+      // Accessible keyboard triggers for cards
+      const cards = document.querySelectorAll('.custom-card-shadow');
+      cards.forEach(card => {
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+      // Initialize user profile display from localStorage
+      function initUserProfile() {
+        const storedName = localStorage.getItem('userFullName') || 'Guest';
+        const storedPhoto = localStorage.getItem('userProfilePhoto');
+        const userProfileName = document.getElementById('userProfileName');
+        const dropdownUserName = document.getElementById('dropdownUserName');
+        if (userProfileName) userProfileName.textContent = storedName;
+        if (dropdownUserName) dropdownUserName.textContent = storedName;
+
+        const avatarContainer = document.getElementById('userAvatarContainer') || (document.getElementById('userProfileBtn') && document.getElementById('userProfileBtn').querySelector('div'));
+        if (avatarContainer) {
+          if (storedPhoto) {
+            avatarContainer.innerHTML = `<img src="${storedPhoto}" alt="User Avatar" class="w-full h-full object-cover rounded-full">`;
+            avatarContainer.classList.add('overflow-hidden', 'p-0');
+            avatarContainer.classList.remove('bg-primary/10', 'text-primary');
+          } else {
+            avatarContainer.innerHTML = `<span class="material-symbols-outlined text-[20px]">person</span>`;
+            avatarContainer.classList.add('bg-primary/10', 'text-primary');
+          }
+        }
+
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        const userProfileDropdown = document.getElementById('userProfileDropdown');
+        if (userProfileBtn && userProfileDropdown) {
+          userProfileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = userProfileDropdown.classList.contains('hidden');
+            if (isHidden) {
+              userProfileDropdown.classList.remove('hidden');
+              setTimeout(() => {
+                userProfileDropdown.classList.remove('opacity-0');
+                userProfileDropdown.classList.add('opacity-100');
+              }, 10);
+              userProfileBtn.setAttribute('aria-expanded', 'true');
+            } else {
+              userProfileDropdown.classList.add('opacity-0');
+              userProfileDropdown.classList.remove('opacity-100');
+              setTimeout(() => {
+                userProfileDropdown.classList.add('hidden');
+              }, 150);
+              userProfileBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!userProfileDropdown.contains(e.target) && !userProfileBtn.contains(e.target)) {
+              userProfileDropdown.classList.add('opacity-0');
+              userProfileDropdown.classList.remove('opacity-100');
+              setTimeout(() => {
+                userProfileDropdown.classList.add('hidden');
+              }, 150);
+              userProfileBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      }
+      initUserProfile();
+    });
+  </script>
+</body></html>

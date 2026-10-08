@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+
+<html lang="en" class="dark" style="color-scheme: dark;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="theme-color" content="#0B1020"/>
+<meta name="color-scheme" content="dark"/>
+<title>Skill Gap Force - Sign Up</title>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#0B1020",
+            "surface": "#131A2E",
+            "surface-container-lowest": "#131A2E",
+            "surface-container-low": "#0E1526",
+            "surface-container": "#1A2340",
+            "surface-container-high": "#1A2340",
+            "surface-container-highest": "#242F55",
+            "surface-dim": "#0E1526",
+            "surface-bright": "#242F55",
+            "on-surface": "#F1F5F9",
+            "on-surface-variant": "#94A3B8",
+            "inverse-surface": "#F1F5F9",
+            "inverse-on-surface": "#0B1020",
+            "outline": "#64748B",
+            "outline-variant": "rgba(255, 255, 255, 0.08)",
+            "primary": "#14B8A6",
+            "primary-container": "#0D9488",
+            "on-primary": "#FFFFFF",
+            "on-primary-container": "#F4FFFC",
+            "primary-fixed": "#2DD4BF",
+            "primary-fixed-dim": "#14B8A6",
+            "secondary": "#94A3B8",
+            "secondary-container": "#1E293B",
+            "on-secondary": "#FFFFFF",
+            "on-secondary-container": "#CBD5E1",
+            "tertiary": "#38BDF8",
+            "tertiary-container": "#0284C7",
+            "on-tertiary": "#FFFFFF",
+            "error": "#F43F5E",
+            "error-container": "rgba(244, 63, 94, 0.15)",
+            "on-error": "#FFFFFF",
+            "on-error-container": "#FDA4AF"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "margin": "2rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "mono-metric": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-sm": ["Inter"],
+            "display-hero": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "label-md": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "display-hero-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "mono-metric": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "0", "fontWeight": "400" }],
+            "title-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-hero": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "700" }]
+          }
+        }
+      }
+    };
+  </script>
+  <!-- Supabase Client Library & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (!window.supabase) {
+      document.write('<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"><\/script>');
+    }
+  </script>
+  <script src="../env.js"></script>
+  <script src="../supabaseClient.js"></script>
+  <!-- Global Theme CSS -->
+  <link rel="stylesheet" href="../theme.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen relative selection:bg-primary selection:text-white">
+<!-- Ambient Blurred Gradient Blobs -->
+<div class="bg-ambient-blobs">
+  <div class="blob-indigo"></div>
+  <div class="blob-teal"></div>
+  <div class="blob-violet"></div>
+</div>
+<!-- Main Container: Full viewport split screen -->
+<main class="min-h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
+  <!-- Left Column: Form & Brand Area (Full width on mobile, 50% on desktop) -->
+  <div class="flex flex-col justify-between px-6 sm:px-10 lg:px-14 xl:px-16 py-8 lg:py-10 bg-surface min-h-screen">
+    <!-- Brand Header / Logo -->
+    <header class="flex items-center justify-between w-full">
+      <a href="#" class="inline-flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm text-on-primary group-hover:bg-primary-container transition-colors">
+          <span class="material-symbols-outlined text-[24px]">bolt</span>
+        </div>
+        <span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">
+          Skill Gap Force
+        </span>
+      </a>
+      <a href="../skill_gap_force_login/code.html" class="hidden sm:inline-flex items-center gap-1.5 font-label-md text-label-md text-secondary hover:text-primary transition-colors">
+        <span>Already have an account? <span class="font-semibold text-primary underline">Log in</span></span>
+      </a>
+    </header>
+
+    <!-- Centered Form Canvas -->
+    <div class="w-full max-w-md mx-auto my-auto py-4 sm:py-6 space-y-4">
+      <!-- Titles -->
+      <div class="space-y-1">
+        <h1 class="font-headline-lg-mobile lg:font-headline-lg text-headline-lg-mobile lg:text-headline-lg text-on-surface font-bold tracking-tight">
+          Create Your Account
+        </h1>
+        <p class="font-body-md text-body-md text-secondary">
+          Start bridging your skill gap today
+        </p>
+      </div>
+
+      <!-- Signup Form -->
+      <form id="signup-form" class="space-y-4" onsubmit="event.preventDefault(); handleSignupSubmit(event); return false;">
+        <!-- Full Name Field -->
+        <div class="space-y-1.5">
+          <label class="block font-label-md text-label-md text-on-surface font-medium" for="full-name">
+            Full Name
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+              <span class="material-symbols-outlined text-[20px]">person</span>
+            </span>
+            <input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md shadow-sm" id="full-name" placeholder="e.g. Alex Chen" required="" type="text"/>
+          </div>
+        </div>
+
+        <!-- Email Address Field -->
+        <div class="space-y-1.5">
+          <label class="block font-label-md text-label-md text-on-surface font-medium" for="email">
+            Email Address
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+              <span class="material-symbols-outlined text-[20px]">mail</span>
+            </span>
+            <input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md shadow-sm" id="email" placeholder="alex.chen@example.com" required="" type="email"/>
+          </div>
+          <!-- Inline Error Message for Email -->
+          <div id="email-error" class="hidden items-center gap-1.5 text-xs text-rose-600 font-medium pt-0.5">
+            <span class="material-symbols-outlined text-[15px]">error</span>
+            <span id="email-error-text">This email is already registered</span>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-1.5">
+          <label class="block font-label-md text-label-md text-on-surface font-medium" for="password">
+            Password
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+              <span class="material-symbols-outlined text-[20px]">lock</span>
+            </span>
+            <input class="w-full pl-10 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md shadow-sm" id="password" placeholder="Create a password (min. 8 characters)" required="" type="password"/>
+            <button aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-secondary hover:text-on-surface transition-colors cursor-pointer" id="toggle-password" onclick="
+                const input = document.getElementById('password');
+                const icon = this.querySelector('span');
+                if (input.type === 'password') {
+                  input.type = 'text';
+                  icon.textContent = 'visibility_off';
+                } else {
+                  input.type = 'password';
+                  icon.textContent = 'visibility';
+                }
+              " type="button">
+              <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+          </div>
+          <!-- Helper text & Real-time rule indicators -->
+          <p class="font-body-md text-xs text-secondary/90">Must be at least 8 characters and include 1 special character</p>
+          <div class="flex flex-wrap items-center gap-3 pt-0.5">
+            <div id="rule-length" class="flex items-center gap-1.5 text-secondary text-xs transition-colors">
+              <span id="rule-length-icon" class="material-symbols-outlined text-[16px] text-secondary/60">radio_button_unchecked</span>
+              <span id="rule-length-text" class="font-label-sm text-label-sm">8+ characters</span>
+            </div>
+            <div id="rule-special" class="flex items-center gap-1.5 text-secondary text-xs transition-colors">
+              <span id="rule-special-icon" class="material-symbols-outlined text-[16px] text-secondary/60">radio_button_unchecked</span>
+              <span id="rule-special-text" class="font-label-sm text-label-sm">1 special character (!, @, #, $, etc.)</span>
+            </div>
+          </div>
+          <!-- Inline Error Message for Password -->
+          <div id="password-error" class="hidden items-center gap-1.5 text-xs text-rose-600 font-medium pt-0.5">
+            <span class="material-symbols-outlined text-[15px]">error</span>
+            <span id="password-error-text">Password must be at least 8 characters and contain a special character</span>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="space-y-1.5">
+          <label class="block font-label-md text-label-md text-on-surface font-medium" for="confirm-password">
+            Confirm Password
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+              <span class="material-symbols-outlined text-[20px]">lock_reset</span>
+            </span>
+            <input class="w-full pl-10 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant/60 rounded-xl text-on-surface placeholder:text-secondary/60 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-body-md shadow-sm" id="confirm-password" placeholder="Repeat your password" required="" type="password"/>
+            <button aria-label="Toggle confirm password visibility" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-secondary hover:text-on-surface transition-colors cursor-pointer" id="toggle-confirm-password" onclick="
+                const input = document.getElementById('confirm-password');
+                const icon = this.querySelector('span');
+                if (input.type === 'password') {
+                  input.type = 'text';
+                  icon.textContent = 'visibility_off';
+                } else {
+                  input.type = 'password';
+                  icon.textContent = 'visibility';
+                }
+              " type="button">
+              <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+          </div>
+          <!-- Inline Error / Match Messages for Confirm Password -->
+          <div id="confirm-password-error" class="hidden items-center gap-1.5 text-xs text-rose-600 font-medium pt-0.5">
+            <span class="material-symbols-outlined text-[15px]">error</span>
+            <span id="confirm-password-error-text">Passwords do not match. Please verify your password.</span>
+          </div>
+          <div id="confirm-password-match" class="hidden items-center gap-1.5 text-xs text-emerald-600 font-medium pt-0.5">
+            <span class="material-symbols-outlined text-[15px]">check_circle</span>
+            <span>Passwords match</span>
+          </div>
+        </div>
+
+        <!-- Inline General Signup Error Message -->
+        <div id="signup-general-error" class="hidden items-center gap-2 p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs sm:text-sm font-medium animate-in fade-in">
+          <span class="material-symbols-outlined text-[18px] text-rose-400 flex-shrink-0">error</span>
+          <span id="signup-general-error-text">Signup failed, please try again.</span>
+        </div>
+
+        <!-- Primary Submit Button -->
+        <button id="signup-submit-btn" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary font-label-md text-label-md font-semibold shadow-sm active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer mt-2" type="submit">
+          <span>Sign Up</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="relative flex items-center justify-center my-4">
+        <div class="w-full border-t border-outline-variant/40"></div>
+        <span class="absolute px-3 bg-surface font-label-sm text-label-sm text-secondary uppercase tracking-wider">
+          or continue with
+        </span>
+      </div>
+
+      <!-- Social Sign-up (Google) -->
+      <button class="w-full py-3 px-4 rounded-xl border border-outline-variant/60 bg-surface-container-lowest text-on-surface font-label-md text-label-md font-medium hover:bg-surface-container-low active:scale-[0.99] transition-all flex items-center justify-center gap-3 shadow-sm cursor-pointer" onclick="openGoogleModal();" type="button">
+        <!-- Official Google 'G' Icon -->
+        <svg class="w-5 h-5 flex-shrink-0" viewbox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+        </svg>
+        <span>Sign up with Google</span>
+      </button>
+
+      <!-- Bottom Link for mobile -->
+      <p class="text-center font-body-md text-body-md text-secondary pt-1 sm:hidden">
+        Already have an account? 
+        <a class="text-primary font-semibold hover:underline ml-1" href="../skill_gap_force_login/code.html">Log in</a>
+      </p>
+    </div>
+
+    <!-- Trust & Security Footnote -->
+    <div class="pt-4 border-t border-outline-variant/30 flex items-center justify-center gap-1.5 text-center text-secondary">
+      <span class="material-symbols-outlined text-[14px]">lock</span>
+      <span class="font-label-sm text-[11px] leading-relaxed text-secondary/80">
+        By signing up, you agree to our Terms &amp; Privacy Policy • 256-bit SSL encryption
+      </span>
+    </div>
+  </div>
+
+  <!-- Right Column: Career Illustration & High-Tech Ecosystem Showcase (Desktop only, Viewport-Contained) -->
+  <div class="hidden lg:flex flex-col justify-between p-8 xl:p-12 relative bg-gradient-to-br from-[#0B1020] via-[#131A2E] to-[#1A2340] border-l border-outline-variant/30 overflow-hidden lg:h-screen lg:sticky lg:top-0">
+    <!-- Ambient decorative gradient orbs -->
+    <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none"></div>
+
+    <!-- Top Feature Tag Header -->
+    <div class="relative z-10 flex items-center justify-between w-full">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-label-sm text-label-sm text-on-surface font-semibold">AI Gap Diagnostics &amp; Silicon Valley Mentors</span>
+      </div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/40 shadow-sm text-secondary font-medium">
+        <span class="material-symbols-outlined text-[18px]">verified_user</span>
+        <span class="font-label-sm text-label-sm">Enterprise Verified</span>
+      </div>
+    </div>
+
+    <!-- Main Visual Showcase Card: Vertically Centered & Contained -->
+    <div class="relative z-10 my-auto py-6 flex items-center justify-center">
+      <!-- Floating Container for Poster Art with Overlaid Badges -->
+      <div class="relative w-full max-w-sm xl:max-w-md mx-auto">
+        <!-- Embedded Image Frame -->
+        <div class="relative rounded-3xl bg-surface-container-lowest p-3 shadow-2xl shadow-on-surface/10 border border-outline-variant/40 overflow-hidden group">
+          <div class="relative rounded-2xl overflow-hidden aspect-[4/5] max-h-[440px] xl:max-h-[480px] bg-surface-container-low flex items-center justify-center">
+            <img alt="Skill Gap Force Career Progression Illustration" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRCxJX9ct2OUfxoNE72dMlnM1AN1UPBDFgEX8RkZqEQZqXbUqxFsJjyTeevrlmQDHSYHyGcm30ot_QbLB1U2bNgqtgV7Ji6UGuW3qppbjHWCAdUtDGkO8jjxyQzj5KyL3B4L4ReXhVXuvahKn58Gv0LgXtoAF2_53J611XpqeZlUbu6vpJt6ASmdHd8-Pym5mJR6rKlYw-vIhigg2YPwC5JTf5daGW4V0w-EOaZi4qFje6Q8daPE88"/>
+          </div>
+        </div>
+
+        <!-- Overlaid floating Metric Badge: Match Accuracy (Bottom-Left) -->
+        <div class="absolute -bottom-6 -left-6 z-20 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/50 rounded-2xl p-3.5 shadow-xl shadow-on-surface/10 max-w-[260px] animate-fade-in">
+          <div class="flex items-center gap-2 mb-1">
+            <div class="w-8 h-8 rounded-xl bg-teal-950/60 border border-teal-500/30 text-primary flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-[18px]">trending_up</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-md text-[15px] font-bold text-on-surface">85%+ Match</span>
+              <span class="font-label-sm text-[10px] bg-primary/10 text-primary font-bold px-1.5 py-0.5 rounded-full border border-primary/20">Top Tier</span>
+            </div>
+          </div>
+          <p class="font-label-sm text-secondary text-[11px] leading-tight">Average precision on candidate role fit</p>
+        </div>
+
+        <!-- Overlaid floating Mentor Stack Badge (Top-Right) -->
+        <div class="absolute -top-5 -right-5 z-20 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/50 rounded-2xl p-3 shadow-xl shadow-on-surface/10 flex items-center gap-3">
+          <div class="flex -space-x-2 overflow-hidden">
+            <div class="w-8 h-8 rounded-full border-2 border-white bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">SC</div>
+            <div class="w-8 h-8 rounded-full border-2 border-white bg-tertiary-container/30 flex items-center justify-center text-[10px] font-bold text-tertiary">JD</div>
+            <div class="w-8 h-8 rounded-full border-2 border-white bg-amber-100 flex items-center justify-center text-[10px] font-bold text-amber-700">AK</div>
+          </div>
+          <div class="text-left">
+            <p class="font-label-sm text-on-surface text-[12px] font-bold leading-tight">1,200+ Mentors</p>
+            <p class="font-label-sm text-secondary text-[10px] leading-tight">FAANG &amp; Top Tech</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Platform Statement / Testimonial Caption -->
+    <div class="relative z-10 text-center max-w-md mx-auto pt-2">
+      <blockquote class="font-title-sm text-title-sm font-semibold text-on-surface">
+        “Bridge your career gap with data-driven interview prep and precise skill benchmarks.”
+      </blockquote>
+      <p class="font-label-sm text-label-sm text-secondary mt-1">
+        Trusted by 50,000+ ambitious developers &amp; engineering leaders
+      </p>
+    </div>
+  </div>
+</main>
+
+<!-- Google Coming Soon Modal Overlay -->
+<div id="google-coming-soon-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md transition-all duration-300" onclick="if(event.target === this) closeGoogleModal();">
+  <div class="relative w-full max-w-md bg-surface-container border border-outline-variant rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5 transform transition-all animate-in fade-in zoom-in-95">
+    <!-- Close Icon Button -->
+    <button aria-label="Close modal" onclick="closeGoogleModal();" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-full transition-colors cursor-pointer">
+      <span class="material-symbols-outlined text-[20px]">close</span>
+    </button>
+    
+    <!-- Top Icon Badge -->
+    <div class="w-16 h-16 mx-auto rounded-2xl bg-teal-950/60 border border-teal-500/30 text-primary flex items-center justify-center shadow-inner">
+      <span class="material-symbols-outlined text-[36px]">schedule</span>
+    </div>
+
+    <!-- Badge Tag -->
+    <div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-xs font-semibold border border-primary/20">
+        <span class="material-symbols-outlined text-[14px]">bolt</span>
+        Feature Preview
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <h3 class="font-headline-md text-xl sm:text-2xl font-bold text-on-surface tracking-tight">
+      We're Working On This!
+    </h3>
+
+    <!-- Subtext -->
+    <p class="font-body-md text-sm text-secondary leading-relaxed px-2">
+      Google Sign-In is not available yet, but it's coming soon. For now, please continue with email and password.
+    </p>
+
+    <!-- Dismiss Button -->
+    <button onclick="closeGoogleModal();" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary font-label-md text-label-md font-semibold shadow-md active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer mt-2">
+      <span>Got it, Continue with Email</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
+</div>
+
+<!-- Photo Capture Modal Overlay -->
+<div id="photo-capture-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md transition-all duration-300">
+  <div class="relative w-full max-w-md bg-surface-container border border-outline-variant rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center animate-in fade-in zoom-in-95">
+    
+    <!-- Top Modal Header: Back button on the left, step badge on the right -->
+    <div class="w-full flex items-center justify-between mb-4 pb-2 border-b border-outline-variant/20">
+      <button id="photoModalBackBtn" type="button" class="inline-flex items-center gap-1.5 text-secondary hover:text-on-surface font-label-md text-sm font-semibold transition-colors py-1 px-2.5 rounded-xl hover:bg-surface-container-high cursor-pointer">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span>Back</span>
+      </button>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-950/60 border border-teal-500/30 text-primary font-label-sm text-xs font-semibold">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        <span>Profile Setup</span>
+      </div>
+    </div>
+
+    <!-- Modal Title & Guidance -->
+    <div class="text-center mb-5">
+      <h3 class="font-headline-md text-xl sm:text-2xl font-bold text-on-surface tracking-tight">
+        Upload Your Picture
+      </h3>
+      <p class="font-body-md text-xs sm:text-sm text-secondary mt-1">
+        Take a live photo for your verified Skill Gap Force profile avatar
+      </p>
+    </div>
+
+    <!-- Camera Viewport / Frame -->
+    <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden bg-slate-950 border-2 border-outline-variant/40 shadow-inner flex items-center justify-center mb-5">
+      
+      <!-- Live Video Feed (mirrored for natural selfie view) -->
+      <video id="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover transform -scale-x-100"></video>
+      
+      <!-- Captured Photo Preview -->
+      <img id="photoPreview" alt="Profile Preview" class="w-full h-full object-cover hidden" />
+
+      <!-- Hidden Canvas for frame snapshot -->
+      <canvas id="photoCanvas" class="hidden"></canvas>
+
+      <!-- Camera Loading Indicator -->
+      <div id="cameraLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 text-white gap-2 transition-opacity">
+        <div class="w-8 h-8 border-3 border-teal-400 border-t-transparent rounded-full animate-spin"></div>
+        <span class="font-label-sm text-xs text-slate-300">Requesting camera access...</span>
+      </div>
+
+      <!-- Camera Error / Graceful Fallback State -->
+      <div id="cameraError" class="absolute inset-0 hidden flex-col items-center justify-center bg-slate-950/95 text-white p-5 text-center gap-2">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mb-1">
+          <span class="material-symbols-outlined text-[28px]">videocam_off</span>
+        </div>
+        <p class="font-label-md text-sm font-bold text-slate-100">Camera not available</p>
+        <p id="cameraErrorMessage" class="font-body-md text-xs text-slate-300 leading-relaxed max-w-[220px]">
+          Camera access was denied or not detected. You can skip this step for now.
+        </p>
+      </div>
+
+      <!-- Viewfinder Overlay Reticle (visible during live feed) -->
+      <div id="cameraGuides" class="absolute inset-0 pointer-events-none flex items-center justify-center border-2 border-white/20 rounded-2xl m-3">
+        <div class="w-40 h-40 rounded-full border border-dashed border-teal-400/50"></div>
+      </div>
+    </div>
+
+    <!-- Controls Area -->
+    <div class="w-full flex flex-col items-center gap-3">
+      
+      <!-- Live Feed Action (Capture button with shutter icon) -->
+      <div id="liveFeedControls" class="flex items-center justify-center w-full">
+        <button id="capturePhotoBtn" type="button" class="w-full py-3.5 px-6 rounded-xl btn-vibrant-primary font-label-md text-sm font-semibold shadow-md active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span class="material-symbols-outlined text-[22px]">photo_camera</span>
+          <span>Capture Photo</span>
+        </button>
+      </div>
+
+      <!-- Review Action (Green checkmark ✓ and Red cross ✗) -->
+      <div id="reviewControls" class="hidden items-center justify-center gap-3 w-full">
+        <!-- Red cross (✗) button: discard and retake -->
+        <button id="retakePhotoBtn" type="button" class="flex-1 py-3 px-4 rounded-xl bg-rose-950/60 text-rose-300 border border-rose-500/40 hover:bg-rose-900/60 active:scale-[0.98] font-label-md text-sm font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer" title="Discard and Retake">
+          <span class="material-symbols-outlined text-[20px] text-rose-400 font-bold">close</span>
+          <span>Retake</span>
+        </button>
+
+        <!-- Green checkmark (✓) button: confirm photo -->
+        <button id="confirmPhotoBtn" type="button" class="flex-1 py-3 px-4 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 active:scale-[0.98] font-label-md text-sm font-semibold shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 cursor-pointer" title="Confirm Photo">
+          <span class="material-symbols-outlined text-[20px] font-bold">check</span>
+          <span>Use Photo</span>
+        </button>
+      </div>
+
+      <!-- Skip Button -->
+      <button id="skipPhotoBtn" type="button" class="text-secondary hover:text-primary font-label-md text-sm font-medium hover:underline transition-colors py-1.5 px-4 cursor-pointer mt-1">
+        Skip for now →
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let mediaStream = null;
+  let currentPhotoDataUrl = null;
+
+  // Special characters regex pattern (supports standard ASCII symbols: ! @ # $ % ^ & * ( ) _ + - = [ ] { } ; ' : " \ | , . < > / ? ` ~)
+  const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/;
+
+  function validatePasswordRealtime() {
+    const passwordInput = document.getElementById('password');
+    if (!passwordInput) return false;
+    const pwd = passwordInput.value;
+    const isLengthValid = pwd.length >= 8;
+    const isSpecialValid = SPECIAL_CHAR_REGEX.test(pwd);
+
+    // Update length rule indicator UI
+    const lengthIcon = document.getElementById('rule-length-icon');
+    const lengthText = document.getElementById('rule-length-text');
+    if (isLengthValid) {
+      if (lengthIcon) {
+        lengthIcon.textContent = 'check_circle';
+        lengthIcon.className = 'material-symbols-outlined text-[16px] text-emerald-600';
+      }
+      if (lengthText) {
+        lengthText.className = 'font-label-sm text-label-sm text-emerald-700 font-semibold';
+      }
+    } else {
+      if (lengthIcon) {
+        lengthIcon.textContent = 'radio_button_unchecked';
+        lengthIcon.className = 'material-symbols-outlined text-[16px] text-secondary/60';
+      }
+      if (lengthText) {
+        lengthText.className = 'font-label-sm text-label-sm text-secondary';
+      }
+    }
+
+    // Update special char rule indicator UI
+    const specialIcon = document.getElementById('rule-special-icon');
+    const specialText = document.getElementById('rule-special-text');
+    if (isSpecialValid) {
+      if (specialIcon) {
+        specialIcon.textContent = 'check_circle';
+        specialIcon.className = 'material-symbols-outlined text-[16px] text-emerald-600';
+      }
+      if (specialText) {
+        specialText.className = 'font-label-sm text-label-sm text-emerald-700 font-semibold';
+      }
+    } else {
+      if (specialIcon) {
+        specialIcon.textContent = 'radio_button_unchecked';
+        specialIcon.className = 'material-symbols-outlined text-[16px] text-secondary/60';
+      }
+      if (specialText) {
+        specialText.className = 'font-label-sm text-label-sm text-secondary';
+      }
+    }
+
+    // If both requirements are satisfied, clear any existing inline error
+    const passwordError = document.getElementById('password-error');
+    if (isLengthValid && isSpecialValid) {
+      if (passwordError) {
+        passwordError.classList.add('hidden');
+        passwordError.classList.remove('flex');
+      }
+      passwordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      passwordInput.classList.add('border-outline-variant/60');
+    }
+
+    // Re-verify confirm password match if confirm field has text
+    validateConfirmPasswordRealtime();
+    return isLengthValid && isSpecialValid;
+  }
+
+  function validateConfirmPasswordRealtime() {
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    if (!passwordInput || !confirmPasswordInput) return false;
+
+    const pwd = passwordInput.value;
+    const confirmPwd = confirmPasswordInput.value;
+    const confirmError = document.getElementById('confirm-password-error');
+    const confirmMatch = document.getElementById('confirm-password-match');
+
+    // If confirm field is empty, hide both indicators
+    if (!confirmPwd) {
+      if (confirmError) {
+        confirmError.classList.add('hidden');
+        confirmError.classList.remove('flex');
+      }
+      if (confirmMatch) {
+        confirmMatch.classList.add('hidden');
+        confirmMatch.classList.remove('flex');
+      }
+      confirmPasswordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      confirmPasswordInput.classList.add('border-outline-variant/60');
+      return false;
+    }
+
+    // Check if match and password meets rules
+    if (confirmPwd === pwd) {
+      if (confirmError) {
+        confirmError.classList.add('hidden');
+        confirmError.classList.remove('flex');
+      }
+      if (confirmMatch) {
+        confirmMatch.classList.remove('hidden');
+        confirmMatch.classList.add('flex');
+      }
+      confirmPasswordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      confirmPasswordInput.classList.add('border-outline-variant/60');
+      return true;
+    } else {
+      if (confirmMatch) {
+        confirmMatch.classList.add('hidden');
+        confirmMatch.classList.remove('flex');
+      }
+      // If user typed as many or more characters than original password and it doesn't match, give live warning
+      if (confirmPwd.length >= pwd.length) {
+        if (confirmError) {
+          const errText = document.getElementById('confirm-password-error-text');
+          if (errText) errText.textContent = 'Passwords do not match.';
+          confirmError.classList.remove('hidden');
+          confirmError.classList.add('flex');
+        }
+        confirmPasswordInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        confirmPasswordInput.classList.remove('border-outline-variant/60');
+      } else {
+        if (confirmError) {
+          confirmError.classList.add('hidden');
+          confirmError.classList.remove('flex');
+        }
+        confirmPasswordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        confirmPasswordInput.classList.add('border-outline-variant/60');
+      }
+      return false;
+    }
+  }
+
+  let isSubmittingSignup = false;
+
+  async function handleSignupSubmit(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (isSubmittingSignup) {
+      console.warn('[Signup] Submission already in progress, ignoring duplicate event');
+      return false;
+    }
+
+    console.log('[Signup] Starting form validation and submission process...');
+
+    const fullNameInput = document.getElementById('full-name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+
+    hideSignupErrors();
+
+    const form = document.getElementById('signup-form') || document.querySelector('form');
+    if (form && !form.checkValidity()) {
+      form.reportValidity();
+      return false;
+    }
+
+    const fullNameVal = fullNameInput ? fullNameInput.value.trim() : '';
+    const emailVal = emailInput ? emailInput.value.trim() : '';
+    const pwd = passwordInput ? passwordInput.value : '';
+    const confirmPwd = confirmPasswordInput ? confirmPasswordInput.value : '';
+
+    console.log('[Signup] Form values captured:', {
+      fullName: fullNameVal,
+      email: emailVal,
+      passwordLength: pwd.length,
+      confirmPasswordLength: confirmPwd.length
+    });
+
+    // 1. Validate Full Name
+    if (!fullNameVal) {
+      console.warn('[Signup] Validation failed: Full name is required');
+      showSignupError('Please enter your full name');
+      if (fullNameInput) fullNameInput.focus();
+      return false;
+    }
+
+    // 2. Validate Email
+    if (!emailVal) {
+      console.warn('[Signup] Validation failed: Email is required');
+      showSignupError('Please enter your email address');
+      if (emailInput) emailInput.focus();
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVal)) {
+      console.warn('[Signup] Validation failed: Invalid email format');
+      showSignupError('Please enter a valid email address');
+      if (emailInput) emailInput.focus();
+      return false;
+    }
+
+    // 3. Validate Password Requirements (8+ characters, 1 special character)
+    const isLengthValid = pwd.length >= 8;
+    const isSpecialValid = SPECIAL_CHAR_REGEX.test(pwd);
+
+    const passwordError = document.getElementById('password-error');
+    const passwordErrorText = document.getElementById('password-error-text');
+    const confirmError = document.getElementById('confirm-password-error');
+    const confirmErrorText = document.getElementById('confirm-password-error-text');
+
+    if (!isLengthValid || !isSpecialValid) {
+      let msg = 'Password must be at least 8 characters and contain a special character';
+      if (!isLengthValid && isSpecialValid) {
+        msg = 'Password must be at least 8 characters in length';
+      } else if (isLengthValid && !isSpecialValid) {
+        msg = 'Password must contain at least 1 special character (e.g. !, @, #, $, %)';
+      }
+      console.warn('[Signup] Validation failed:', msg);
+      if (passwordError && passwordErrorText) {
+        passwordErrorText.textContent = msg;
+        passwordError.classList.remove('hidden');
+        passwordError.classList.add('flex');
+      }
+      if (passwordInput) {
+        passwordInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        passwordInput.classList.remove('border-outline-variant/60');
+        passwordInput.focus();
+      }
+      showSignupError(msg);
+      return false;
+    } else {
+      if (passwordError) {
+        passwordError.classList.add('hidden');
+        passwordError.classList.remove('flex');
+      }
+      if (passwordInput) {
+        passwordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        passwordInput.classList.add('border-outline-variant/60');
+      }
+    }
+
+    // 4. Validate Confirm Password Match
+    if (confirmPwd !== pwd) {
+      const matchMsg = 'Passwords do not match. Please verify your password.';
+      console.warn('[Signup] Validation failed:', matchMsg);
+      if (confirmError && confirmErrorText) {
+        confirmErrorText.textContent = matchMsg;
+        confirmError.classList.remove('hidden');
+        confirmError.classList.add('flex');
+      }
+      if (confirmPasswordInput) {
+        confirmPasswordInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        confirmPasswordInput.classList.remove('border-outline-variant/60');
+        confirmPasswordInput.focus();
+      }
+      showSignupError(matchMsg);
+      return false;
+    } else {
+      if (confirmError) {
+        confirmError.classList.add('hidden');
+        confirmError.classList.remove('flex');
+      }
+      if (confirmPasswordInput) {
+        confirmPasswordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        confirmPasswordInput.classList.add('border-outline-variant/60');
+      }
+    }
+
+    // All validation passed -> initiate Supabase registration
+    isSubmittingSignup = true;
+    setSignupButtonLoading(true);
+
+    try {
+      console.log('[Signup] Calling Supabase signUp() with email:', emailVal);
+      let signupResult;
+
+      if (typeof window.signUpUser === 'function') {
+        signupResult = await window.signUpUser({
+          email: emailVal,
+          password: pwd,
+          fullName: fullNameVal
+        });
+      } else if (window.supabaseClient && window.supabaseClient.auth) {
+        console.log('[Signup] Fallback: using window.supabaseClient.auth.signUp directly');
+        const { data, error } = await window.supabaseClient.auth.signUp({
+          email: emailVal,
+          password: pwd,
+          options: {
+            data: { full_name: fullNameVal }
+          }
+        });
+        if (error) {
+          signupResult = { success: false, error: error.message };
+        } else if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+          signupResult = { success: false, error: 'This email is already registered. Please log in instead or use another email.' };
+        } else {
+          signupResult = {
+            success: true,
+            user: data.user,
+            userId: data.user?.id,
+            session: data.session
+          };
+        }
+      } else {
+        throw new Error('Supabase client connection is not available. Please verify connection credentials and try again.');
+      }
+
+      console.log('[Signup] Supabase response received:', signupResult);
+
+      if (!signupResult || !signupResult.success) {
+        const errMsg = (signupResult && signupResult.error) ? signupResult.error : 'Signup failed. Please try again.';
+        console.error('[Signup] Supabase signup error returned:', errMsg);
+        setSignupButtonLoading(false);
+        isSubmittingSignup = false;
+        showSignupError(errMsg);
+        return false;
+      }
+
+      // Success: Save user ID & session in localStorage
+      const realUserId = signupResult.userId || (signupResult.user && signupResult.user.id);
+      console.log('[Signup] Supabase user created successfully! Real User ID:', realUserId);
+
+      if (realUserId) {
+        localStorage.setItem('supabase_user_id', realUserId);
+      }
+      if (signupResult.user?.email) {
+        localStorage.setItem('supabase_user_email', signupResult.user.email);
+      }
+      if (signupResult.session) {
+        try {
+          localStorage.setItem('supabase_session', JSON.stringify(signupResult.session));
+          if (signupResult.session.access_token) {
+            localStorage.setItem('supabase_access_token', signupResult.session.access_token);
+          }
+        } catch(e) {}
+      }
+
+      if (fullNameVal) {
+        localStorage.setItem('userFullName', fullNameVal);
+        localStorage.setItem('userSignupName', fullNameVal);
+      }
+      if (emailVal) {
+        localStorage.setItem('userEmail', emailVal);
+        localStorage.setItem('userSignupEmail', emailVal);
+      }
+
+      // Create initial row in profiles table linked to auth user_id
+      if (typeof window.createUserProfile === 'function') {
+        try {
+          console.log('[Signup] Creating initial user profile in profiles table...');
+          await window.createUserProfile({
+            userId: realUserId,
+            email: emailVal,
+            name: fullNameVal
+          });
+          console.log('[Signup] Profile row created successfully.');
+        } catch (profileErr) {
+          console.warn('[Signup] Initial profiles row creation notice:', profileErr);
+        }
+      }
+
+      setSignupButtonLoading(false);
+      isSubmittingSignup = false;
+
+      // Proceed to Photo Capture Modal
+      console.log('[Signup] Opening Photo Capture Modal...');
+      openPhotoCaptureModal();
+      return false;
+
+    } catch (err) {
+      console.error('[Signup] Unexpected exception during signup flow:', err);
+      setSignupButtonLoading(false);
+      isSubmittingSignup = false;
+      showSignupError(err.message || 'Signup failed due to an unexpected error. Please try again.');
+      return false;
+    }
+  }
+  window.handleSignupSubmit = handleSignupSubmit;
+
+  function showSignupError(msg) {
+    console.warn('[Signup] Displaying error message:', msg);
+    const generalErr = document.getElementById('signup-general-error');
+    const generalErrText = document.getElementById('signup-general-error-text');
+    const emailErr = document.getElementById('email-error');
+    const emailErrText = document.getElementById('email-error-text');
+    const emailInput = document.getElementById('email');
+    const passwordErr = document.getElementById('password-error');
+    const passwordErrText = document.getElementById('password-error-text');
+    const passwordInput = document.getElementById('password');
+
+    if (generalErr && generalErrText) {
+      generalErrText.textContent = msg;
+      generalErr.classList.remove('hidden');
+      generalErr.classList.add('flex');
+    }
+
+    const lower = (msg || '').toLowerCase();
+    if (lower.includes('already registered') || lower.includes('email') || lower.includes('duplicate')) {
+      if (emailErr && emailErrText) {
+        emailErrText.textContent = msg;
+        emailErr.classList.remove('hidden');
+        emailErr.classList.add('flex');
+      }
+      if (emailInput) {
+        emailInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        emailInput.classList.remove('border-outline-variant/60');
+        emailInput.focus();
+      }
+    } else if (lower.includes('password') && !lower.includes('match')) {
+      if (passwordErr && passwordErrText) {
+        passwordErrText.textContent = msg;
+        passwordErr.classList.remove('hidden');
+        passwordErr.classList.add('flex');
+      }
+      if (passwordInput) {
+        passwordInput.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        passwordInput.classList.remove('border-outline-variant/60');
+        passwordInput.focus();
+      }
+    }
+  }
+  window.showSignupError = showSignupError;
+
+  function hideSignupErrors() {
+    const generalErr = document.getElementById('signup-general-error');
+    if (generalErr) {
+      generalErr.classList.add('hidden');
+      generalErr.classList.remove('flex');
+    }
+    const emailErr = document.getElementById('email-error');
+    if (emailErr) {
+      emailErr.classList.add('hidden');
+      emailErr.classList.remove('flex');
+    }
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+      emailInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      emailInput.classList.add('border-outline-variant/60');
+    }
+    const passwordErr = document.getElementById('password-error');
+    if (passwordErr) {
+      passwordErr.classList.add('hidden');
+      passwordErr.classList.remove('flex');
+    }
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+      passwordInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+      passwordInput.classList.add('border-outline-variant/60');
+    }
+  }
+  window.hideSignupErrors = hideSignupErrors;
+
+  function setSignupButtonLoading(isLoading) {
+    const btn = document.getElementById('signup-submit-btn');
+    if (!btn) return;
+    if (isLoading) {
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Creating Account...</span>
+      `;
+    } else {
+      btn.disabled = false;
+      btn.classList.remove('opacity-80', 'cursor-not-allowed');
+      btn.innerHTML = `
+        <span>Sign Up</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      `;
+    }
+  }
+  window.setSignupButtonLoading = setSignupButtonLoading;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Check and log Supabase readiness
+    if (typeof window.signUpUser === 'function' || (window.supabaseClient && window.supabaseClient.auth)) {
+      console.log('[Supabase] Auth client initialized and ready for signup');
+    } else {
+      console.warn('[Supabase] Client not yet initialized on DOMContentLoaded');
+    }
+
+    const signupForm = document.getElementById('signup-form') || document.querySelector('form');
+    if (signupForm) {
+      signupForm.addEventListener('submit', handleSignupSubmit);
+    }
+
+    // Clear field-specific error as user types
+    const nameInput = document.getElementById('full-name');
+    if (nameInput) {
+      nameInput.addEventListener('input', () => {
+        const generalErr = document.getElementById('signup-general-error');
+        if (generalErr && !generalErr.classList.contains('hidden')) {
+          hideSignupErrors();
+        }
+      });
+    }
+
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+      emailInput.addEventListener('input', () => {
+        const emailErr = document.getElementById('email-error');
+        if (emailErr) {
+          emailErr.classList.add('hidden');
+          emailErr.classList.remove('flex');
+        }
+        emailInput.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-200');
+        emailInput.classList.add('border-outline-variant/60');
+      });
+    }
+
+    // Real-time password inputs validation
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+      passwordInput.addEventListener('input', validatePasswordRealtime);
+      passwordInput.addEventListener('blur', () => {
+        const pwd = passwordInput.value;
+        if (pwd && (pwd.length < 8 || !SPECIAL_CHAR_REGEX.test(pwd))) {
+          const passwordError = document.getElementById('password-error');
+          if (passwordError) {
+            passwordError.classList.remove('hidden');
+            passwordError.classList.add('flex');
+          }
+        }
+      });
+    }
+
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    if (confirmPasswordInput) {
+      confirmPasswordInput.addEventListener('input', validateConfirmPasswordRealtime);
+    }
+
+    const submitBtn = document.getElementById('signup-submit-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', (e) => {
+        const form = document.getElementById('signup-form') || document.querySelector('form');
+        if (form && !form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        handleSignupSubmit(e);
+      });
+    }
+
+    // Modal action bindings
+    const backBtn = document.getElementById('photoModalBackBtn');
+    if (backBtn) backBtn.addEventListener('click', closePhotoCaptureModal);
+
+    const captureBtn = document.getElementById('capturePhotoBtn');
+    if (captureBtn) captureBtn.addEventListener('click', capturePhoto);
+
+    const retakeBtn = document.getElementById('retakePhotoBtn');
+    if (retakeBtn) retakeBtn.addEventListener('click', retakePhoto);
+
+    const confirmBtn = document.getElementById('confirmPhotoBtn');
+    if (confirmBtn) confirmBtn.addEventListener('click', confirmPhoto);
+
+    const skipBtn = document.getElementById('skipPhotoBtn');
+    if (skipBtn) skipBtn.addEventListener('click', skipPhoto);
+  });
+
+  function openPhotoCaptureModal() {
+    const modal = document.getElementById('photo-capture-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.zIndex = '9999';
+    resetToLiveFeed();
+    startCamera();
+  }
+
+  function closePhotoCaptureModal() {
+    const modal = document.getElementById('photo-capture-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modal.style.display = 'none';
+    }
+    stopCamera();
+    resetToLiveFeed();
+  }
+
+  function stopCamera() {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(track => {
+        try { track.stop(); } catch(e) {}
+      });
+      mediaStream = null;
+    }
+    const video = document.getElementById('cameraVideo');
+    if (video) {
+      video.srcObject = null;
+    }
+  }
+
+  async function startCamera() {
+    const video = document.getElementById('cameraVideo');
+    const loading = document.getElementById('cameraLoading');
+    const errorBox = document.getElementById('cameraError');
+    const guides = document.getElementById('cameraGuides');
+    const captureBtn = document.getElementById('capturePhotoBtn');
+
+    if (loading) loading.classList.remove('hidden');
+    if (errorBox) errorBox.classList.add('hidden');
+    if (guides) guides.classList.remove('hidden');
+    if (captureBtn) captureBtn.disabled = false;
+
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera API not available in this browser environment');
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width: { ideal: 640 },
+          height: { ideal: 640 },
+          facingMode: 'user'
+        },
+        audio: false
+      });
+
+      mediaStream = stream;
+      if (video) {
+        video.srcObject = stream;
+        await video.play();
+      }
+      if (loading) loading.classList.add('hidden');
+    } catch (err) {
+      console.warn('Camera error:', err);
+      if (loading) loading.classList.add('hidden');
+      if (errorBox) errorBox.classList.remove('hidden');
+      if (guides) guides.classList.add('hidden');
+      if (captureBtn) captureBtn.disabled = true;
+
+      const msgEl = document.getElementById('cameraErrorMessage');
+      if (msgEl) {
+        msgEl.textContent = 'Camera not available. You can skip this step for now.';
+      }
+    }
+  }
+
+  function capturePhoto() {
+    const video = document.getElementById('cameraVideo');
+    const canvas = document.getElementById('photoCanvas');
+    const preview = document.getElementById('photoPreview');
+    const guides = document.getElementById('cameraGuides');
+    const liveControls = document.getElementById('liveFeedControls');
+    const reviewControls = document.getElementById('reviewControls');
+
+    if (!video || !canvas || !preview) return;
+
+    const w = video.videoWidth || 640;
+    const h = video.videoHeight || 480;
+    const size = Math.min(w, h);
+    const sx = (w - size) / 2;
+    const sy = (h - size) / 2;
+
+    canvas.width = 400;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+
+    // Mirror horizontally so snapshot matches mirrored preview
+    ctx.save();
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, sx, sy, size, size, 0, 0, canvas.width, canvas.height);
+    ctx.restore();
+
+    try {
+      currentPhotoDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+    } catch (err) {
+      console.error('Error creating image URL:', err);
+      return;
+    }
+
+    // Show captured photo preview
+    preview.src = currentPhotoDataUrl;
+    preview.classList.remove('hidden');
+    video.classList.add('hidden');
+    if (guides) guides.classList.add('hidden');
+
+    // Switch buttons: hide Capture, show Retake and Confirm
+    if (liveControls) liveControls.classList.add('hidden');
+    if (reviewControls) {
+      reviewControls.classList.remove('hidden');
+      reviewControls.classList.add('flex');
+    }
+  }
+
+  function resetToLiveFeed() {
+    currentPhotoDataUrl = null;
+    const video = document.getElementById('cameraVideo');
+    const preview = document.getElementById('photoPreview');
+    const guides = document.getElementById('cameraGuides');
+    const liveControls = document.getElementById('liveFeedControls');
+    const reviewControls = document.getElementById('reviewControls');
+
+    if (preview) {
+      preview.classList.add('hidden');
+      preview.src = '';
+    }
+    if (video) video.classList.remove('hidden');
+    if (guides) guides.classList.remove('hidden');
+
+    if (liveControls) liveControls.classList.remove('hidden');
+    if (reviewControls) {
+      reviewControls.classList.add('hidden');
+      reviewControls.classList.remove('flex');
+    }
+  }
+
+  async function confirmPhoto() {
+    const confirmBtn = document.getElementById('confirmPhotoBtn');
+    if (confirmBtn) {
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Saving Photo...</span>
+      `;
+    }
+
+    if (currentPhotoDataUrl) {
+      try {
+        localStorage.setItem('userProfilePhoto', currentPhotoDataUrl);
+        const storedUserId = localStorage.getItem('supabase_user_id');
+        if (storedUserId && typeof window.uploadProfilePhoto === 'function') {
+          await window.uploadProfilePhoto(storedUserId, currentPhotoDataUrl);
+        }
+      } catch(err) {
+        console.warn('Could not store profile photo:', err);
+      }
+    }
+    stopCamera();
+    window.location.href = '../skill_gap_force_resume_skills_setup/code.html';
+  }
+
+  function retakePhoto() {
+    resetToLiveFeed();
+  }
+
+  function skipPhoto() {
+    stopCamera();
+    window.location.href = '../skill_gap_force_resume_skills_setup/code.html';
+  }
+
+  function openGoogleModal() {
+    const modal = document.getElementById('google-coming-soon-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closeGoogleModal() {
+    const modal = document.getElementById('google-coming-soon-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+</script>
+</body></html>
