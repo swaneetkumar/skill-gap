@@ -56,7 +56,7 @@
     supabaseKey = 'sb_publishable_XPcevggoyhhOvUrx-jF6GA_Zh_3CXFo';
   }
   if (!backendUrl) {
-    backendUrl = 'http://localhost:8000';
+    backendUrl = 'https://skill-gap-backend-oxm0.onrender.com';
   }
 
   // Normalize project URL: if someone passed just the project ref, prepend protocol and domain
